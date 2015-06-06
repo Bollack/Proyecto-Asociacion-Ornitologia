@@ -1,0 +1,11 @@
+.form-nAlbum{
+	max-width: 600px;
+	padding: 15px;
+	margin: auto;
+}
+.form-nAlbum .btn{
+	margin-top: 10px;
+}
+.btn-info{
+	width: 600px;
+}

@@ -44,6 +44,38 @@
       </div>
     </nav>
     
+    <div class="container">
+      <form class="form-nAlbum form-horizontal">
+        <h2 class="text-center">Crear álbum</h2>
+        <h5>En esta sección usted puede crear un álbum de fotografías de una ave que fotografió. Ingrese el cantón donde logró fotografiar a dicha ave, así como la especie de la misma y los colores que pudo ver en ella. Puede añadir otras fotografías  de la ave posteriormente.</h5>
+        <div id="fotos">
+          <div class="form-group">
+            <label for="Foto1">Foto 1:</label>
+            <input type="text" id="Foto1" class="form-control" placeholder="URL//" required>
+          </div>
+        </div>
+        <div class="form-group"><button id="agFoto" class="btn btn-info">Agregar Foto</button></div>
+        <div class="form-group">
+          <label for="Especie">Especie:</label>
+          <select class="form-control" id="Especie">
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="Color">Color:</label>
+          <select class="form-control" id="Color">
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="Provincia">Provincia:</label>
+          <select class="form-control" id="Provincia">
+        </div>
+        <div class="form-group">
+          <label for="Test">Test:</label>
+          <select class="form-control" id="Test">
+        </div>
+      </form>
+    </div>
+
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/crear-album.js"></script>
