@@ -603,55 +603,77 @@ COMMENT = 'Tabla que mantiene los valores que se enviarán en el correo, permiti
 
 USE `Hidden_bird`;
 
-DELIMITER $$
-USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_usuario_BEFORE_INSERT` BEFORE INSERT ON `Tipo_usuario` FOR EACH ROW
+DELIMITER $$;
+USE `Hidden_bird`
+$$
+CREATE TRIGGER `Hidden_bird`.`Tipo_usuario_BEFORE_INSERT` 
+BEFORE INSERT ON `Tipo_usuario` 
+FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
+END;
+$$
+
+
+Use `Hidden_bird`$$
+CREATE TRIGGER `Hidden_bird`.`Tipo_usuario_AFTER_INSERT` 
+AFTER INSERT ON `Tipo_usuario` 
+FOR EACH ROW
+BEGIN
+	INSERT INTO data_log
+				(usaurio,accion,fecha)
+	VALUES(NEW.usuario_creacion,"Inserción tipo_usuario",NOW());
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_usuario_BEFORE_UPDATE` BEFORE UPDATE ON `Tipo_usuario` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Tipo_usuario_BEFORE_UPDATE` BEFORE UPDATE ON `Tipo_usuario` FOR EACH ROW
 BEGIN
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_modificacion= User();
 END;
 $$
 
+
+
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_usuario_AFTER_UPDATE` AFTER UPDATE ON `Tipo_usuario` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Tipo_usuario_AFTER_UPDATE` AFTER UPDATE ON `Tipo_usuario` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
 	VALUES(NEW.usuario_modificacion, "Modificación tipo_usuario", NOW());
 END
 $$
+#Creados 
+DELIMITER $$;
 
-USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Persona_BEFORE_INSERT` BEFORE INSERT ON `Persona` FOR EACH ROW
+USE `Hidden_bird`;
+ 
+CREATE  TRIGGER `Hidden_bird`.`Persona_BEFORE_INSERT` BEFORE INSERT ON `Persona` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion=Current_User();
-END;
+    SET New.usuario_creacion=Current_user();
+    SET New.usuario_modificacion=User()
+END
 $$
 
+DROP TRIGGER  `Hidden_bird`.`Persona_BEFORE_INSERT`;
+
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Persona_AFTER_INSERT` AFTER INSERT ON `Persona` FOR EACH ROW
+CREATE DEFINER = User TRIGGER `Hidden_bird`.`Persona_AFTER_INSERT` AFTER INSERT ON `Persona` FOR EACH ROW
 BEGIN
 	    INSERT INTO data_log
 				(usuario,accion, fecha)
 			VALUES(NEW.usuario_creacion, "Inserción persona", NOW());
-END;
+END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Persona_BEFORE_UPDATE` BEFORE UPDATE ON `Persona` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Persona_BEFORE_UPDATE` BEFORE UPDATE ON `Persona` FOR EACH ROW
 BEGIN
 		SET New.fecha_modificacion=NOW();
         SET New.usuario_modificacion=username;
@@ -659,7 +681,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Persona_AFTER_UPDATE` AFTER UPDATE ON `Persona` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Persona_AFTER_UPDATE` AFTER UPDATE ON `Persona` FOR EACH ROW
 BEGIN
 	    INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -668,17 +690,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Clase_BEFORE_INSERT` BEFORE INSERT ON `Clase` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Clase_BEFORE_INSERT` BEFORE INSERT ON `Clase` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Clase_AFTER_INSERT` AFTER INSERT ON `Clase` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Clase_AFTER_INSERT` AFTER INSERT ON `Clase` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -687,16 +709,16 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Clase_BEFORE_UPDATE` BEFORE UPDATE ON `Clase` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Clase_BEFORE_UPDATE` BEFORE UPDATE ON `Clase` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Clase_AFTER_UPDATE` AFTER UPDATE ON `Clase` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Clase_AFTER_UPDATE` AFTER UPDATE ON `Clase` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -704,26 +726,18 @@ BEGIN
 END
 $$
 
-USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Clase_AFTER_DELETE` AFTER DELETE ON `Clase` FOR EACH ROW
-BEGIN
-	INSERT INTO data_log
-				(usuario,accion, fecha)
-	VALUES(Current_user(), "Borrado orden", NOW());
-END
-$$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Orden_BEFORE_INSERT` BEFORE INSERT ON `Orden` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Orden_BEFORE_INSERT` BEFORE INSERT ON `Orden` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END; $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Orden_AFTER_INSERT` AFTER INSERT ON `Orden` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Orden_AFTER_INSERT` AFTER INSERT ON `Orden` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -732,16 +746,16 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Orden_BEFORE_UPDATE` BEFORE UPDATE ON `Orden` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Orden_BEFORE_UPDATE` BEFORE UPDATE ON `Orden` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Orden_AFTER_UPDATE` AFTER UPDATE ON `Orden` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Orden_AFTER_UPDATE` AFTER UPDATE ON `Orden` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -750,27 +764,20 @@ BEGIN
 END
 $$
 
-USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Orden_AFTER_DELETE` AFTER DELETE ON `Orden` FOR EACH ROW
-BEGIN
-	INSERT INTO data_log
-				(usuario,accion, fecha)
-	VALUES(Current_user(), "Borrado orden", NOW());
-END
-$$
+
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Suborden_BEFORE_INSERT` BEFORE INSERT ON `Suborden` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Suborden_BEFORE_INSERT` BEFORE INSERT ON `Suborden` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Suborden_AFTER_INSERT` AFTER INSERT ON `Suborden` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Suborden_AFTER_INSERT` AFTER INSERT ON `Suborden` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -779,15 +786,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Suborden_BEFORE_UPDATE` BEFORE UPDATE ON `Suborden` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Suborden_BEFORE_UPDATE` BEFORE UPDATE ON `Suborden` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Suborden_AFTER_UPDATE` AFTER UPDATE ON `Suborden` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Suborden_AFTER_UPDATE` AFTER UPDATE ON `Suborden` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -796,17 +803,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Familia_BEFORE_INSERT` BEFORE INSERT ON `Familia` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Familia_BEFORE_INSERT` BEFORE INSERT ON `Familia` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Familia_AFTER_INSERT` AFTER INSERT ON `Familia` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Familia_AFTER_INSERT` AFTER INSERT ON `Familia` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -815,15 +822,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Familia_BEFORE_UPDATE` BEFORE UPDATE ON `Familia` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Familia_BEFORE_UPDATE` BEFORE UPDATE ON `Familia` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Familia_AFTER_UPDATE` AFTER UPDATE ON `Familia` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Familia_AFTER_UPDATE` AFTER UPDATE ON `Familia` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -832,17 +839,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Genero_BEFORE_INSERT` BEFORE INSERT ON `Genero` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Genero_BEFORE_INSERT` BEFORE INSERT ON `Genero` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion=User();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Genero_AFTER_INSERT` AFTER INSERT ON `Genero` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Genero_AFTER_INSERT` AFTER INSERT ON `Genero` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -851,15 +858,15 @@ END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Genero_BEFORE_UPDATE` BEFORE UPDATE ON `Genero` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Genero_BEFORE_UPDATE` BEFORE UPDATE ON `Genero` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Genero_AFTER_UPDATE` AFTER UPDATE ON `Genero` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Genero_AFTER_UPDATE` AFTER UPDATE ON `Genero` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -868,17 +875,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Forma_Pico_BEFORE_INSERT` BEFORE INSERT ON `Forma_Pico` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Forma_Pico_BEFORE_INSERT` BEFORE INSERT ON `Forma_Pico` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Forma_Pico_AFTER_INSERT` AFTER INSERT ON `Forma_Pico` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Forma_Pico_AFTER_INSERT` AFTER INSERT ON `Forma_Pico` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -887,15 +894,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Forma_Pico_BEFORE_UPDATE` BEFORE UPDATE ON `Forma_Pico` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Forma_Pico_BEFORE_UPDATE` BEFORE UPDATE ON `Forma_Pico` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Forma_Pico_AFTER_UPDATE` AFTER UPDATE ON `Forma_Pico` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Forma_Pico_AFTER_UPDATE` AFTER UPDATE ON `Forma_Pico` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -908,13 +915,13 @@ CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_Huevos_BEFORE_INSERT` 
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_Huevos_AFTER_INSERT` AFTER INSERT ON `Tipo_Huevos` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Tipo_Huevos_AFTER_INSERT` AFTER INSERT ON `Tipo_Huevos` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -923,15 +930,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_Huevos_BEFORE_UPDATE` BEFORE UPDATE ON `Tipo_Huevos` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tipo_Huevos_BEFORE_UPDATE` BEFORE UPDATE ON `Tipo_Huevos` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_Huevos_AFTER_UPDATE` AFTER UPDATE ON `Tipo_Huevos` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tipo_Huevos_AFTER_UPDATE` AFTER UPDATE ON `Tipo_Huevos` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -940,17 +947,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_iincubacion_BEFORE_INSERT` BEFORE INSERT ON `Tipo_incubacion` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tipo_iincubacion_BEFORE_INSERT` BEFORE INSERT ON `Tipo_incubacion` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion=User();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_incubacion_AFTER_INSERT` AFTER INSERT ON `Tipo_incubacion` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Tipo_incubacion_AFTER_INSERT` AFTER INSERT ON `Tipo_incubacion` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -959,15 +966,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_incubacion_BEFORE_UPDATE` BEFORE UPDATE ON `Tipo_incubacion` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tipo_incubacion_BEFORE_UPDATE` BEFORE UPDATE ON `Tipo_incubacion` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_incubacion_AFTER_UPDATE` AFTER UPDATE ON `Tipo_incubacion` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tipo_incubacion_AFTER_UPDATE` AFTER UPDATE ON `Tipo_incubacion` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -976,17 +983,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`cantidad_huevos_BEFORE_INSERT` BEFORE INSERT ON `cantidad_huevos` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`cantidad_huevos_BEFORE_INSERT` BEFORE INSERT ON `cantidad_huevos` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`cantidad_huevos_AFTER_INSERT` AFTER INSERT ON `cantidad_huevos` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`cantidad_huevos_AFTER_INSERT` AFTER INSERT ON `cantidad_huevos` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -995,15 +1002,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`cantidad_huevos_BEFORE_UPDATE` BEFORE UPDATE ON `cantidad_huevos` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`cantidad_huevos_BEFORE_UPDATE` BEFORE UPDATE ON `cantidad_huevos` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`cantidad_huevos_AFTER_UPDATE` AFTER UPDATE ON `cantidad_huevos` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`cantidad_huevos_AFTER_UPDATE` AFTER UPDATE ON `cantidad_huevos` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1012,17 +1019,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_Nido_BEFORE_INSERT` BEFORE INSERT ON `Tipo_Nido` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tipo_Nido_BEFORE_INSERT` BEFORE INSERT ON `Tipo_Nido` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_Nido_AFTER_INSERT` AFTER INSERT ON `Tipo_Nido` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tipo_Nido_AFTER_INSERT` AFTER INSERT ON `Tipo_Nido` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1031,15 +1038,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_Nido_BEFORE_UPDATE` BEFORE UPDATE ON `Tipo_Nido` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tipo_Nido_BEFORE_UPDATE` BEFORE UPDATE ON `Tipo_Nido` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tipo_Nido_AFTER_UPDATE` AFTER UPDATE ON `Tipo_Nido` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tipo_Nido_AFTER_UPDATE` AFTER UPDATE ON `Tipo_Nido` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1048,17 +1055,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tiempo_incubacion_BEFORE_INSERT` BEFORE INSERT ON `Tiempo_incubacion` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Tiempo_incubacion_BEFORE_INSERT` BEFORE INSERT ON `Tiempo_incubacion` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion=User();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tiempo_incubacion_AFTER_INSERT` AFTER INSERT ON `Tiempo_incubacion` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tiempo_incubacion_AFTER_INSERT` AFTER INSERT ON `Tiempo_incubacion` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1067,14 +1074,14 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tiempo_incubacion_BEFORE_UPDATE` BEFORE UPDATE ON `Tiempo_incubacion` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Tiempo_incubacion_BEFORE_UPDATE` BEFORE UPDATE ON `Tiempo_incubacion` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tiempo_incubacion_AFTER_UPDATE` AFTER UPDATE ON `Tiempo_incubacion` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Tiempo_incubacion_AFTER_UPDATE` AFTER UPDATE ON `Tiempo_incubacion` FOR EACH ROW
 BEGIN
 	    INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1083,17 +1090,16 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tamano_BEFORE_INSERT` BEFORE INSERT ON `Tamano` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Tamano_BEFORE_INSERT` BEFORE INSERT ON `Tamano` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tamano_AFTER_INSERT` AFTER INSERT ON `Tamano` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tamano_AFTER_INSERT` AFTER INSERT ON `Tamano` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1102,7 +1108,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tamano_BEFORE_UPDATE` BEFORE UPDATE ON `Tamano` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Tamano_BEFORE_UPDATE` BEFORE UPDATE ON `Tamano` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
     SET New.usuario_modificacion=Current_User();
@@ -1110,24 +1116,24 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Tamano_AFTER_UPDATE` AFTER UPDATE ON `Tamano` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Tamano_AFTER_UPDATE` AFTER UPDATE ON `Tamano` FOR EACH ROW
 BEGIN
 
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`ZonaVida_BEFORE_INSERT` BEFORE INSERT ON `ZonaVida` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`ZonaVida_BEFORE_INSERT` BEFORE INSERT ON `ZonaVida` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`ZonaVida_AFTER_INSERT` AFTER INSERT ON `ZonaVida` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`ZonaVida_AFTER_INSERT` AFTER INSERT ON `ZonaVida` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1136,15 +1142,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`ZonaVida_BEFORE_UPDATE` BEFORE UPDATE ON `ZonaVida` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`ZonaVida_BEFORE_UPDATE` BEFORE UPDATE ON `ZonaVida` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`ZonaVida_AFTER_UPDATE` AFTER UPDATE ON `ZonaVida` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`ZonaVida_AFTER_UPDATE` AFTER UPDATE ON `ZonaVida` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1153,17 +1159,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Especie_BEFORE_INSERT` BEFORE INSERT ON `Especie` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Especie_BEFORE_INSERT` BEFORE INSERT ON `Especie` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Especie_AFTER_INSERT` AFTER INSERT ON `Especie` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Especie_AFTER_INSERT` AFTER INSERT ON `Especie` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1172,15 +1178,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Especie_BEFORE_UPDATE` BEFORE UPDATE ON `Especie` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Especie_BEFORE_UPDATE` BEFORE UPDATE ON `Especie` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Especie_AFTER_UPDATE` AFTER UPDATE ON `Especie` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Especie_AFTER_UPDATE` AFTER UPDATE ON `Especie` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1189,36 +1195,36 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Provincia_BEFORE_INSERT` BEFORE INSERT ON `Provincia` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Provincia_BEFORE_INSERT` BEFORE INSERT ON `Provincia` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Provincia_BEFORE_UPDATE` BEFORE UPDATE ON `Provincia` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Provincia_BEFORE_UPDATE` BEFORE UPDATE ON `Provincia` FOR EACH ROW
 BEGIN
 
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Canton_BEFORE_INSERT` BEFORE INSERT ON `Canton` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Canton_BEFORE_INSERT` BEFORE INSERT ON `Canton` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Canton_AFTER_INSERT` AFTER INSERT ON `Canton` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Canton_AFTER_INSERT` AFTER INSERT ON `Canton` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1227,15 +1233,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Canton_BEFORE_UPDATE` BEFORE UPDATE ON `Canton` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Canton_BEFORE_UPDATE` BEFORE UPDATE ON `Canton` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Canton_AFTER_UPDATE` AFTER UPDATE ON `Canton` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Canton_AFTER_UPDATE` AFTER UPDATE ON `Canton` FOR EACH ROW
 BEGIN
 	    INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1244,7 +1250,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Ave_BEFORE_INSERT` BEFORE INSERT ON `Ave` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Ave_BEFORE_INSERT` BEFORE INSERT ON `Ave` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
@@ -1252,7 +1258,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Ave_AFTER_INSERT` AFTER INSERT ON `Ave` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Ave_AFTER_INSERT` AFTER INSERT ON `Ave` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1261,14 +1267,14 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Ave_BEFORE_UPDATE` BEFORE UPDATE ON `Ave` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Ave_BEFORE_UPDATE` BEFORE UPDATE ON `Ave` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Ave_AFTER_UPDATE` AFTER UPDATE ON `Ave` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Ave_AFTER_UPDATE` AFTER UPDATE ON `Ave` FOR EACH ROW
 BEGIN
 	    INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1277,7 +1283,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Telefono_BEFORE_INSERT` BEFORE INSERT ON `Telefono` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Telefono_BEFORE_INSERT` BEFORE INSERT ON `Telefono` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
@@ -1285,7 +1291,7 @@ END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Telefono_AFTER_INSERT` AFTER INSERT ON `Telefono` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Telefono_AFTER_INSERT` AFTER INSERT ON `Telefono` FOR EACH ROW
 BEGIN
 	    INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1294,14 +1300,14 @@ END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Telefono_BEFORE_UPDATE` BEFORE UPDATE ON `Telefono` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Telefono_BEFORE_UPDATE` BEFORE UPDATE ON `Telefono` FOR EACH ROW
 BEGIN
 		SET New.fecha_modificacion=NOW();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Telefono_AFTER_UPDATE` AFTER UPDATE ON `Telefono` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Telefono_AFTER_UPDATE` AFTER UPDATE ON `Telefono` FOR EACH ROW
 BEGIN
 	    INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1310,17 +1316,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Color_BEFORE_INSERT` BEFORE INSERT ON `Color` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Color_BEFORE_INSERT` BEFORE INSERT ON `Color` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Color_AFTER_INSERT` AFTER INSERT ON `Color` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Color_AFTER_INSERT` AFTER INSERT ON `Color` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1329,15 +1335,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Color_BEFORE_UPDATE` BEFORE UPDATE ON `Color` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Color_BEFORE_UPDATE` BEFORE UPDATE ON `Color` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Color_AFTER_UPDATE` AFTER UPDATE ON `Color` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Color_AFTER_UPDATE` AFTER UPDATE ON `Color` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1346,7 +1352,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`ColorAve_BEFORE_INSERT` BEFORE INSERT ON `ColorAve` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`ColorAve_BEFORE_INSERT` BEFORE INSERT ON `ColorAve` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
@@ -1354,7 +1360,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`ColorAve_AFTER_INSERT` AFTER INSERT ON `ColorAve` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`ColorAve_AFTER_INSERT` AFTER INSERT ON `ColorAve` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1363,14 +1369,14 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`ColorAve_BEFORE_UPDATE` BEFORE UPDATE ON `ColorAve` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`ColorAve_BEFORE_UPDATE` BEFORE UPDATE ON `ColorAve` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`ColorAve_AFTER_UPDATE` AFTER UPDATE ON `ColorAve` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`ColorAve_AFTER_UPDATE` AFTER UPDATE ON `ColorAve` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1379,7 +1385,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Nombre_ingles_ave_BEFORE_INSERT` BEFORE INSERT ON `Nombre_ingles_ave` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Nombre_ingles_ave_BEFORE_INSERT` BEFORE INSERT ON `Nombre_ingles_ave` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
@@ -1389,7 +1395,7 @@ END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Nombre_ingles_ave_AFTER_INSERT` AFTER INSERT ON `Nombre_ingles_ave` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Nombre_ingles_ave_AFTER_INSERT` AFTER INSERT ON `Nombre_ingles_ave` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1398,7 +1404,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Nombre_ingles_ave_BEFORE_UPDATE` BEFORE UPDATE ON `Nombre_ingles_ave` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Nombre_ingles_ave_BEFORE_UPDATE` BEFORE UPDATE ON `Nombre_ingles_ave` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
     SET New.usuario_modificacion=Current_User();
@@ -1406,7 +1412,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Nombre_ingles_ave_AFTER_UPDATE` AFTER UPDATE ON `Nombre_ingles_ave` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Nombre_ingles_ave_AFTER_UPDATE` AFTER UPDATE ON `Nombre_ingles_ave` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1415,7 +1421,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Correo_BEFORE_INSERT` BEFORE INSERT ON `Correo` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Correo_BEFORE_INSERT` BEFORE INSERT ON `Correo` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
@@ -1423,7 +1429,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Correo_AFTER_INSERT` AFTER INSERT ON `Correo` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Correo_AFTER_INSERT` AFTER INSERT ON `Correo` FOR EACH ROW
 BEGIN
 	    INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1432,14 +1438,14 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Correo_BEFORE_UPDATE` BEFORE UPDATE ON `Correo` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Correo_BEFORE_UPDATE` BEFORE UPDATE ON `Correo` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Correo_AFTER_UPDATE` AFTER UPDATE ON `Correo` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Correo_AFTER_UPDATE` AFTER UPDATE ON `Correo` FOR EACH ROW
 BEGIN
 	    INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1448,7 +1454,7 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Foto_BEFORE_INSERT` BEFORE INSERT ON `Foto` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Foto_BEFORE_INSERT` BEFORE INSERT ON `Foto` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
@@ -1456,7 +1462,7 @@ END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Foto_AFTER_INSERT` AFTER INSERT ON `Foto` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Foto_AFTER_INSERT` AFTER INSERT ON `Foto` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1465,14 +1471,14 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Foto_BEFORE_UPDATE` BEFORE UPDATE ON `Foto` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Foto_BEFORE_UPDATE` BEFORE UPDATE ON `Foto` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Foto_AFTER_UPDATE` AFTER UPDATE ON `Foto` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Foto_AFTER_UPDATE` AFTER UPDATE ON `Foto` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1481,17 +1487,17 @@ END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Nombre_comun_BEFORE_INSERT` BEFORE INSERT ON `Nombre_comun` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Nombre_comun_BEFORE_INSERT` BEFORE INSERT ON `Nombre_comun` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion= Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion= User();
+    SET New.usuario_modificacion= User();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Nombre_comun_AFTER_INSERT` AFTER INSERT ON `Nombre_comun` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Nombre_comun_AFTER_INSERT` AFTER INSERT ON `Nombre_comun` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1500,15 +1506,15 @@ END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Nombre_comun_BEFORE_UPDATE` BEFORE UPDATE ON `Nombre_comun` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Nombre_comun_BEFORE_UPDATE` BEFORE UPDATE ON `Nombre_comun` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END;
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Nombre_comun_AFTER_UPDATE` AFTER UPDATE ON `Nombre_comun` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Nombre_comun_AFTER_UPDATE` AFTER UPDATE ON `Nombre_comun` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1517,17 +1523,17 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Correo_admin_BEFORE_INSERT` BEFORE INSERT ON `Correo_admin` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Correo_admin_BEFORE_INSERT` BEFORE INSERT ON `Correo_admin` FOR EACH ROW
 BEGIN
 	SET New.fecha_creacion=NOW();
     SET New.fecha_modificacion=NOW();
-    SET New.usuario_creacion=Current_User();
-    SET New.usuario_modificacion= Current_User();
+    SET New.usuario_creacion=User();
+    SET New.usuario_modificacion= User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Correo_admin_AFTER_INSERT` AFTER INSERT ON `Correo_admin` FOR EACH ROW
+CREATE  TRIGGER `Hidden_bird`.`Correo_admin_AFTER_INSERT` AFTER INSERT ON `Correo_admin` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1536,15 +1542,15 @@ END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Correo_admin_BEFORE_UPDATE` BEFORE UPDATE ON `Correo_admin` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Correo_admin_BEFORE_UPDATE` BEFORE UPDATE ON `Correo_admin` FOR EACH ROW
 BEGIN
 	SET New.fecha_modificacion=NOW();
-    SET New.usuario_modificacion=Current_User();
+    SET New.usuario_modificacion=User();
 END
 $$
 
 USE `Hidden_bird`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `Hidden_bird`.`Correo_admin_AFTER_UPDATE` AFTER UPDATE ON `Correo_admin` FOR EACH ROW
+CREATE TRIGGER `Hidden_bird`.`Correo_admin_AFTER_UPDATE` AFTER UPDATE ON `Correo_admin` FOR EACH ROW
 BEGIN
 	INSERT INTO data_log
 				(usuario,accion, fecha)
@@ -1643,21 +1649,21 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `Hidden_bird`;
-INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Frugívoros', 'La fruta es el alimento principal de este tipo de aves. \nEl pico esta adaptado a esta dieta y es bastante fuerte y \nmás o menos largo como es el caso de los tucanes, o provistos de un \npequeño gancho terminal que sirve para perforar la piel de las frutas \ncomo ocurre en los tangaras.', 'http://www.temaiken.org.ar/files/items/imagenes/Tucan_pico_Dentellado_02.jpg\n', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Generalista', 'Las aves que tienen una alimentación mixta, han \ndesarrollado una forma particular de pico el cual es puntiagudo para \npermitirles coger semillas o frutos y a la vez es lo suficientemente \nlargo para facilitarles el acceso a gusanos o insectos. ', 'http://www.montesdevalsain.es/images/aves_lasaves_p13.jpg\n', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Granívoro', 'Las aves granívoras, a diferencia de las frugívoras \nestrictas, se alimentan de semillas, las cuales tienen cubiertas muy \nduras, por lo que el grado de especialización de estas aves es mayor. \nEn las aves granívoras se pueden encontrar varias estrategias \nadaptativas en el pico con doble función, es decir la parte superior\ngeneralmente muy curvada que les sirve para extraer la parte carnosa \nde los frutos o para sujetarlos y la parte inferior del pico, muy \nfuerte u corta, junto con la base de la parte superior del pico, les \nsirve para partir la cáscara de las semillas, es de anotar que los \nloros, son de las pocas aves que sujetan con las patas su \nalimento (semillas) para poderlo preparar para el consumo.', 'https://sites.google.com/site/granivoras/_/rsrc/1361971484596/home/GRANVO~1.JPG\n', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Comedor de semillas', 'El pico de las aves comedoras de semillas presenta\ncaracterísticas que le permiten romper con facilidad la cáscara de la \nsemilla y poder obtener el contenido de la misma.  Pico corto, fuerte y\nen forma de cuña.', 'http://www.jmarcano.com/bosques/notas/20130531_thrush_ls.jpg\n', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Frugívoros', 'La fruta es el alimento principal de este tipo de aves. \nEl pico esta adaptado a esta dieta y es bastante fuerte y \nmás o menos largo como es el caso de los tucanes, o provistos de un \npequeño gancho terminal que sirve para perforar la piel de las frutas \ncomo ocurre en los tangaras.', 'http://www.temaiken.org.ar/files/items/imagenes/Tucan_pico_Dentellado_02.jpg', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Generalista', 'Las aves que tienen una alimentación mixta, han \ndesarrollado una forma particular de pico el cual es puntiagudo para \npermitirles coger semillas o frutos y a la vez es lo suficientemente \nlargo para facilitarles el acceso a gusanos o insectos. ', 'http://www.montesdevalsain.es/images/aves_lasaves_p13.jpg', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Granívoro', 'Las aves granívoras, a diferencia de las frugívoras \nestrictas, se alimentan de semillas, las cuales tienen cubiertas muy \nduras, por lo que el grado de especialización de estas aves es mayor. \nEn las aves granívoras se pueden encontrar varias estrategias \nadaptativas en el pico con doble función, es decir la parte superior\ngeneralmente muy curvada que les sirve para extraer la parte carnosa \nde los frutos o para sujetarlos y la parte inferior del pico, muy \nfuerte u corta, junto con la base de la parte superior del pico, les \nsirve para partir la cáscara de las semillas.', 'https://sites.google.com/site/granivoras/_/rsrc/1361971484596/home/GRANVO~1.JPG', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Comedor de semillas', 'El pico de las aves comedoras de semillas presenta\ncaracterísticas que le permiten romper con facilidad la cáscara de la \nsemilla y poder obtener el contenido de la misma.  Pico corto, fuerte y\nen forma de cuña.', 'http://www.jmarcano.com/bosques/notas/20130531_thrush_ls.jpg', NULL, NULL, NULL, NULL);
 INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Nectarívoro', 'Pico largo y fino. Permite introducirlo en los nectarios para conseguir\nel néctar de grandes flores tropicales.', 'http://arrived.galeon.com/colibri.jpg', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Limícola', 'Las aves limícolas están generalmente asociadas a zonas húmedas y \nesencialmente a zónas húmedas costeras, como los estuarios y lagunas.', DEFAULT, 'http://farm3.static.flickr.com/2680/4054507259_409509ee2c.jpg\n', NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Filtrador', 'Este es un pico curvo con la parte superior plana, esto le \npermite al ave pegarlo contra el fondo en el cual se esta alimentando, \nluego aspira el agua barrosa donde es posible encontrar microfauna y flora \nacuática, las cuales son bombeadas hasta que pasen por n sistema de laminillas\nen la mandíbula superior en donde es filtrada el agua y retenido el alimento, \nel pato tiene un sistema similar pero más simple y que además puede utilizar \npara alimentarse de otras formas. ', 'http://www.educa.madrid.org/web/cc.nsdelasabiduria.madrid/Ejercicios/1ESO/T2/picos/filtrador.JPG\n', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Pescador', 'Las aves con este tipo de pico se valen del mismo para atrapar \npeces. Puede aparece una bolsa que permite asegurar la captura. ', 'http://3.bp.blogspot.com/-gQT1tobpMaY/UGh0oQVRagI/AAAAAAAACNY/1f883yWTDew/s400/pico-cormoran-peces.jpg\n', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Buceador', 'Se valen de dicho pico para capturar peces bajo agua, por lo que \nla forma generalmente de espátula del pico les permite capturar al pez con\nfacilidad.', 'http://www.armandocapachon.com/asturias/aves/Imagenes/Porron_comun.jpg\n', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Carpintero', 'No muy largos, delgados y realmente fuertes. Sirven para hacer \nagujeros en los troncos, además de alimentarse de pequeños insectos.', 'http://3.bp.blogspot.com/-fkxJ9jr8EW4/UGh0tDzXPsI/AAAAAAAACOM/QQF1RMWitdE/s1600/pico-picapinos-madera.JPG\n', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Carnívora', 'Pico adaptado para desgarrar o perforar carne. Fuerte y en forma\nde gancho.', '\nhttp://3.bp.blogspot.com/-GWNqCc36Br0/UGh0nnTKBmI/AAAAAAAACNM/Ng83BGzjxUY/s1600/pico-cernicalo-carne.JPG', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Limícola', 'Las aves limícolas están generalmente asociadas a zonas húmedas y \nesencialmente a zónas húmedas costeras, como los estuarios y lagunas.', 'http://farm3.static.flickr.com/2680/4054507259_409509ee2c.jpg', NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Filtrador', 'Este es un pico curvo con la parte superior plana, esto le \npermite al ave pegarlo contra el fondo en el cual se esta alimentando, \nluego aspira el agua barrosa donde es posible encontrar microfauna y flora \nacuática, las cuales son bombeadas hasta que pasen por n sistema de laminillas\nen la mandíbula superior en donde es filtrada el agua y retenido el alimento, \nel pato tiene un sistema similar pero más simple y que además puede utilizar \npara alimentarse de otras formas. ', 'http://www.educa.madrid.org/web/cc.nsdelasabiduria.madrid/Ejercicios/1ESO/T2/picos/filtrador.JPG', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Pescador', 'Las aves con este tipo de pico se valen del mismo para atrapar \npeces. Puede aparece una bolsa que permite asegurar la captura. ', 'http://3.bp.blogspot.com/-gQT1tobpMaY/UGh0oQVRagI/AAAAAAAACNY/1f883yWTDew/s400/pico-cormoran-peces.jpg', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Buceador', 'Se valen de dicho pico para capturar peces bajo agua, por lo que \nla forma generalmente de espátula del pico les permite capturar al pez con\nfacilidad.', 'http://www.armandocapachon.com/asturias/aves/Imagenes/Porron_comun.jpg', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Carpintero', 'No muy largos, delgados y realmente fuertes. Sirven para hacer \nagujeros en los troncos, además de alimentarse de pequeños insectos.', 'http://3.bp.blogspot.com/-fkxJ9jr8EW4/UGh0tDzXPsI/AAAAAAAACOM/QQF1RMWitdE/s1600/pico-picapinos-madera.JPG', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`Forma_Pico` (`idForma_Pico`, `Forma_Pico`, `Descripcion`, `imagen_url`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Carnívora', 'Pico adaptado para desgarrar o perforar carne. Fuerte y en forma\nde gancho.', 'http://3.bp.blogspot.com/-GWNqCc36Br0/UGh0nnTKBmI/AAAAAAAACNM/Ng83BGzjxUY/s1600/pico-cernicalo-carne.JPG', NULL, NULL, NULL, NULL);
 
 COMMIT;
 
-
+Forma_Pico_BEFORE_INSERT
 -- -----------------------------------------------------
 -- Data for table `Hidden_bird`.`Tipo_Huevos`
 -- -----------------------------------------------------
