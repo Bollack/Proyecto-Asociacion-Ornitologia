@@ -13,9 +13,11 @@
 
     <?php
     $usuario = $errUsuario = $contraseña = $errPassword = $result = "";
+   
     $username = "Administrador";
     $password = "Admin13";
     $hostname = "186.176.166.148:3306";
+    $myDB = "hidden_bird";
     if($_SERVER["REQUEST_METHOD"] == "POST"){
       if(empty($_POST["inputUsuario"])){
         $errUsuario = "Escriba su nombre de usuario";
@@ -29,11 +31,22 @@
       }
       if(!$errUsuario && !$errPassword){
         //connection to the database
-        $dbhandle = mysqli_connect($hostname, $username, $password); 
+        $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
         if(!$dbhandle){
           $result = "Conexión fallida: " . mysqli_conect_error();
         }else{
           $result = "Conexión exitosa";
+          $sql = "SELECT idZonaVida FROM zonavida where idZonaVida =1";
+          $sqlresult = mysqli_query($dbhandle, $sql);
+
+          if (mysqli_num_rows($sqlresult) > 0) {
+              // output data of each row
+              while($row = mysqli_fetch_assoc($sqlresult)) {
+                  echo "id: " . $row["idZonaVida"]."<br>";
+              }
+          } else {
+              echo "0 results";
+          }
         }
       }
     }
