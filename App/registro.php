@@ -95,7 +95,7 @@
             }
             $count = 1;
             while($count<$cCounter){
-              $sql .= "INSERT INTO correo (correo, Persona_idPersona) VALUES ('".$_POST['Correo'.$count]."',".$id.",'".$usuario."','".$usuario."');";
+              $sql .= "INSERT INTO correo (correo, Persona_idPersona, usuario_creacion, usuario_modificacion) VALUES ('".$_POST['Correo'.$count]."',".$id.",'".$usuario."','".$usuario."');";
               $count++;
             }
             if (mysqli_multi_query($dbhandle, $sql)) {
