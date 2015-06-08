@@ -15,7 +15,110 @@
   </head>
   <body>
 
+
+
     <?php
+
+      
+      echo "<script type='text/javascript'>alert()</script>";
+
+      error_reporting(E_ALL);
+        ini_set('display_errors', TRUE);
+        ini_set('display_startup_errors', TRUE);
+
+        define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
+
+        /** Include PHPExcel */
+        require_once dirname(__FILE__) . '/../Classes/PHPExcel/IOFactory.php';
+
+        /*Funciones que se activarán dependiendo de la opción que haya elegido
+          el usuario. Cada una se activa para cada tablar a importar.
+        */
+        function orden_import(PHPExcel $mainObject)
+        {
+          $nombreArchivo ="OrdenAves_HiddenBird";
+          $descripcionArchivo = "En este archivo xlsx se encuentran los datos necesarios para cargar en otra base de datos
+                                 los datos de la tabla Orden."
+          $mainObject->getProperties()->setCreator("Hidden Bird")
+                       ->setLastModifiedBy("Hidden Bird")
+                       ->setTitle($nombreArchivo)
+                       ->setSubject($nombreArchivo)
+                       ->setDescription($descripcionArchivo)
+                       ->setKeywords("Progra_Bases_Good_Night")
+                       ->setCategory("Data export");
+          $mainObject->getActiveSheet()->setTitle($nombreArchivo);
+          $mainObject->setActiveSheetIndex(0);
+
+          $hojaActual$mainObject->worksheet
+                  foreach ($worksheet->getRowIterator() as $row) {
+            echo '    Row number - ' , $row->getRowIndex() , EOL;
+
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(false); // Loop all cells, even if it is not set
+            foreach ($cellIterator as $cell) {
+              if (!is_null($cell)) {
+                echo '        Cell - ' , $cell->getCoordinate() , ' - ' , $cell->getCalculatedValue() , EOL;
+              }
+            }
+          }
+        }
+
+
+
+
+
+
+        */
+        // Create new PHPExcel object
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        $objPHPExcel = $objReader->load("05featuredemo.xlsx");
+
+
+
+
+        // Add some data
+        echo date('H:i:s') , " Add some data" , EOL;
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A1', 'persona_id')
+                    ->setCellValue('B1', 'nombre')
+                    ->setCellValue('C1', 'Apellido')
+                    ->setCellValue('D1', 'Good Night')
+                    ->setCellValue('E1', 'Tipo_usuario_id');
+
+
+
+        $objPHPExcel->getActiveSheet()->setCellValue('A8',"Hello\nWorld");
+        $objPHPExcel->getActiveSheet()->getRowDimension(8)->setRowHeight(-1);
+        $objPHPExcel->getActiveSheet()->getStyle('A8')->getAlignment()->setWrapText(true);
+
+
+
+        // Rename worksheet
+        echo date('H:i:s') , " Rename worksheet" , EOL;
+        $objPHPExcel->getActiveSheet()->setTitle('Simple');
+
+
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $objPHPExcel->setActiveSheetIndex(0);
+
+
+        // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename=$nombreArchivo');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header ('Expires: Fri, 9 Aug 1996 03:10:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
+        exit;
+
 
 
 

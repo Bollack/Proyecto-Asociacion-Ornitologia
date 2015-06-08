@@ -1697,12 +1697,22 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `Hidden_bird`;
-INSERT INTO `Hidden_bird`.`Tiempo_incubacion` (`idTiempo_incubacion`, `Tiempo_incubacion`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Calor de su cuerpo', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Tiempo_incubacion` (`idTiempo_incubacion`, `Tiempo_incubacion`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Otro nido', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Tiempo_incubacion` (`idTiempo_incubacion`, `Tiempo_incubacion`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Calor del Sol', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Tiempo_incubacion` (`idTiempo_incubacion`, `Tiempo_incubacion`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Calor de volcán', NULL, NULL, NULL, NULL);
-INSERT INTO `Hidden_bird`.`Tiempo_incubacion` (`idTiempo_incubacion`, `Tiempo_incubacion`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Calor de fermentación', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`tipo_incubacion` (`idTipo_incubacion`, `Tipo_incubacion`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Calor de su cuerpo', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`tipo_incubacion` (`idTipo_incubacion`, `Tipo_incubacion`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Otro nido', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`tipo_incubacion` (`idTipo_incubacion`, `Tipo_incubacion`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Calor del Sol', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`tipo_incubacion` (`idTipo_incubacion`, `Tipo_incubacion`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Calor de volcán', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`tipo_incubacion` (`idTipo_incubacion`, `Tipo_incubacion`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'Calor de fermentación', NULL, NULL, NULL, NULL);
 
+COMMIT;
+
+START TRANSACTION;
+USE `Hidden_bird`;
+INSERT INTO `hidden_bird`.`tiempo_incubacion` (`Tiempo_incubacion`) VALUES ('De 2 a 6 días.');
+INSERT INTO `hidden_bird`.`tiempo_incubacion` (`Tiempo_incubacion`) VALUES ('De 6 a10 días.');
+INSERT INTO `hidden_bird`.`tiempo_incubacion` (`Tiempo_incubacion`) VALUES ('De 10 a 15 días.');
+INSERT INTO `hidden_bird`.`tiempo_incubacion` (`Tiempo_incubacion`) VALUES ('De 15 a 30 días.');
+INSERT INTO `hidden_bird`.`tiempo_incubacion` (`Tiempo_incubacion`) VALUES ('De 30 a 50 días.');
+INSERT INTO `hidden_bird`.`tiempo_incubacion` (`Tiempo_incubacion`) VALUES ('Más de 50 días.');
 COMMIT;
 
 
@@ -1791,3 +1801,11 @@ INSERT INTO `Hidden_bird`.`Color` (`Color_id`, `Color`, `fecha_creacion`, `fecha
 
 COMMIT;
 
+START TRANSACTION;
+USE `Hidden_bird`;
+INSERT INTO `Hidden_bird`.`cantidad_huevos` (`idcantidad_huevos`, `numero_huevos`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'De 1 a 3 huevos.', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`cantidad_huevos` (`idcantidad_huevos`, `numero_huevos`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'De 4 a 6 huevos.', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`cantidad_huevos` (`idcantidad_huevos`, `numero_huevos`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, 'De 6 a 12 huevos.', NULL, NULL, NULL, NULL);
+INSERT INTO `Hidden_bird`.`cantidad_huevos` (`idcantidad_huevos`, `numero_huevos`, `fecha_creacion`, `fecha_modificacion`, `usuario_creacion`, `usuario_modificacion`) VALUES (DEFAULT, '13 o más huevos.', NULL, NULL, NULL, NULL);
+
+COMMIT;

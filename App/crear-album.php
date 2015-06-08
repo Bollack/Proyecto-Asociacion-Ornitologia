@@ -49,13 +49,14 @@
           $result = mysqli_query($dbhandle, $sql);
           $row = mysqli_fetch_assoc($result);
           $cantonId = $row['idCanton'];
-
+          /*
           $sql = "SELECT Color_id FROM color WHERE Color ='".$color."'";
           $result = mysqli_query($dbhandle, $sql);
           $row = mysqli_fetch_assoc($result);
           $colorId = $row['Color_id'];
-
-          $sql = "INSERT INTO ave (Descripcion, usuario_creacion, usuario_modificacion, Especie_idEspecie, Persona_idPersona, Canton_idCanton, nombre_album, color) VALUES ('".$descripcion."', '".$_SESSION['usuario']."', '".$_SESSION['usuario']."', ".$especieId.", ".$_SESSION['idPersona'].",".$cantonId.", '".$nombre."',".$colorId.")";
+          */
+          $sql = "CALL insert_ave_album  ( '".$_SESSION['usuario']."', '".$nombre."', '".$descripcion."', '".$especie."', '".$canton."', '".$color."');";
+          #$sql = "INSERT INTO ave (Descripcion, usuario_creacion, usuario_modificacion, Especie_idEspecie, Persona_idPersona, Canton_idCanton, nombre_album, color) VALUES ('".$descripcion."', '".$_SESSION['usuario']."', '".$_SESSION['usuario']."', ".$especieId.", ".$_SESSION['idPersona'].",".$cantonId.", '".$nombre."',".$colorId.")";
           echo $sql;
           if (mysqli_query($dbhandle, $sql)) {
             $sql = "SELECT idAve FROM ave WHERE nombre_album='".$nombre."'";
@@ -66,6 +67,8 @@
             $sql = "";
             $count = 1;
             while ($count<$fCounter) {
+
+              #$sql.="CALL "
               $sql .= "INSERT INTO foto (descripcion, usuario_creacion, usuario_modificacion, url, Ave_idAve) VALUES ('".$_POST['Desc'.$count]."','".$_SESSION["usuario"]."','".$_SESSION["usuario"]."','".$_POST['Foto'.$count]."',".$id.");";
               $count++;
             }

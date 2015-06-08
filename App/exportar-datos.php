@@ -16,6 +16,126 @@
   <body>
 
     <?php
+      require_once dirname(__FILE__) . '/../Classes/PHPExcel.php';
+
+      function ordenExport( mysqli_connect $conn)
+      {
+          $mainObject = new PHPExcel();
+          $nombreArchivo ="OrdenAves_HiddenBird";
+          $descripcionArchivo = "En este archivo xlsx se encuentran los datos necesarios para cargar en otra base de datos
+                                 los datos de la tabla Orden."
+          $mainObject->getProperties()->setCreator("Hidden Bird")
+                       ->setLastModifiedBy("Hidden Bird")
+                       ->setTitle("OrdenAves_HiddenBird")
+                       ->setSubject("OrdenAves_HiddenBird")
+                       ->setDescription("En este archivo xlsx se encuentran los datos necesarios para cargar en otra base de datos
+                                 los datos de la tabla Orden.")
+                       ->setKeywords("Progra_Bases_Good_Night")
+                       ->setCategory("Data export");
+
+
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      $username = "Administrador";
+      $password = "Admin13";
+      $hostname = "186.176.166.148:3306";
+      $myDB = "hidden_bird";
+      $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
+              if(!$dbhandle){
+          echo "Conexión fallida: " . mysqli_conect_error();
+        }else{
+
+
+
+
+
+      // Create new PHPExcel object
+      $objPHPExcel = new PHPExcel();
+
+      // Set document properties
+      $objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
+                     ->setLastModifiedBy("Maarten Balliauw")
+                     ->setTitle("Office 2007 XLSX Test Document")
+                     ->setSubject("Office 2007 XLSX Test Document")
+                     ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+                     ->setKeywords("office 2007 openxml php")
+                     ->setCategory("Test result file");
+
+
+      // Add some data
+      $objPHPExcel->setActiveSheetIndex(0)
+                  ->setCellValue('A1', 'Hello')
+                  ->setCellValue('B2', 'world!')
+                  ->setCellValue('C1', 'Hello')
+                  ->setCellValue('D2', 'world!');
+
+      // Miscellaneous glyphs, UTF-8
+      $objPHPExcel->setActiveSheetIndex(0)
+                  ->setCellValue('A4', 'Miscellaneous glyphs')
+                  ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
+
+      // Rename worksheet
+      $objPHPExcel->getActiveSheet()->setTitle('Simple');
+
+
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $objPHPExcel->setActiveSheetIndex(0);
+
+
+        // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="01simple.xlsx"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header ('Expires: Fri, 9 Aug 1996 03:10:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
+        exit;
 
 
 
@@ -64,21 +184,7 @@
     <div class="container">
       <h2 class="text-center">Good Night</h2>
       <div class="form-group">
-          <label for="Nombre">Seleccione el archivo .xls del cual desea extraer los datos a importar:</label>
-          <form name="album"  class="form-nAlbum form-horizontal" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <input id="lefile" type="file" accept=".xls,.xlsx" style="display:none">
-            <div class="input-append">
-            <input id="archivoExcel" class="input-large" type="text">
-
-            <button id="bRegistro" class="btn btn-lg btn-primary btn-block" type="submit">Subir álbum</button>
-            <a class="btn" onclick="$('input[id=lefile]').click();">Seleccionar archivo</a>
-        
-     
-            <script type="text/javascript">
-              $('input[id=lefile]').change(function() {
-                                  $('#archivoExcel').val($(this).val());
-                                  });
-            </script>
+          <label for="Nombre">Seleccione la ruta en donde desea ubicar los archivos .xls resultantes:</label>
       </div> 
       <div class="form-group">
             <label for="TablatoExport">Escoja la tabla que desea importar:</label>

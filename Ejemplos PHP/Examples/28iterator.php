@@ -42,6 +42,10 @@ if (!file_exists("05featuredemo.xlsx")) {
 	exit("Please run 05featuredemo.php first." . EOL);
 }
 
+
+
+
+
 echo date('H:i:s') , " Load from Excel2007 file" , EOL;
 $objReader = PHPExcel_IOFactory::createReader('Excel2007');
 $objPHPExcel = $objReader->load("05featuredemo.xlsx");

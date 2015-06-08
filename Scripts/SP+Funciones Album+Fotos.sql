@@ -102,27 +102,32 @@ FROM color;
 
 Delimiter °°
 °°
-CREATE PROCEDURE insert_ave_album  (IN pUserID INT, IN pNombre VARCHAR(120), IN pDescripcion VARCHAR(200), IN especie VARCHAR(100), IN Canton VARCHAR(75), IN Color VARCHAR(40))
+CREATE PROCEDURE insert_ave_album  (IN username VARCHAR(45), IN pNombre VARCHAR(120), IN pDescripcion VARCHAR(200), IN especie VARCHAR(100), IN Canton VARCHAR(75), IN Color VARCHAR(40))
 BEGIN
-	DECLARE username VARCHAR(45);
+	DECLARE idUsername INT;
     DECLARE cantonID INT;
     DECLARE especieID INT;
     DECLARE colorID INT;
     SET cantonID = getCantonID(Canton);
     SET especieID= getEspecieID(especie);
-    SET username =  getUsernameFromID(pUserID);
+    SET idUsername =  getIDFromUsername(username);
     SET colorID = getIdFromColor(color);
 	INSERT INTO ave (Descripcion, nombre_album, color, usuario_creacion, usuario_modificacion, Especie_idEspecie, Persona_idPersona, Canton_idCanton)
-			VALUES(pDescripcion, pNombre, colorID, username, username, especieID, pUserID, cantonID);
+			VALUES(pDescripcion, pNombre, colorID, username, username, especieID, idUsername, cantonID);
 END;
 °°
+
 
 Delimiter °°
 °°
 
-CREATE PROCEDURE  add_photo_album(IN pUserID INT,IN pDescripcion VARCHAR(300), IN, IN)
+CREATE PROCEDURE  add_photo_album(IN username VARCHAR(45),IN pDescripcion VARCHAR(300), IN imagen VARCHAR(200), IN pAlbumAve INT)
 BEGIN
-
+	DECLARE idUsername INT;
+	SET idUsername =  getIDFromUsername(username);
+    
+    INSERT INTO FOTO (descripcion, usuario_creacion, usuario_modificacion, url, Ave_idAve)
+					VALUES
 END
 
 °°
