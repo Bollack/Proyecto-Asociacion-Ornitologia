@@ -27,9 +27,92 @@ BEGIN
     WHERE Persona_idPersona=pIDUsuario;
     RETURN numeroAves;
 END;
-
-
 °°
+
+Delimiter °°
+°°
+CREATE FUNCTION getTamanoFromID(pIdTamano INT)
+RETURNS VARCHAR(30)
+BEGIN
+	DECLARE tamanoR VARCHAR(30);
+    SELECT Tamano
+    INTO tamanoR
+    FROM tamano
+    Where idTamano=pIdTamano;
+    RETURN tamanoR;
+END;
+°°
+DROP FUNCTION getTamanoFromID;
+
+SELECT idTamano, getTamanoFromID(idTamano)
+FROM tamano
+ORDER BY idTamano;
+
+Delimiter °°
+°°
+CREATE FUNCTION getNumberAvesByEspecie(pIdEspecie INT) #CREADO Y TESTEADO
+RETURNS INT
+BEGIN
+	DECLARE numeroAves INT;
+    SELECT Count(1)
+    INTO numeroAves
+    FROM Ave
+    WHERE Especie_idEspecie=pIdEspecie;
+    RETURN numeroAves;
+END;
+°°
+SELECT idEspecie, getNumberAvesByEspecie(idEspecie)
+FROM especie;
+
+
+Delimiter °°
+°°
+CREATE FUNCTION getNumberAvesByZonaVida(pZonaVida INT) #CREADA
+RETURNS INT
+BEGIN
+	DECLARE avesNum INT;
+    SELECT COALESCE(Sum(a.cantidad),0)
+    INTO avesNum
+    FROM (SELECT getNumberAvesByEspecie(idEspecie) AS cantidad
+		  FROM especie 
+          Where ZonaVida_idZonaVida=pZonaVida)a;
+	RETURN avesNum;
+END;
+°°
+DROP FUNCTION getNumberAvesByZonaVida;
+
+SELECT getZonaVidaFromID(idZonaVida), getNumberAvesByZonaVida(idZonaVida)
+FROM zonavida
+ORDER BY getNumberAvesByZonaVida(idZonaVida) DESC;
+
+Delimiter °°
+°°
+CREATE FUNCTION getNumberAvesByTamano(pTamanoID INT) #CREADA
+RETURNS INT
+BEGIN
+	DECLARE avesNum INT;
+    SELECT COALESCE(Sum(a.cantidad),0)
+    INTO avesNum
+    FROM (SELECT getNumberAvesByEspecie(idEspecie) AS cantidad
+		  FROM especie 
+          Where Tamano_idTamano=PTamanoID)a;
+	RETURN avesNum;
+END;
+°°
+DROP FUNCTION getNumberAvesByTamano;
+
+SELECT getTamanoFromID(idZonaVida), getNumberAvesByTamano(idZonaVida)
+FROM zonavida
+ORDER BY getNumberAvesByTamano(idZonaVida) DESC;
+
+
+
+SELECT Nombre, getNumberAvesByPersona(idPersona) #Script 
+FROM PERSONA
+ORDER BY getNumberAvesByPersona(idPersona) desc;
+
+insert_ave_album  (IN pUserID INT, IN pNombre VARCHAR(120), IN pDescripcion VARCHAR(200), IN especie VARCHAR(100), IN Canton VARCHAR(75), IN Color VARCHAR(40))
+CALL insert_ave_album(1, 'Ave que me encontré','Good Night','Incertae Sedis', 'Curridabat', 'Azul');
 
 Delimiter °°
 °°
