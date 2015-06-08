@@ -1,6 +1,7 @@
 Delimiter °°
-°°
-CREATE PROCEDURE Insert_Persona(IN pNombre VARCHAR(50), IN pApellido VARCHAR(60), IN pCorreo VARCHAR(100), IN pTelefono VARCHAR(20), 
+
+USE `Hidden_bird` °°
+CREATE PROCEDURE Insert_Persona(IN pNombre VARCHAR(50), IN pApellido VARCHAR(60), 
 								IN fechaNacimiento DATE, IN pDireccion VARCHAR(100), In pSexo VARCHAR(40), IN tipoUser INT, 
                                 IN pUsername VARCHAR(45), IN pPassword VARCHAR(100)) 
 	BEGIN
@@ -8,13 +9,12 @@ CREATE PROCEDURE Insert_Persona(IN pNombre VARCHAR(50), IN pApellido VARCHAR(60)
 		START TRANSACTION;
 		INSERT INTO Persona (username, Password, Nombre, Apellido, Direccion,  Sexo, Fecha_Nacimiento, Tipo_Usuario)
 							VALUES (pUsername, pNombre, pApellido, pDireccion, pSexo, pFechaNacimiento, ptipoUser);
-        AddTelToUser()                    
-        Add
-        
+
         COMMIT;
-    END;
+    END;  #CREADO
 
 °°
+
 
 Delimiter °°
 
@@ -26,29 +26,58 @@ CREATE PROCEDURE AddTelToUser(IN pIDUser INT, IN pTelefono VARCHAR(20))
     END; #CREADO
 
 °°
-
 Delimiter °°
-
-
+°°
 CREATE PROCEDURE AddCorreoToUser(IN pIDUser INT, IN pCorreo VARCHAR(100))
 
 	BEGIN
 		INSERT INTO Correo(correo, Persona_idPersona, usuario_creacion, usuario_modificacion)
 					VALUES(pCorreo, pIDUser, getUsernameFromID(pIDUser), getUsernameFromID(pIDUser));
-    END;
+    END; #CREADO
 
 °°
-Delimiter °°
 
-
-
-CREATE PROCEDURE DeleteTelFromUser
+Delimiter °° 
+°°
+CREATE FUNCTION getIDfromCorreo(pCorreo VARCHAR(100)) 
+RETURNS INT
 	BEGIN
+		DECLARE idEncontrado INT;
+        DECLARE EXIT HANDLER  FOR SQLEXCEPTION
+        SELECT idCorreo
+        INTO idEncontrado
+        FROM correo
+        WHERE correo=pCorreo;
+        RETURN idEncontrado;
+    END;   #CREADA
+°°
+
+Delimiter °°
+°°
+CREATE FUNCTION getIDfromTel()
+RETURNS INT
+	BEGIN
+		DECLARE idEncontrado INT;
+        DECLARE EXIT HANDLER  FOR SQLEXCEPTION
+        SELECT idTelefono
+        INTO idEncontrado
+        FROM Telefono
+        WHERE telefono=telefono;
+        RETURN idEncontrado;
+    END;   #CREADA
+°°
+
+Delimiter °°
+°°    
+    
+    CREATE PROCEDURE DeleteTelFromUser(IN pTelefono VARCHAR(20))
+	BEGIN
+		DECLARE idEncontrado INT;
+        idEncontrado = CALL getIDfromTel(VARCHAR)
     
     END
-
-
 °°
+
 Delimiter °°
 
 CREATE PROCEDURE DeleteCorreoFromUser
@@ -84,10 +113,23 @@ DECLARE edad INT;
 SELECT  TIMESTAMPDIFF(YEAR,fecha_nacimiento,CURDATE()) 
 INTO edad
 FROM Persona
-WHERE idPersona=idUser;
+WHERE idPersona=idpersonaUser;
 RETURN edad;
 END; #CREADA
 °°
+Delimiter °°
+°°
+SELECT Nombre, getIDFromUsername(username)
+FROM PERSONA;
+°°
+ SHOW PROCESSLIST;
+ SET GLOBAL event_scheduler = ON;
+
+CREATE EVENT 'envio_correo'
+
+
+#ALTER TABLE tablename AUTO_INCREMENT = 1
+
 Delimiter °°
 °°
 CREATE FUNCTION getIDFromUsername(pUsername VARCHAR(45))
@@ -108,16 +150,16 @@ Delimiter °°
 CREATE FUNCTION getUsernameFromID(pID INT)
 RETURNS VARCHAR(45)
 BEGIN
-DECLARE username VARCHAR(45);
-DECLARE EXIT HANDLER  FOR SQLEXCEPTION
+DECLARE usernamea VARCHAR(45);
 SELECT  username
-INTO username
+INTO usernamea
 FROM Persona
 WHERE  idPersona=pID;
-RETURN username; #CREADA
+RETURN usernamea; #CREADA
 END
 °°
 
+DROP  FUNCTION getUsernameFromID;
 
 Delimiter °°
 °°

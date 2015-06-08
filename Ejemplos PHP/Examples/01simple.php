@@ -55,15 +55,12 @@ $objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
 // Add some data
 echo date('H:i:s') , " Add some data" , EOL;
 $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Hello')
-            ->setCellValue('B2', 'world!')
-            ->setCellValue('C1', 'Hello')
-            ->setCellValue('D2', 'world!');
+            ->setCellValue('A1', 'persona_id')
+            ->setCellValue('B1', 'nombre')
+            ->setCellValue('C1', 'Apellido')
+            ->setCellValue('D1', 'Good Night')
+            ->setCellValue('E1', 'Tipo_usuario_id');
 
-// Miscellaneous glyphs, UTF-8
-$objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A4', 'Miscellaneous glyphs')
-            ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
 
 
 $objPHPExcel->getActiveSheet()->setCellValue('A8',"Hello\nWorld");
@@ -96,6 +93,7 @@ echo date('H:i:s') , ' Current memory usage: ' , (memory_get_usage(true) / 1024 
 
 
 // Save Excel 95 file
+/*
 echo date('H:i:s') , " Write to Excel5 format" , EOL;
 $callStartTime = microtime(true);
 
@@ -109,7 +107,7 @@ echo 'Call time to write Workbook was ' , sprintf('%.4f',$callTime) , " seconds"
 // Echo memory usage
 echo date('H:i:s') , ' Current memory usage: ' , (memory_get_usage(true) / 1024 / 1024) , " MB" , EOL;
 
-
+*/
 // Echo memory peak usage
 echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
 
