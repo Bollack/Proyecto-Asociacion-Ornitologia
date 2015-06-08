@@ -10,6 +10,10 @@
     <link href="css/perfil.css" rel="stylesheet">
   </head>
   <body>
+  <?php
+      session_start();
+  ?>
+
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
@@ -71,31 +75,27 @@
     <div class="container">
       <div id="info-head">
         <h1>Información del usuario</h1>
-        <a href="" class="btn btn-default">Editar perfil</a>
+        <a href="editar-perfil.php" class="btn btn-default">Editar perfil</a>
       </div>
       <div id="info">  
         <div id="nombre" class="info">
           <h2>Nombre:</h2>
-          <h3>Carlos Girón Alas</h3>
         </div>
         <div id="edad" class="info">
           <h2>Edad:</h2>
-          <h3>18 (28/05/1996)</h3>
         </div>
         <div id="usuario" class="info">
           <h2>Usuario:</h2>
-          <h3>cgiron</h3>
         </div>
         <div id="freg" class="info">
           <h2>Fecha de registro:</h2>
-          <h3>6/6/2015</h3>
         </div>
       </div>
 
       <div id="fotos">
         <h1>Álbumes</h1>
         
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-5">
           <div class="thumbnail">
             <img src="http://www.iwantcovers.com/wp-content/uploads/2013/10/Blue-Abstract-Flower.jpg" alt="Not found">
             <div class="caption">
@@ -105,7 +105,7 @@
           <a href="" class="btn btn-default">Ver album</a>
         </div>
         
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-5">
           <div class="thumbnail">
             <img src="http://www.iwantcovers.com/wp-content/uploads/2013/10/Blue-Abstract-Flower.jpg" alt="Not found">
             <div class="caption">
@@ -113,12 +113,35 @@
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/perfil.js"></script>
+    <?php
+      $username = "Usuario";
+      $password = "user123E";
+      $hostname = "186.176.166.148:3306";
+      $myDB = "hidden_bird";
+      $dbhandle = mysqli_connect($hostname, $username, $password, $myDB);
+      if(!$dbhandle){
+        echo "Conexión fallida: " . mysqli_conect_error();
+      }else{
+        $sql = "SELECT Nombre, Apellido, Fecha_Nacimiento, Username, fecha_creacion FROM persona WHERE idPersona = ".$_SESSION['idPersona'];
+        $sqlresult = mysqli_query($dbhandle, $sql);
+        $row = mysqli_fetch_assoc($sqlresult);
+        $fNac = $row['Fecha_Nacimiento'];
+        $nombre = $row['Nombre']." ".$row['Apellido'];
+        echo "<script type='text/javascript'>document.getElementById('nombre').innerHTML = document.getElementById('nombre').innerHTML + '<h3>".$nombre."</h3>'</script>";
+        echo "<script type='text/javascript'>document.getElementById('usuario').innerHTML = document.getElementById('usuario').innerHTML + '<h3>".$row['Username']."</h3>'</script>";
+        echo "<script type='text/javascript'>document.getElementById('freg').innerHTML = document.getElementById('freg').innerHTML + '<h3>".$row['fecha_creacion']."</h3>'</script>";
+        
+        $sql = "SELECT TIMESTAMPDIFF(YEAR,fecha_nacimiento,CURDATE()) AS edad FROM Persona WHERE idPersona=".$_SESSION['idPersona'];
+        $sqlresult = mysqli_query($dbhandle, $sql);
+        $row = mysqli_fetch_assoc($sqlresult);
+        $edad = $row['edad']." (".$fNac.")";
+        echo "<script type='text/javascript'>document.getElementById('edad').innerHTML = document.getElementById('edad').innerHTML + '<h3>".$edad."</h3>'</script>";
+      }
+    ?>
   </body>
 </html>
