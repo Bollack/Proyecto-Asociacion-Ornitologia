@@ -20,7 +20,7 @@
       $usuario = $errUsuario = $contraseña = $errPassword = $errNombre = $nombre = $errApellido = $apellido = $errFNac = $fNac = $errDireccion = $direccion = $errCorreo = $correo1 = $errTelefono = $telefono1 = $sexo = $tipo = $result = $script = "";
       $username = "Administrador";
       $password = "Admin13";
-      $hostname = "localhost";
+      $hostname = "186.176.166.148:3306";
       $myDB = "hidden_bird";
       if($_SERVER["REQUEST_METHOD"] == "POST"){
       if(empty($_POST["Usuario"])){
@@ -93,34 +93,34 @@
             $sql = "";
             $count = 1;
             while($count<$tCounter){
-              $sql .= "INSERT INTO telefono (telefono, propietario_linea) VALUES ('".$_POST['Telefono'.$count]."',".$id.");";
+              $sql .= "INSERT INTO telefono (telefono, propietario_linea, usuario_creacion, usuario_modificacion) VALUES ('".$_POST['Telefono'.$count]."',".$id.",'".$usuario."','".$usuario."');";
               $count++;
             }
             $count = 1;
             while($count<$cCounter){
-              $sql .= "INSERT INTO correo (correo, Persona_idPersona) VALUES ('".$_POST['Correo'.$count]."',".$id.");";
+              $sql .= "INSERT INTO correo (correo, Persona_idPersona) VALUES ('".$_POST['Correo'.$count]."',".$id.",'".$usuario."','".$usuario."');";
               $count++;
             }
             if (mysqli_multi_query($dbhandle, $sql)) {
-              echo "<script type='text/javascript'>alert('Se registro el usuario exitosamente')</script>";
-              //echo "Se registro el usuario exitosamente";
+              //echo "<script type='text/javascript'>alert('Se registro el usuario exitosamente')</script>";
+              echo "Se registro el usuario exitosamente";
               mysqli_close($dbhandle);
               echo "<script type=\"text/javascript\">document.location.href=\"ingresar.php\";</script>";
             } else {
-                echo "<script type='text/javascript'>alert('Error: '".$sql."<br>".mysqli_error($dbhandle).")</script>";
-                //echo "Error: " . $sql . "<br>" . mysqli_error($dbhandle);
+                //echo "<script type='text/javascript'>alert('Error: ".$sql."<br>".mysqli_error($dbhandle)."'')</script>";
+                echo "Error: " . $sql . "<br>" . mysqli_error($dbhandle);
                 $sql = "DELETE FROM persona where idPersona = ".$id;
                 if (mysqli_query($dbhandle, $sql)) {
-                  echo "<script type='text/javascript'>alert('No se logro insertar el usuario')</script>";
-                  //echo "No se logro insertar el usuario";
+                  //echo "<script type='text/javascript'>alert('No se logro insertar el usuario')</script>";
+                  echo "No se logro insertar el usuario";
                 } else {
-                  echo "<script type='text/javascript'>alert('Error deleting record: '".mysqli_error($dbhandle).")</script>";
-                  //echo "Error deleting record: " . mysqli_error($dbhandle);
+                  //echo "<script type='text/javascript'>alert('Error deleting record: ".mysqli_error($dbhandle)."'')</script>";
+                  echo "Error deleting record: " . mysqli_error($dbhandle);
                 }
             }
           } else {
-            echo "<script type='text/javascript'>alert('Error: '".$sql."<br>".mysqli_error($dbhandle).")</script>";
-            //echo "Error: " . $sql . "<br>" . mysqli_error($dbhandle);
+            //echo "<script type='text/javascript'>alert('Error: ".$sql."<br>".mysqli_error($dbhandle)."'')</script>";
+            echo "Error: " . $sql . "<br>" . mysqli_error($dbhandle);
           }
         } 
         mysqli_close($dbhandle);

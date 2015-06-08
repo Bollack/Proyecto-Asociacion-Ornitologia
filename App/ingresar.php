@@ -37,7 +37,7 @@
       if(!$errUsuario && !$errPassword){
         $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
         if(!$dbhandle){
-          $result = "Conexión fallida: " . mysqli_conect_error();
+          echo "Conexión fallida: " . mysqli_conect_error();
         }else{          
           $sql = "SELECT idPersona, Username, Password, Nombre FROM persona where Username = '".$usuario."'";
           $sqlresult = mysqli_query($dbhandle, $sql);
@@ -49,10 +49,10 @@
               $_SESSION['usuario'] = $usuario;
               echo "<script type=\"text/javascript\">document.location.href=\"crear-album.php\";</script>";
             }else{
-              $result = "Contraseña incorrecta!";
+              echo "Contraseña incorrecta!";
             }
           } else {
-              $result = "No se encontró el usuario!";
+              echo "No se encontró el usuario!";
           }
         }
         mysqli_close($dbhandle);
@@ -109,9 +109,7 @@
         <div class="form-group">
           <input id="submit" name="submit" type="submit" value="Iniciar sesión" class="btn btn-primary">
         </div>
-        <div class="form-group">
-          <?php echo $script;?>
-        </div>
+        
       </form>
     </div>
 
