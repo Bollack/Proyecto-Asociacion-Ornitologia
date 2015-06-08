@@ -10,6 +10,95 @@
     <link href="css/consulta-usuarios.css" rel="stylesheet">
   </head>
   <body>
+
+    <?php
+      $a = $o = $n = $ap = $s = $f = $d = false;
+      $username = "Administrador";
+      $password = "Admin13";
+      $hostname = "186.176.166.148:3306";
+      $myDB = "hidden_bird";
+      if($_SERVER["REQUEST_METHOD"] == "POST"){
+        if(isset($_POST['Afficionado'])){
+          $a = true;
+        }
+        if(isset($_POST['Ornitologo'])){
+          $o = true;
+        }
+        $sql = "SELECT Username";
+        if(isset($_POST['Nombre'])){
+          $n = true;
+          $sql .= ", Nombre";
+        }
+        if(isset($_POST['Apellido'])){
+          $ap = true;
+          $sql .= ", Apellido";
+        }
+        if(isset($_POST['Sexo'])){
+          $s = true;
+          $sql .= ", Sexo";
+        }
+        if(isset($_POST['fNac'])){
+          $f = true;
+          $sql .= ", Fecha_Nacimiento";
+        }
+        if(isset($_POST['Direccion'])){
+          $d = true;
+          $sql .= ", Direccion";
+        }
+
+        $sql .= " FROM persona WHERE Tipo_usuario_idTipo_usuario ";
+        if($a==true && $o==true){
+          $sql.= "<> 3";
+        }else{
+          if($a==true){
+            $sql .= "= 1";
+          }else{
+            if($o==true){
+              $sql .= "= 2";
+            }else{
+              $sql .= "= 3";
+            }
+          }
+        }
+        $sql .= " ORDER BY Username;";
+        $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
+        if(!$dbhandle){
+          echo "Conexión fallida: " . mysqli_conect_error();
+        }else{
+          echo $sql;
+          $sqlresult = mysqli_query($dbhandle, $sql);
+          while($row = mysqli_fetch_assoc($sqlresult)){
+            echo "<script type='text/javascript'>document.getElementById('personas').innerHTML = document.getElementById('personas').innerHTML + '<div class=\"col-sx-6 col-md-4\"><div class=\"thumbnail\"><div class=\"caption\">";
+            if($n){
+              echo "<h4>Nombre: '".$row['Nombre']."'</h4>";
+            }
+            if($ap){
+              echo "<h4>Apellido: '".$row['Apellido']."'</h4>";
+            }
+            if($s){
+              echo "<h4>Sexo: '".$row['Sexo']."'</h4>";
+            }
+            if($f){
+              echo "<h4>Fecha de Nacimiento: '".$row['Fecha_Nacimiento']."'</h4>";
+            }
+            if($d){
+              echo "<h4>Dirección: '".$row['Direccion']."'</h4>";
+            }
+            if($row['Tipo_usuario_idTipo_usuario']=1){
+              echo "<h4>Tipo de usuario: Aficionado</h4>";
+            }
+            if($row['Tipo_usuario_idTipo_usuario']=2){
+              echo "<h4>Tipo de usuario: Ornitólogo</h4>";
+            }
+            if($row['Tipo_usuario_idTipo_usuario']=3){
+              echo "<h4>Tipo de usuario: Administrador</h4>";
+            }
+            echo "</div></div></div>'</script>";
+          }
+        }
+      }
+    ?>
+
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
@@ -68,8 +157,28 @@
       </div>
     </nav>
     
-    <div class="contaier">
+    <div class="contaier" style="width:600px;margin:auto;">
+      <form id="form" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
+        <h1 class="text-center">Usuarios registrados</h1>
+        <div class="form-group">
+          <label>Tipo de usuario:</label><br>
+          <label class="checkbox-inline"><input type="checkbox" name="Aficionado" value="1" checked>Aficionado</label>
+          <label class="checkbox-inline"><input type="checkbox" name="Ornitologo" value="2">Ornitólogo</label>
+        </div>
+        <div class="form-group">
+          <label>Datos a mostrar:</label><br>
+          <label class="checkbox-inline"><input type="checkbox" name="Nombre" value="Nombre">Nombre</label>
+          <label class="checkbox-inline"><input type="checkbox" name="Apellido" value="Apellido">Apellido</label>
+          <label class="checkbox-inline"><input type="checkbox" name="Sexo" value="Sexo">Sexo</label>
+          <label class="checkbox-inline"><input type="checkbox" name="fNac" value="Fecha_Nacimiento">Fecha de nacimento</label>
+          <label class="checkbox-inline"><input type="checkbox" name="Direccion" value="Direccion">Dirección</label>
+        </div>
+        <button id="busqueda" class="btn btn-lg btn-primary btn-block" type="submit">Busqueda</button>
+      </form>
       
+      <div id="personas">
+      
+      </div> 
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

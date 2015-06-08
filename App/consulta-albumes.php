@@ -69,7 +69,10 @@
     </nav>
     
     <div class="contenedor">
-      
+      <div id="fotos">
+        <h1>Álbumes</h1>
+
+      </div>
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

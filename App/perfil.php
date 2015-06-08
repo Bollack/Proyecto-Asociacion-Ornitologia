@@ -12,7 +12,7 @@
   <body>
   <?php
       session_start();
-  ?>
+    ?>
 
     <nav class="navbar navbar-default">
       <div class="container">
@@ -76,6 +76,10 @@
       <div id="info-head">
         <h1>Información del usuario</h1>
         <a href="editar-perfil.php" class="btn btn-default">Editar perfil</a>
+        <h4>En esta sección puede visualizar y manejar la información de los álbumes 
+          de las aves fotografiadas y compartirlas así con la comunidad de Hidden Bird. 
+          Puede seleccionar su álbum y editar las fotografías en él, así como editar la 
+          info general del mismo.</h4>
       </div>
       <div id="info">  
         <div id="nombre" class="info">
@@ -94,31 +98,14 @@
 
       <div id="fotos">
         <h1>Álbumes</h1>
-        
-        <div class="col-md-3 col-sm-5">
-          <div class="thumbnail">
-            <img src="http://www.iwantcovers.com/wp-content/uploads/2013/10/Blue-Abstract-Flower.jpg" alt="Not found">
-            <div class="caption">
-              <h3>Abstract</h3>
-            </div>
-          </div>
-          <a href="" class="btn btn-default">Ver album</a>
-        </div>
-        
-        <div class="col-md-3 col-sm-5">
-          <div class="thumbnail">
-            <img src="http://www.iwantcovers.com/wp-content/uploads/2013/10/Blue-Abstract-Flower.jpg" alt="Not found">
-            <div class="caption">
-              <h3>Abstract</h3>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/perfil.js"></script>
     <?php
+      $id = (isset($_GET['id']) ? $_GET['id']:$_SESSION['idPersona']);    
       $username = "Usuario";
       $password = "user123E";
       $hostname = "186.176.166.148:3306";
@@ -127,7 +114,7 @@
       if(!$dbhandle){
         echo "Conexión fallida: " . mysqli_conect_error();
       }else{
-        $sql = "SELECT Nombre, Apellido, Fecha_Nacimiento, Username, fecha_creacion FROM persona WHERE idPersona = ".$_SESSION['idPersona'];
+        $sql = "SELECT Nombre, Apellido, Fecha_Nacimiento, Username, fecha_creacion FROM persona WHERE idPersona = ".$id;
         $sqlresult = mysqli_query($dbhandle, $sql);
         $row = mysqli_fetch_assoc($sqlresult);
         $fNac = $row['Fecha_Nacimiento'];
@@ -136,11 +123,28 @@
         echo "<script type='text/javascript'>document.getElementById('usuario').innerHTML = document.getElementById('usuario').innerHTML + '<h3>".$row['Username']."</h3>'</script>";
         echo "<script type='text/javascript'>document.getElementById('freg').innerHTML = document.getElementById('freg').innerHTML + '<h3>".$row['fecha_creacion']."</h3>'</script>";
         
-        $sql = "SELECT TIMESTAMPDIFF(YEAR,fecha_nacimiento,CURDATE()) AS edad FROM Persona WHERE idPersona=".$_SESSION['idPersona'];
+        $sql = "SELECT TIMESTAMPDIFF(YEAR,fecha_nacimiento,CURDATE()) AS edad FROM Persona WHERE idPersona=".$id;
         $sqlresult = mysqli_query($dbhandle, $sql);
         $row = mysqli_fetch_assoc($sqlresult);
         $edad = $row['edad']." (".$fNac.")";
         echo "<script type='text/javascript'>document.getElementById('edad').innerHTML = document.getElementById('edad').innerHTML + '<h3>".$edad."</h3>'</script>";
+
+        $sql = "SELECT COUNT(1) AS albumes FROM ave WHERE Persona_idPersona = ".$id;
+        $sqlresult = mysqli_query($dbhandle, $sql);
+        $row = mysqli_fetch_assoc($sqlresult);
+        $cantidadAlbumes = $row['albumes'];
+        if($cantidadAlbumes>=1){
+          $sql = "SELECT Descripcion, nombre_album, idAve FROM ave WHERE Persona_idPersona = ".$id;
+          $sqlresult = mysqli_query($dbhandle, $sql);
+          while($row = mysqli_fetch_assoc($sqlresult)){
+            $sql2 = "SELECT url FROM foto WHERE Ave_idAve = ".$row['idAve'];
+            $sqlresult2 = mysqli_query($dbhandle, $sql2);
+            $row2 = mysqli_fetch_assoc($sqlresult2);
+            echo "<script type='text/javascript'>document.getElementById('fotos').innerHTML = document.getElementById('fotos').innerHTML + '<div class=\"col-sx-6 col-md-4\"><div class=\"thumbnail\"><img src=\"".$row2['url']."\" alt=\"Not found\"><div class=\"caption\"><h3>".$row['nombre_album']."</h3><p>".$row['Descripcion']."</p><button type=\"button\" id=\"album\" class=\"btn btn-lg btn-primary btn-block\" type=\"submit\" value=\"".$row['nombre_album']."\">Ver Album</button></div></div></div>'</script>";
+            }
+          }else{
+            echo "<script type='text/javascript'>document.getElementById('fotos').innerHTML = document.getElementById('fotos').innerHTML + '<h3>Usted no tiene álbumes.</h3>'</script>";
+          }
       }
     ?>
   </body>
