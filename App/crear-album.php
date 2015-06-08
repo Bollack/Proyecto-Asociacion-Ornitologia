@@ -8,9 +8,6 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/crear-album.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/crear-album.js"></script>
   </head>
   <body>
 
@@ -36,25 +33,58 @@
       $color = $_POST["Color"];
       $provincia = $_POST["Provincia"];
       $canton = $_POST["Canton"];
+      $fCounter = $_POST["cantFotos"];
+      echo $fCounter;
       if(!$errNombre && !$errFoto){
         $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
         if(!$dbhandle){
           echo "Conexión fallida: " . mysqli_conect_error();
         }else{
-          $query = "CALL insert_ave_album(?.?.?.?.?.?);";          
-          $stmt = $dbhandle->prepare($query);
+          $sql ="SELECT idEspecie FROM especie WHERE Nombre_cientifico = '".$especie."'";
+          $result = mysqli_query($dbhandle, $sql);
+          $row = mysqli_fetch_assoc($result);
+          $especieId = $row['idEspecie'];
 
-          echo $nombre."<br>";
-          echo $descripcion."<br>";
-          echo $especie."<br>";
-          echo $canton."<br>";
-          echo $color."<br>";
-          echo $_SESSION["idPersona"]."<br>";
-          $stmt->bind_param("isssss", $_SESSION["idPersona"], $nombre, $descripcion, $especie, $canton, $color);
-          $stmt->execute();
+          $sql = "SELECT idCanton FROM canton WHERE Canton ='".$canton."'";
+          $result = mysqli_query($dbhandle, $sql);
+          $row = mysqli_fetch_assoc($result);
+          $cantonId = $row['idCanton'];
 
-          $stmt->close();
-          $dbhandle->close();
+          $sql = "SELECT Color_id FROM color WHERE Color ='".$color."'";
+          $result = mysqli_query($dbhandle, $sql);
+          $row = mysqli_fetch_assoc($result);
+          $colorId = $row['Color_id'];
+
+          $sql = "INSERT INTO ave (Descripcion, usuario_creacion, usuario_modificacion, Especie_idEspecie, Persona_idPersona, Canton_idCanton, nombre_album, color) VALUES ('".$descripcion."', '".$_SESSION['usuario']."', '".$_SESSION['usuario']."', ".$especieId.", ".$_SESSION['idPersona'].",".$cantonId.", '".$nombre."',".$colorId.")";
+          echo $sql;
+          if (mysqli_query($dbhandle, $sql)) {
+            $sql = "SELECT idAve FROM ave WHERE nombre_album='".$nombre."'";
+            $result = mysqli_query($dbhandle, $sql);
+            $row = mysqli_fetch_assoc($result); 
+            $id = $row["idAve"];
+
+            $sql = "";
+            $count = 1;
+            while ($count<$fCounter) {
+              $sql .= "INSERT INTO foto (descripcion, usuario_creacion, usuario_modificacion, url, Ave_idAve) VALUES ('".$_POST['Desc'.$count]."','".$_SESSION["usuario"]."','".$_SESSION["usuario"]."','".$_POST['Foto'.$count]."',".$id.");";
+              $count++;
+            }
+            if(mysqli_multi_query($dbhandle,$sql)){
+              echo "Se registro el usuario exitosamente";
+              mysqli_close($dbhandle);
+              echo "<script type=\"text/javascript\">document.location.href=\"crear-album.php\";</script>";
+            }else{
+              echo "Error: " . $sql . "<br>" . mysqli_error($dbhandle);
+              $sql = "DELETE FROM ave WHERE nombre_album = '".$nombre."'";
+              if(mysqli_query($dbhandle,$sql)){
+                echo "No se logro insertar el usuario";
+              }else{
+                echo "Error deleting record: " . mysqli_error($dbhandle);
+              }
+            }
+          }else{
+            echo "Error: " . $sql . "<br>" . mysqli_error($dbhandle);
+          }
         }
       }
     }
@@ -69,7 +99,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="">Hidden Bird</a>
+          <a class="navbar-brand" href="crear-album.php">Hidden Bird</a>
         </div>
         
         <div id="navbar" class="navbar-collapse collapse">
@@ -83,18 +113,43 @@
               </ul>
             </li>
             <li><a href="estadisticas.php">Estadísticas</a></li>
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tablas<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="tablas/cantHuevos.php">Cantidad huevos</a></li>
+                <li><a href="tablas/color.php">Color</a></li>
+                <li><a href="tablas/correoAdmin.php">Correo Admin</a></li>
+                <li><a href="tablas/dataLog.php">Data Log</a></li>
+                <li><a href="tablas/especie.php">Especie</a></li>
+                <li><a href="tablas/familia.php">Familia</a></li>
+                <li><a href="tablas/formaPico.php">Forma pico</a></li>
+                <li><a href="tablas/genero.php">Genero</a></li>
+                <li><a href="tablas/nombreComun.php">Nombre común</a></li>
+                <li><a href="tablas/nombreIngles.php">Nombre inglés</a></li>
+                <li><a href="tablas/orden.php">Orden</a></li>
+                <li><a href="tablas/suborden.php">Suborden</a></li>
+                <li><a href="tablas/tamano.php">Tamaño</a></li>
+                <li><a href="tablas/tiempoIncubacion.php">Tiempo incubación</a></li>
+                <li><a href="tablas/tipoHuevos.php">Tipo Huevos</a></li>
+                <li><a href="tablas/tipoIncubacion.php">Tipo incubación</a></li>
+                <li><a href="tablas/tipoNido.php">Tipo nido</a></li>
+                <li><a href="tablas/zonaVida.php">Zona de vida</a></li>
+              </ul>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right" id="der-nav">
+            <li><a href="perfil.php">Mi perfil</a></li>
+            <li><a href="ingresar.php">Ingresar</a></li>
             <li><a href="registro.php">Registrarse</a></li>
-            <li style="margin-top:8px;"><button type="button" class="btn btn-default">Log Out</button></li>
+            <li><a href="log-out.php">Log Out</a></li>
           </ul>
         </div>
       </div>
     </nav>
     
     <div class="container">
-      <form name="album"  class="form-nAlbum form-horizontal" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+      <form name="albumForm"  class="form-nAlbum form-horizontal" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <h2 class="text-center">Crear álbum</h2>
         <h5>En esta sección usted puede crear un álbum de fotografías de un ave que fotografió. Ingrese el cantón donde logró fotografiar a dicha ave
           (seleccionado primero la provincia), así como la especie de la misma y los colores que pudo ver en ella. Puede añadir otras fotografías  del ave posteriormente.</h5>
@@ -127,16 +182,23 @@
             <label for="Foto1">Foto 1:</label>
             <input type="text" id="Foto1" name ="Foto1" class="form-control" placeholder="URL//" required>
           </div>
+          <div class="form-group">
+            <label for="Desc1">Descripción de foto 1:</label>
+            <input type="text" id="Desc1" name="Desc1" class="form-control" placehalder="">
+          </div>
         </div>
         <h4 id="agFoto" class="btn-info text-center" style="height:25px; font-weight:bold; color: white; border-radius: 10px; padding-top:2px">Agregar Foto</h4>
-        <input type="hidden" name="cantFotos" value="">
+        <input type="hidden" name="cantFotos" id="cantFotos" value="">
         <div class="form-group">
-          <label for="Descripcion">Descripción:</label>
+          <label for="Descripcion">Descripción del álbum:</label>
           <textarea class="form-control" rows="5" id="Descripcion" name="Descripcion"></textarea>
         </div>
         <button id="bRegistro" class="btn btn-lg btn-primary btn-block" type="submit">Subir álbum</button>
       </form>
     </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/crear-album.js"></script>
     <?php
       $usuario = $errUsuario = $contraseña = $errPassword = $errNombre = $nombre = $errApellido = $apellido = $errFNac = $fNac = $errDireccion = $direccion = $errCorreo = $correo1 = $errTelefono = $telefono1 = $sexo = $tipo = $result = $script = "";
       $username = "Administrador";
@@ -185,8 +247,6 @@
         mysqli_close($dbhandle);
       }
       ?>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/crear-album.js"></script>
+    
   </body>
 </html>

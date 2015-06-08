@@ -14,10 +14,3 @@ $(document).ready(function(){
 		$cCounter++;
 	});
 });
-function setNav(pNumber){
-	if(pNumber==1){
-		$("#der-nav").prepend("<li><a href='perfil.php'>Mi perfil</a></li>");
-	}else{
-		$("#der-nav").prepend("<li><a href='ingresar.php'>Ingresar</a></li>");
-	}
-}

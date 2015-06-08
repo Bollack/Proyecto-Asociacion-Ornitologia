@@ -8,17 +8,12 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/ingresar.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/ingresar.js"></script>
   </head>
   <body>
 
     <?php
     session_start();
     $usuario = $errUsuario = $contraseña = $errPassword = $result = $script = "";
-    $_SESSION['idPersona'] ="";
-    $_SESSION['usuario'] = "";
     $username = "Administrador";
     $password = "Admin13";
     $hostname = "186.176.166.148:3306";
@@ -69,7 +64,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="">Hidden Bird</a>
+          <a class="navbar-brand" href="crear-album.php">Hidden Bird</a>
         </div>
         
         <div id="navbar" class="navbar-collapse collapse">
@@ -83,11 +78,36 @@
               </ul>
             </li>
             <li><a href="estadisticas.php">Estadísticas</a></li>
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tablas<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="tablas/cantHuevos.php">Cantidad huevos</a></li>
+                <li><a href="tablas/color.php">Color</a></li>
+                <li><a href="tablas/correoAdmin.php">Correo Admin</a></li>
+                <li><a href="tablas/dataLog.php">Data Log</a></li>
+                <li><a href="tablas/especie.php">Especie</a></li>
+                <li><a href="tablas/familia.php">Familia</a></li>
+                <li><a href="tablas/formaPico.php">Forma pico</a></li>
+                <li><a href="tablas/genero.php">Genero</a></li>
+                <li><a href="tablas/nombreComun.php">Nombre común</a></li>
+                <li><a href="tablas/nombreIngles.php">Nombre inglés</a></li>
+                <li><a href="tablas/orden.php">Orden</a></li>
+                <li><a href="tablas/suborden.php">Suborden</a></li>
+                <li><a href="tablas/tamano.php">Tamaño</a></li>
+                <li><a href="tablas/tiempoIncubacion.php">Tiempo incubación</a></li>
+                <li><a href="tablas/tipoHuevos.php">Tipo Huevos</a></li>
+                <li><a href="tablas/tipoIncubacion.php">Tipo incubación</a></li>
+                <li><a href="tablas/tipoNido.php">Tipo nido</a></li>
+                <li><a href="tablas/zonaVida.php">Zona de vida</a></li>
+              </ul>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right" id="der-nav">
+            <li><a href="perfil.php">Mi perfil</a></li>
+            <li><a href="ingresar.php">Ingresar</a></li>
             <li><a href="registro.php">Registrarse</a></li>
-            <li style="margin-top:8px;"><button type="button" class="btn btn-default">Log Out</button></li>
+            <li><a href="log-out.php">Log Out</a></li>
           </ul>
         </div>
       </div>
@@ -122,5 +142,7 @@
       </div>
     </footer>
 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
