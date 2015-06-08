@@ -6,6 +6,13 @@
 .form-registro .btn{
 	margin-top: 10px;
 }
-.btn-info{
+.boton{
+	margin: auto;
 	width: 350px;
+	height: 150px;
+	background-color: #0000FF;
+    font-weight: bold;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
 }

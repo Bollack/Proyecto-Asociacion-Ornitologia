@@ -11,11 +11,117 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/registro.js"></script>
-    <script src="js/main.js"></script>
   </head>
   <body>
 
-    
+    <?php
+      session_start();
+      
+      $usuario = $errUsuario = $contraseña = $errPassword = $errNombre = $nombre = $errApellido = $apellido = $errFNac = $fNac = $errDireccion = $direccion = $errCorreo = $correo1 = $errTelefono = $telefono1 = $sexo = $tipo = $result = $script = "";
+      $username = "Administrador";
+      $password = "Admin13";
+      $hostname = "localhost";
+      $myDB = "hidden_bird";
+      if($_SERVER["REQUEST_METHOD"] == "POST"){
+      if(empty($_POST["Usuario"])){
+        $errUsuario = "Escriba su usuario";
+      }else{
+        $usuario = $_POST["Usuario"];
+      }
+      if(empty($_POST["Password"])){
+        $errPassword = 'Escriba su contraseña';
+      }else{
+        $contraseña = md5($_POST["Password"]);
+      }
+      if(empty($_POST["Nombre"])){
+        $errNombre = 'Escriba su nombre';
+      }else{
+        $nombre = $_POST["Nombre"];
+      }
+      if(empty($_POST["Apellido"])){
+        $errApellido = 'Escriba su apellido';
+      }else{
+        $apellido = $_POST["Apellido"];
+      }
+      if(empty($_POST["fNac"])){
+        $errFNac = 'Ingrese su fecha de nacimiento';
+      }else{
+        $fNac = $_POST["fNac"];
+      }
+      if(empty($_POST["Direccion"])){
+        $errDireccion = 'Ingrese su direccion';
+      }else{
+        $direccion = $_POST["Direccion"];
+      }
+      if(empty($_POST["Correo1"])){
+        $errCorreo = 'Ingrese por lo menos un correo';
+      }else{
+        $correo1 = $_POST["Correo1"];
+      }
+      if(empty($_POST["Telefono1"])){
+        $errTelefono = 'Ingrese por lo menos un teléfono';
+      }else{
+        $telefono1 = $_POST["Telefono1"];
+      }
+      if($_POST['tUsuario']= "Aficionado"){
+        $tipo = 1;
+      }else{
+        $tipo = 2;
+      }      
+      $sexo = $_POST['sexo'];
+      $tCounter = $_POST['cantTelefonos'];
+      $cCounter = $_POST['cantCorreos'];
+      if(!$errUsuario && !$errPassword && !$errNombre && !$errTelefono && !$errCorreo && !$errApellido && !$errDireccion && !$errFNac){
+        $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
+        if(!$dbhandle){
+          $result = "Conexión fallida: " . mysqli_conect_error();
+        }else{
+          $sql = "SELECT idPersona FROM persona WHERE Username = '".$usuario."'";
+          $result = mysqli_query($dbhandle, $sql);
+          if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result); 
+            $id = $row["idPersona"];
+          }
+          $sql = "INSERT INTO persona (Username, Password, Nombre, Apellido, Sexo, Fecha_Nacimiento, Direccion, Tipo_usuario_idTipo_usuario) VALUES ('".$usuario."', '".$contraseña."', '".$nombre."', '".$apellido."', '".$sexo."', '".$fNac."', '".$direccion."', ".$tipo.")";
+          if (mysqli_query($dbhandle, $sql)) {
+            $sql = "SELECT idPersona FROM persona WHERE Username = '".$usuario."'";
+            $result = mysqli_query($dbhandle, $sql);
+            if (mysqli_num_rows($result) > 0) {
+              $row = mysqli_fetch_assoc($result); 
+              $id = $row["idPersona"];
+            }
+            $sql = "";
+            $count = 1;
+            while($count<$tCounter){
+              $sql .= "INSERT INTO telefono (telefono, propietario_linea) VALUES ('".$_POST['Telefono'.$count]."',".$id.");";
+              $count++;
+            }
+            $count = 1;
+            while($count<$cCounter){
+              $sql .= "INSERT INTO correo (correo, Persona_idPersona) VALUES ('".$_POST['Correo'.$count]."',".$id.");";
+              $count++;
+            }
+            if (mysqli_multi_query($dbhandle, $sql)) {
+              echo "Se registro el usuario exitosamente";
+              mysqli_close($dbhandle);
+              echo "<script type=\"text/javascript\">document.location.href=\"ingresar.php\";</script>";
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($dbhandle);
+                $sql = "DELETE FROM persona where idPersona = ".$id;
+                if (mysqli_query($dbhandle, $sql)) {
+                  echo "No se logro insertar el usuario";
+                } else {
+                  echo "Error deleting record: " . mysqli_error($dbhandle);
+                }
+            }
+          } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($dbhandle);
+          }
+        } 
+        mysqli_close($dbhandle);
+      }
+    }
+    ?>
 
     <nav class="navbar navbar-default">
       <div class="container">
@@ -51,55 +157,57 @@
     </nav>
     
     <div class="container">
-      <form class="form-registro form-horizontal">
+      <form name="registro" class="form-registro form-horizontal" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <h2 class="text-center">Registrarse</h2>
         <div class="form-group">
           <label for="Usuario">Usuario</label>
-          <input type="text" id="Usuario" class="form-control" placeholder="Usuario" required>
+          <input type="text" id="Usuario" name="Usuario" class="form-control" placeholder="Usuario" required>
         </div>
         <div class="form-group">
           <label for="Password">Contraseña</label>
-          <input type="password" id="Password" class="form-control" placeholder="Password" required>
+          <input type="password" id="Password" name="Password" class="form-control" placeholder="Password" required>
         </div>
         <div class="form-group">
           <label for="Nombre">Nombre</label>
-          <input type="text" id="Nombre" class="form-control" placeholder="Nombre" required>
+          <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Nombre" required>
         </div>
         <div class="form-group">
           <label for="Apellido">Apellido</label>
-          <input type="text" id="Apellido" class="form-control" placeholder="Apellido" required>
+          <input type="text" id="Apellido" name="Apellido" class="form-control" placeholder="Apellido" required>
         </div>
         <div class="form-group">
           <label for="fNac">Fecha de Nacimiento</label>
-          <input type="date" id="fNac" class="form-control" placeholder="Fecha de Nacimiento" required>
+          <input type="date" id="fNac" name="fNac" class="form-control" placeholder="dd/mm/yyyy" required>
         </div>
         <div class="form-group">
           <label for="Direccion">Dirección</label>
-          <input type="text" id="Direccion" class="form-control" placeholder="Dirección" required>
+          <input type="text" id="Direccion" name="Direccion" class="form-control" placeholder="Dirección" required>
         </div>
         <div id="correos">
           <div class="form-group">
             <label for="Correo1">Correo 1</label>
-            <input type="email" id="Correo1" class="form-control" placeholder="Correo1" required>
+            <input type="email" id="Correo1" name="Correo1" class="form-control" placeholder="Correo1" required>
           </div>
         </div>
-        <div class="form-group"><button id="agCor" class="btn btn-info">Agregar Correo</button></div>
+        <h4 id="agCor" class="btn-info text-center" style="height:25px; font-weight:bold; color: white; border-radius: 10px; padding-top:2px">Agregar Correo</h4>
+        <input type="hidden" name="cantCorreos" value="">
         <div id="telefonos">
           <div class="form-group">
             <label for="Telefono1">Teléfono 1</label>
-            <input type="text" id="Telefono1" class="form-control" placeholder="Teléfono1" required>
+            <input type="text" id="Telefono1" name="Telefono1" class="form-control" placeholder="Teléfono1" required>
           </div>
         </div>
-        <div class="form-group"><button id="agTel" class="btn btn-info">Agregar Teléfono</button></div>
+        <h4 id="agTel" class="btn-info text-center" style="height:25px; font-weight:bold; color: white; border-radius: 10px; padding-top:2px">Agregar Teléfono</h4>
+        <input type="hidden" name="cantTelefonos" value="">
         <div class="form-group">
           <label>Sexo</label><br>
-          <label class="radio-inline"><input type="radio" name="sexo" checked>Masculino</label>
-          <label class="radio-inline"><input type="radio" name="sexo">Femenino</label>
+          <label class="radio-inline"><input type="radio" name="sexo" value="Masculino" checked>Masculino</label>
+          <label class="radio-inline"><input type="radio" name="sexo" value="Femenino">Femenino</label>
         </div>
         <div class="form-group">
           <label>Tipo de usuario</label><br>
-          <label class="radio-inline"><input type="radio" name="tUsuario" checked>Aficionado</label>
-          <label class="radio-inline"><input type="radio" name="tUsuario">Ornitólogo</label>
+          <label class="radio-inline"><input type="radio" name="tUsuario" value="Aficionado" checked>Aficionado</label>
+          <label class="radio-inline"><input type="radio" name="tUsuario" value="Ornitólogo">Ornitólogo</label>
         </div>
         <button id="bRegistro" class="btn btn-lg btn-primary btn-block" type="submit">Registrarse</button>
       </form>

@@ -8,17 +8,17 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/ingresar.css" rel="stylesheet">
-    
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/ingresar.js"></script>
-    <script src="js/main.js"></script>
   </head>
   <body>
 
     <?php
+    session_start();
     $usuario = $errUsuario = $contraseña = $errPassword = $result = $script = "";
-   
+    $_SESSION['idPersona'] ="";
+    $_SESSION['usuario'] = "";
     $username = "Administrador";
     $password = "Admin13";
     $hostname = "186.176.166.148:3306";
@@ -30,30 +30,24 @@
         $usuario = $_POST["inputUsuario"];
       }
       if(empty($_POST["inputPassword"])){
-        $errPassword = 'Escriba su password';
+        $errPassword = 'Escriba su contraseña';
       }else{
-        $contraseña = $_POST["inputPassword"];
+        $contraseña = md5($_POST["inputPassword"]);
       }
       if(!$errUsuario && !$errPassword){
-        //connection to the database
         $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
         if(!$dbhandle){
           $result = "Conexión fallida: " . mysqli_conect_error();
-        }else{
-          $result = $usuario;
-          
+        }else{          
           $sql = "SELECT idPersona, Username, Password, Nombre FROM persona where Username = '".$usuario."'";
           $sqlresult = mysqli_query($dbhandle, $sql);
           if (mysqli_num_rows($sqlresult) > 0) {
             $row = mysqli_fetch_assoc($sqlresult);
             if($row["Password"] = $contraseña){
               $result = "Conectado exitosamente";
-              $idUser = $row["idPersona"];
-              $nombreUser = $row["Nombre"];
-              $script = '<script type="text/javascript">'
-              .'declararVariable("'.$nombreUser.'", '.$idUser.');'
-              .'</script>'
-              ;
+              $_SESSION['idPersona'] = $row["idPersona"];
+              $_SESSION['usuario'] = $usuario;
+              echo "<script type=\"text/javascript\">document.location.href=\"crear-album.php\";</script>";
             }else{
               $result = "Contraseña incorrecta!";
             }
@@ -61,6 +55,7 @@
               $result = "No se encontró el usuario!";
           }
         }
+        mysqli_close($dbhandle);
       }
     }
     ?>
@@ -115,7 +110,7 @@
           <input id="submit" name="submit" type="submit" value="Iniciar sesión" class="btn btn-primary">
         </div>
         <div class="form-group">
-          <?php echo $script; ?>
+          <?php echo $script;?>
         </div>
       </form>
     </div>
@@ -128,5 +123,6 @@
         ave capturada en su hábitat y subir fotografías de la misma, logrando así un control más sencillo de las fotografías.</h6>
       </div>
     </footer>
+
   </body>
 </html>
