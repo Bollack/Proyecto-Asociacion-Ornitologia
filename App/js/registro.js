@@ -5,19 +5,12 @@ $(document).ready(function(){
 	var $cCounter = 2;
 	$('#agTel').click(function(){
 		$('#telefonos').append('<div class="form-group"><label name="Telefono'+$tCounter+'" for="Telefono'+$tCounter+'">Teléfono '+$tCounter+'</label><input type="text" id="Telefono'+$tCounter+'" class="form-control" placeholder="Telefono'+$tCounter+'"></div>');
-		document.registro.cantTelefonos.value = $tCounter;
 		$tCounter++;
+		document.registro.cantTelefonos.value = $tCounter;
 	});
 	$('#agCor').click(function(){
 		$('#correos').append('<div class="form-group"><label name="Correo'+$cCounter+'" for="Correo'+$cCounter+'">Correo '+$cCounter+'</label><input type="text" id="Correo'+$cCounter+'" class="form-control" placeholder="Correo'+$cCounter+'"></div>');
-		document.registro.cantCorreos.value = $cCounter;
 		$cCounter++;
+		document.registro.cantCorreos.value = $cCounter;
 	});
 });
-function setNav(pNumber){
-	if(pNumber==1){
-		$("#der-nav").prepend("<li><a href='perfil.php'>Mi perfil</a></li>");
-	}else{
-		$("#der-nav").prepend("<li><a href='ingresar.php'>Ingresar</a></li>");
-	}
-}
