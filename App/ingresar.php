@@ -129,16 +129,19 @@
         <div class="form-group">
           <input id="submit" name="submit" type="submit" value="Iniciar sesión" class="btn btn-primary">
         </div>
+        <!--<div class="form-group"> -->
+          <img class="img-responsive" src="Images/Ave_Fondo.jpeg"/>
+        <!--</div> -->
         
       </form>
     </div>
 
     <footer class="footer">
       <div class="container">
-        <h6 class="text-center">Hidden Bird es una plataforma web diseñada por estudiantes del Instituto Tecnológico de Costa Rica que le
+        <h5 class="text-center">Hidden Bird es una plataforma web diseñada por estudiantes del Instituto Tecnológico de Costa Rica que le
         permite a personas aficionadas a la ornitología como a ornitólogos llevar su registro de fotografías de las
         distintas especies de aves presentes en Costa Rica. La plataforma le permite al usuario manejar álbumes de un
-        ave capturada en su hábitat y subir fotografías de la misma, logrando así un control más sencillo de las fotografías.</h6>
+        ave capturada en su hábitat y subir fotografías de la misma, logrando así un control más sencillo de las fotografías.</h5>
       </div>
     </footer>
 
