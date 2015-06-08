@@ -201,8 +201,8 @@
     <script src="js/crear-album.js"></script>
     <?php
       $usuario = $errUsuario = $contraseña = $errPassword = $errNombre = $nombre = $errApellido = $apellido = $errFNac = $fNac = $errDireccion = $direccion = $errCorreo = $correo1 = $errTelefono = $telefono1 = $sexo = $tipo = $result = $script = "";
-      $username = "Administrador";
-      $password = "Admin13";
+      $username = "Usuario";
+      $password = "user123E";
       $hostname = "186.176.166.148:3306";
       $myDB = "hidden_bird";
       $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
