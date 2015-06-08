@@ -8,6 +8,10 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/registro.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/registro.js"></script>
+    <script src="js/main.js"></script>
   </head>
   <body>
 
@@ -38,8 +42,7 @@
             <li><a href="estadisticas.php">Estadísticas</a></li>
           </ul>
 
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="ingresar.php">Ingresar</a></li>
+          <ul class="nav navbar-nav navbar-right" id="der-nav">
             <li><a href="registro.php">Registrarse</a></li>
             <li style="margin-top:8px;"><button type="button" class="btn btn-default">Log Out</button></li>
           </ul>
@@ -102,8 +105,6 @@
       </form>
     </div>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/registro.js"></script>
+    
   </body>
 </html>

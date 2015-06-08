@@ -8,11 +8,16 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/ingresar.css" rel="stylesheet">
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/ingresar.js"></script>
+    <script src="js/main.js"></script>
   </head>
   <body>
 
     <?php
-    $usuario = $errUsuario = $contraseña = $errPassword = $result = "";
+    $usuario = $errUsuario = $contraseña = $errPassword = $result = $script = "";
    
     $username = "Administrador";
     $password = "Admin13";
@@ -35,17 +40,25 @@
         if(!$dbhandle){
           $result = "Conexión fallida: " . mysqli_conect_error();
         }else{
-          $result = "Conexión exitosa";
-          $sql = "SELECT idZonaVida FROM zonavida where idZonaVida =1";
+          $result = $usuario;
+          
+          $sql = "SELECT idPersona, Username, Password, Nombre FROM persona where Username = '".$usuario."'";
           $sqlresult = mysqli_query($dbhandle, $sql);
-
           if (mysqli_num_rows($sqlresult) > 0) {
-              // output data of each row
-              while($row = mysqli_fetch_assoc($sqlresult)) {
-                  echo "id: " . $row["idZonaVida"]."<br>";
-              }
+            $row = mysqli_fetch_assoc($sqlresult);
+            if($row["Password"] = $contraseña){
+              $result = "Conectado exitosamente";
+              $idUser = $row["idPersona"];
+              $nombreUser = $row["Nombre"];
+              $script = '<script type="text/javascript">'
+              .'declararVariable("'.$nombreUser.'", '.$idUser.');'
+              .'</script>'
+              ;
+            }else{
+              $result = "Contraseña incorrecta!";
+            }
           } else {
-              echo "0 results";
+              $result = "No se encontró el usuario!";
           }
         }
       }
@@ -77,8 +90,7 @@
             <li><a href="estadisticas.php">Estadísticas</a></li>
           </ul>
 
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="ingresar.php">Ingresar</a></li>
+          <ul class="nav navbar-nav navbar-right" id="der-nav">
             <li><a href="registro.php">Registrarse</a></li>
             <li style="margin-top:8px;"><button type="button" class="btn btn-default">Log Out</button></li>
           </ul>
@@ -103,7 +115,7 @@
           <input id="submit" name="submit" type="submit" value="Iniciar sesión" class="btn btn-primary">
         </div>
         <div class="form-group">
-          <?php echo $result; ?>
+          <?php echo $script; ?>
         </div>
       </form>
     </div>
@@ -116,9 +128,5 @@
         ave capturada en su hábitat y subir fotografías de la misma, logrando así un control más sencillo de las fotografías.</h6>
       </div>
     </footer>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/ingresar.js"></script>
   </body>
 </html>
