@@ -134,6 +134,9 @@ WHERE idPersona=idpersonaUser;
 RETURN edad;
 END; #CREADA
 °°
+SELECT TIMESTAMPDIFF(YEAR,fecha_nacimiento,CURDATE()) AS edad FROM Persona WHERE idPersona=1;
+
+
 Delimiter °°
 °°
 SELECT Nombre, getIDFromUsername(username)

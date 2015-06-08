@@ -4,7 +4,7 @@
 
 Delimiter °°
 
-CREATE FUNCTION getNumberUsers()
+CREATE FUNCTION getNumberUsers() #CREADA Y PROBADA
 RETURNS INT
 BEGIN
 	DECLARE numero INT;
@@ -17,7 +17,7 @@ END #CREADA
 °°
 Delimiter °°
 °°
-CREATE FUNCTION getNumberAvesByPersona(pIDUsuario INT)     #creada
+CREATE FUNCTION getNumberAvesByPersona(pIDUsuario INT)    #CREADA Y PROBADA
 RETURNS INT
 BEGIN 
 	DECLARE numeroAves INT;
@@ -31,7 +31,7 @@ END;
 
 Delimiter °°
 °°
-CREATE FUNCTION getTamanoFromID(pIdTamano INT)
+CREATE FUNCTION getTamanoFromID(pIdTamano INT) #CREADA Y PROBADA
 RETURNS VARCHAR(30)
 BEGIN
 	DECLARE tamanoR VARCHAR(30);
@@ -67,7 +67,7 @@ FROM especie;
 
 Delimiter °°
 °°
-CREATE FUNCTION getNumberAvesByZonaVida(pZonaVida INT) #CREADA
+CREATE FUNCTION getNumberAvesByZonaVida(pZonaVida INT) #CREADA Y PROBADA
 RETURNS INT
 BEGIN
 	DECLARE avesNum INT;
@@ -87,7 +87,7 @@ ORDER BY getNumberAvesByZonaVida(idZonaVida) DESC;
 
 Delimiter °°
 °°
-CREATE FUNCTION getNumberAvesByTamano(pTamanoID INT) #CREADA
+CREATE FUNCTION getNumberAvesByTamano(pTamanoID INT) #CREADA Y PROBADA
 RETURNS INT
 BEGIN
 	DECLARE avesNum INT;
@@ -101,9 +101,9 @@ END;
 °°
 DROP FUNCTION getNumberAvesByTamano;
 
-SELECT getTamanoFromID(idZonaVida), getNumberAvesByTamano(idZonaVida)
-FROM zonavida
-ORDER BY getNumberAvesByTamano(idZonaVida) DESC;
+SELECT getTamanoFromID(idTamano), getNumberAvesByTamano(idTamano)
+FROM Tamano
+ORDER BY getNumberAvesByTamano(idTamano) DESC;
 
 
 
@@ -114,16 +114,7 @@ ORDER BY getNumberAvesByPersona(idPersona) desc;
 insert_ave_album  (IN pUserID INT, IN pNombre VARCHAR(120), IN pDescripcion VARCHAR(200), IN especie VARCHAR(100), IN Canton VARCHAR(75), IN Color VARCHAR(40))
 CALL insert_ave_album(1, 'Ave que me encontré','Good Night','Incertae Sedis', 'Curridabat', 'Azul');
 
-Delimiter °°
-°°
-CREATE FUNCTION avesPorZonaVida(pID INT)
-°°
 
-
-Delimiter °°
-°°
-
-°°
 
 Delimiter °°
 °°

@@ -90,12 +90,14 @@
             $sql = "";
             $count = 1;
             while($count<$tCounter){
-              $sql .= "INSERT INTO telefono (telefono, propietario_linea, usuario_creacion, usuario_modificacion) VALUES ('".$_POST['Telefono'.$count]."',".$id.",'".$usuario."','".$usuario."');";
+              //$sql .= "INSERT INTO telefono (telefono, propietario_linea, usuario_creacion, usuario_modificacion) VALUES ('".$_POST['Telefono'.$count]."',".$id.",'".$usuario."','".$usuario."');";
+              $sql.="CALL AddTelToUser(".$id.",'".$_POST['Telefono'.$count]."');";
               $count++;
             }
             $count = 1;
             while($count<$cCounter){
-              $sql .= "INSERT INTO correo (correo, Persona_idPersona, usuario_creacion, usuario_modificacion) VALUES ('".$_POST['Correo'.$count]."',".$id.",'".$usuario."','".$usuario."');";
+              //$sql .= "INSERT INTO correo (correo, Persona_idPersona, usuario_creacion, usuario_modificacion) VALUES ('".$_POST['Correo'.$count]."',".$id.",'".$usuario."','".$usuario."');";
+              $sql.="CALL AddCorreoToUser(".$id.",'".$_POST['Correo'.$count]."');";
               $count++;
             }
             if (mysqli_multi_query($dbhandle, $sql)) {
