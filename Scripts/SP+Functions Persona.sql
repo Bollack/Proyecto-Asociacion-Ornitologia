@@ -1,19 +1,34 @@
 Delimiter °°
 
-USE `Hidden_bird` °°
-CREATE PROCEDURE Insert_Persona(IN pNombre VARCHAR(50), IN pApellido VARCHAR(60), 
+USE `Hidden_bird` °° 
+CREATE PROCEDURE Insert_Persona(IN pNombre VARCHAR(50), IN pApellido VARCHAR(60),     #CREADO
 								IN fechaNacimiento DATE, IN pDireccion VARCHAR(100), In pSexo VARCHAR(40), IN tipoUser INT, 
                                 IN pUsername VARCHAR(45), IN pPassword VARCHAR(100)) 
 	BEGIN
-		DECLARE EXIT HANDLER  FOR SQLEXCEPTION  ROLLBACK;
-		START TRANSACTION;
+		DECLARE EXIT HANDLER  FOR SQLEXCEPTION
 		INSERT INTO Persona (username, Password, Nombre, Apellido, Direccion,  Sexo, Fecha_Nacimiento, Tipo_Usuario)
 							VALUES (pUsername, pNombre, pApellido, pDireccion, pSexo, pFechaNacimiento, ptipoUser);
+    END;  
+°°
+DROP PROCEDURE Insert_Persona;
 
-        COMMIT;
-    END;  #CREADO
+Delimiter °°
+°°
+CREATE PROCEDURE Insert_Persona_Tel_Correo(IN pNombre VARCHAR(50), IN pApellido VARCHAR(60),                                                       #CREADO
+								IN fechaNacimiento DATE, IN pDireccion VARCHAR(100), In pSexo VARCHAR(40), IN tipoUser INT, 
+                                IN pUsername VARCHAR(45), IN pPassword VARCHAR(100),IN pCorreo VARCHAR(100), IN pTelefono VARCHAR(20))
+BEGIN
+	DECLARE idUser INT;
+	START TRANSACTION;
+	INSERT INTO Persona (username, Password, Nombre, Apellido, Direccion,  Sexo, Fecha_Nacimiento, Tipo_Usuario)
+					VALUES (pUsername, pNombre, pApellido, pDireccion, pSexo, pFechaNacimiento, ptipoUser);
+	SET idUser = getIDFromUsername(pUsername);
+    CALL AddTelToUser(idUser, pTelefono);
+    CALL AddCorreoToUser(idUser,pCorreo);
+END;
 
 °°
+
 
 
 Delimiter °°
@@ -24,6 +39,8 @@ CREATE PROCEDURE AddTelToUser(IN pIDUser INT, IN pTelefono VARCHAR(20))
 		INSERT INTO Telefono(telefono, propietario_linea, usuario_creacion, usuario_modificacion)
 					VALUES(pTelefono, pIDUser, getUsernameFromID(pIDUser), getUsernameFromID(pIDUser));
     END; #CREADO
+    
+    
 
 °°
 Delimiter °°

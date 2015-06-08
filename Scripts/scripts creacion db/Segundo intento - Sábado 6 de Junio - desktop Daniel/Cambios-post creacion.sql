@@ -62,3 +62,14 @@ ADD CONSTRAINT `fk_Tipo_Ave_Tipo_Huevos1`
   REFERENCES `hidden_bird`.`tipo_huevos` (`idTipo_Huevos`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+  
+  
+ALTER TABLE `hidden_bird`.`ave` 
+ADD COLUMN `color` INT NOT NULL AFTER `nombre_album`,
+ADD INDEX `fk_Ave_Color1_idx` (`color` ASC);
+ALTER TABLE `hidden_bird`.`ave` 
+ADD CONSTRAINT `fk_Ave_Color1`
+  FOREIGN KEY (`color`)
+  REFERENCES `hidden_bird`.`color` (`Color_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

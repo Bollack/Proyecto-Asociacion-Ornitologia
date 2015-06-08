@@ -16,7 +16,41 @@ END #CREADA
 
 °°
 Delimiter °°
+°°
+CREATE FUNCTION getNumberAvesByPersona(pIDUsuario INT)     #creada
+RETURNS INT
+BEGIN 
+	DECLARE numeroAves INT;
+	SELECT Count(1)
+    INTO numeroAves
+    FROM Ave
+    WHERE Persona_idPersona=pIDUsuario;
+    RETURN numeroAves;
+END;
 
+
+°°
+
+Delimiter °°
+°°
+CREATE FUNCTION avesPorZonaVida(pID INT)
+°°
+
+
+Delimiter °°
+°°
+
+°°
+
+Delimiter °°
+°°
+
+°°
+
+Delimiter °°
+°°
+
+°°
 CREATE PROCEDURE ChangeBodyEmail (IN pCuerpo VARCHAR(300))
 BEGIN
 	UPDATE 
