@@ -69,6 +69,8 @@
             <input id="lefile" type="file" accept=".xls,.xlsx" style="display:none">
             <div class="input-append">
             <input id="archivoExcel" class="input-large" type="text">
+
+            <button id="bRegistro" class="btn btn-lg btn-primary btn-block" type="submit">Subir álbum</button>
             <a class="btn" onclick="$('input[id=lefile]').click();">Seleccionar archivo</a>
         
      
