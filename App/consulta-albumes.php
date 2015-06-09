@@ -68,7 +68,47 @@
       </div>
     </nav>
     
-    <div class="contenedor" style="600px;margin:auto;">
+    <div class="contenedor" style="width:600px;margin:auto;">
+      <form id="form" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
+        <h1 class="text-center">Búsqueda de álbumes registrados</h1>
+        <div class="form-group">
+          <label>Tipo de pico:</label><br>
+          <select class="form-control col-md-8" id="Pico" name="Pico">
+            <option value="NA">No importa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Color:</label><br>
+          <select class="form-control col-md-8" id="Color" name="Color">
+            <option value="NA">No importa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Cantidad de huevos:</label><br>
+          <select class="form-control col-md-8" id="cHuevos" name="cHuevos">
+            <option value="NA">No importa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Zona de vida:</label><br>
+          <select class="form-control col-md-8" id="Zona" name="Zona">
+            <option value="NA">No importa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tamaño:</label><br>
+          <select class="form-control col-md-8" id="Tamano" name="Tamano">
+            <option value="NA">No importa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Por persona:</label><br>
+          <select class="form-control col-md-8" id="Persona" name="Persona">
+            <option value="NA">No importa</option>
+          </select>
+        </div>
+        <button id="busqueda" class="btn btn-lg btn-primary btn-block" type="submit">Buscar</button>
+      </form>
       <div id="fotos">
         <h1>Álbumes</h1>
 
@@ -77,6 +117,70 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/consulta-albumes.js"></script>
-    
+    <?php
+      $username = "Usuario";
+      $password = "user123E";
+      $hostname = "186.176.166.148:3306";
+      $myDB = "hidden_bird";
+      $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
+      if(!$dbhandle){
+        $result = "Conexión fallida: " . mysqli_conect_error();
+      }else{
+        $sql = "SELECT Color FROM color";
+        $sqlresult = mysqli_query($dbhandle, $sql);
+        if(mysqli_num_rows($sqlresult)>0){
+          while($row = mysqli_fetch_assoc($sqlresult)){
+            $color = $row['Color'];
+            echo "<script type=\"text/javascript\">document.getElementById('Color').innerHTML = document.getElementById('Color').innerHTML + \"<option value='".$color."'>".$color."</option>\"</script>";
+          }
+        }
+
+        $sql = "SELECT Forma_Pico FROM forma_pico";
+        $sqlresult = mysqli_query($dbhandle, $sql);
+        if(mysqli_num_rows($sqlresult)>0){
+          while($row = mysqli_fetch_assoc($sqlresult)){
+            $pico = $row['Forma_Pico'];
+            echo "<script type=\"text/javascript\">document.getElementById('Pico').innerHTML = document.getElementById('Pico').innerHTML + \"<option value='".$pico."'>".$pico."</option>\"</script>";
+          }
+        }
+
+        $sql = "SELECT numero_huevos FROM cantidad_huevos";
+        $sqlresult = mysqli_query($dbhandle, $sql);
+        if(mysqli_num_rows($sqlresult)>0){
+          while($row = mysqli_fetch_assoc($sqlresult)){
+            $cHuevos = $row['numero_huevos'];
+            echo "<script type=\"text/javascript\">document.getElementById('cHuevos').innerHTML = document.getElementById('cHuevos').innerHTML + \"<option value='".$cHuevos."'>".$cHuevos."</option>\"</script>";
+          }
+        }
+
+        $sql = "SELECT Zona FROM zonavida";
+        $sqlresult = mysqli_query($dbhandle, $sql);
+        if(mysqli_num_rows($sqlresult)>0){
+          while($row = mysqli_fetch_assoc($sqlresult)){
+            $zona = $row['Zona'];
+            echo "<script type=\"text/javascript\">document.getElementById('Zona').innerHTML = document.getElementById('Zona').innerHTML + \"<option value='".$zona."'>".$zona."</option>\"</script>";
+          }
+        }
+
+        $sql = "SELECT Tamano FROM tamano";
+        $sqlresult = mysqli_query($dbhandle, $sql);
+        if(mysqli_num_rows($sqlresult)>0){
+          while($row = mysqli_fetch_assoc($sqlresult)){
+            $tamano = $row['Tamano'];
+            echo "<script type=\"text/javascript\">document.getElementById('Tamano').innerHTML = document.getElementById('Tamano').innerHTML + \"<option value='".$tamano."'>".$tamano."</option>\"</script>";
+          }
+        }
+
+        /*$sql = "SELECT Nombre, Apellido, idPersona FROM persona";
+        $sqlresult = mysqli_query($dbhandle, $sql);
+        if(mysqli_num_rows($sqlresult)>0){
+          while($row = mysqli_fetch_assoc($sqlresult)){
+            $tamano = $row['Tamano'];
+            echo "<script type=\"text/javascript\">document.getElementById('Tamano').innerHTML = document.getElementById('Tamano').innerHTML + \"<option value='".$tamano."'>".$tamano."</option>\"</script>";
+          }
+        }*/
+
+      }
+    ?>
   </body>
 </html>

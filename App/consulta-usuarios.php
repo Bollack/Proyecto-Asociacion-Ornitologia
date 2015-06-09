@@ -84,7 +84,7 @@
           <label class="checkbox-inline"><input type="checkbox" name="fNac" id="fNac" value="Fecha_Nacimiento">Fecha de nacimento</label>
           <label class="checkbox-inline"><input type="checkbox" name="Direccion" id="Direccion" value="Direccion">Dirección</label>
         </div>
-        <button id="busqueda" class="btn btn-lg btn-primary btn-block" type="submit">Busqueda</button>
+        <button id="busqueda" class="btn btn-lg btn-primary btn-block" type="submit">Buscar</button>
       </form>
       
       <div id="personas" style="margin-top:25px">
