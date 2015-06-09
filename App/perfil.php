@@ -100,12 +100,17 @@
         <h1>Álbumes</h1>
 
       </div>
+      <div id="footer">
+      </div>
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/perfil.js"></script>
     <?php
-      $id = (isset($_GET['id']) ? $_GET['id']:$_SESSION['idPersona']);    
+      $id = (isset($_GET['id']) ? $_GET['id']:$_SESSION['idPersona']);
+      if(isset($_GET['return'])){
+        echo "<script type='text/javascript'>document.getElementById('footer').innerHTML = document.getElementById('footer').innerHTML + '<a href=".$_GET['return']." style=\"width=350px;margin:auto;\"><input type=\"button\" id=\"regreso\" class=\"btn btn-lg btn-primary btn-block\" style=\"width:350px;margin:auto;\" value=\"Regresar\"></a>'</script>";
+      }
       $username = "Usuario";
       $password = "user123E";
       $hostname = "186.176.166.148:3306";
@@ -140,10 +145,10 @@
             $sql2 = "SELECT url FROM foto WHERE Ave_idAve = ".$row['idAve'];
             $sqlresult2 = mysqli_query($dbhandle, $sql2);
             $row2 = mysqli_fetch_assoc($sqlresult2);
-            echo "<script type='text/javascript'>document.getElementById('fotos').innerHTML = document.getElementById('fotos').innerHTML + '<div class=\"col-sx-6 col-md-4\"><div class=\"thumbnail\"><img src=\"".$row2['url']."\" alt=\"Not found\"><div class=\"caption\"><h3>".$row['nombre_album']."</h3><p>".$row['Descripcion']."</p><button type=\"button\" id=\"album\" class=\"btn btn-lg btn-primary btn-block\" type=\"submit\" value=\"".$row['nombre_album']."\">Ver Album</button></div></div></div>'</script>";
+            echo "<script type='text/javascript'>document.getElementById('fotos').innerHTML = document.getElementById('fotos').innerHTML + '<div class=\"col-sx-6 col-md-4\"><div class=\"thumbnail\"><img src=\"".$row2['url']."\" alt=\"Not found\"><div class=\"caption\"><h3>".$row['nombre_album']."</h3><p>".$row['Descripcion']."</p><button type=\"button\" id=\"album\" class=\"btn btn-lg btn-info btn-block\" type=\"submit\" value=\"".$row['nombre_album']."\">Ver Album</button></div></div></div>'</script>";
             }
           }else{
-            echo "<script type='text/javascript'>document.getElementById('fotos').innerHTML = document.getElementById('fotos').innerHTML + '<h3>Usted no tiene álbumes.</h3>'</script>";
+            echo "<script type='text/javascript'>document.getElementById('fotos').innerHTML = document.getElementById('fotos').innerHTML + '<h3>No tiene álbumes.</h3>'</script>";
           }
       }
     ?>

@@ -68,7 +68,7 @@
       </div>
     </nav>
     
-    <div class="contenedor">
+    <div class="contenedor" style="600px;margin:auto;">
       <div id="fotos">
         <h1>Álbumes</h1>
 

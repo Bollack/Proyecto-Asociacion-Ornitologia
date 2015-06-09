@@ -10,9 +10,6 @@
     <link href="css/consulta-usuarios.css" rel="stylesheet">
   </head>
   <body>
-
-    
-
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
@@ -73,7 +70,7 @@
     
     <div class="contaier" style="width:600px;margin:auto;">
       <form id="form" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
-        <h1 class="text-center">Usuarios registrados</h1>
+        <h1 class="text-center">Búsqueda de usuarios registrados</h1>
         <label>Tipo de usuario:</label><br>
         <div class="form-group">          
           <label class="checkbox-inline"><input type="checkbox" name="Aficionado" id="Aficionado" value="1" checked>Aficionado</label>
@@ -154,33 +151,36 @@
           $script = "";
           $sqlresult = mysqli_query($dbhandle, $sql);
           while($row = mysqli_fetch_assoc($sqlresult)){
-            $script .= "<script type='text/javascript'>document.getElementById('personas').innerHTML = document.getElementById('personas').innerHTML + '<div style=\"width:600px;\" class=\"col-sx-6 col-md-4 persona\" value=\"".$row['idPersona']."\"><div class=\"thumbnail\"><div class=\"caption\"><h4>Usuario: ".$row['Username']."</h4>";
+            $script = "<script type='text/javascript'>document.getElementById('personas').innerHTML = document.getElementById('personas').innerHTML + '<div style=\"width:600px;\" class=\"col-sx-6 col-md-4 persona\" value=\"".$row['idPersona']."\"><div class=\"thumbnail\"><div class=\"caption\"><button type=\"button\" class=\"btn btn-lg btn-info btn-block persona\" type=\"submit\" value=\"".$row['idPersona']."\"> Usuario:".$row['Username']."<br>";
             if($nombre==10){
-              $script .=  "<h4>Nombre: ".$row['Nombre']."</h4>";
+              $script .=  "Nombre: ".$row['Nombre']."<br>";
             }
             if($apellido==10){
-              $script .=  "<h4>Apellido: ".$row['Apellido']."</h4>";
+              $script .=  "Apellido: ".$row['Apellido']."";
             }
             if($sexo==10){
-              $script .=  "<h4>Sexo: ".$row['Sexo']."</h4>";
+              $script .=  "Sexo: ".$row['Sexo']."<br>";
             }
             if($fecha==10){
-              $script .=  "<h4>Fecha de Nacimiento: ".$row['Fecha_Nacimiento']."</h4>";
+              $script .=  "Fecha de Nacimiento: ".$row['Fecha_Nacimiento']."<br>";
             }
             if($direccion==10){
-              $script .=  "<h4>Dirección: ".$row['Direccion']."</h4>";
+              $script .=  "Dirección: ".$row['Direccion']."<br>";
             }
             if($row['Tipo_usuario_idTipo_usuario']==1){
-              $script .=  "<h4>Tipo de usuario: Aficionado</h4>";
+              $script .=  "Tipo de usuario: Aficionado";
             }
             if($row['Tipo_usuario_idTipo_usuario']==2){
-              $script .=  "<h4>Tipo de usuario: Ornitólogo</h4>";
+              $script .=  "Tipo de usuario: Ornitólogo";
             }
             if($row['Tipo_usuario_idTipo_usuario']==3){
-              $script .=  "<h4>Tipo de usuario: Administrador</h4>";
+              $script .=  "Tipo de usuario: Administrador";
             }
-            $script .=  "</div></div></div>'</script>";
+            $script .=  "</button></div></div></div>'</script>";
             echo $script;
+          }
+          if($script=""){
+            echo "<script type='text/javascript'>document.getElementById('persona').innerHTML = document.getElementById('persona').innerHTML + '<h4>No se encontraron resultados para su busqueda.</h4>'</script>";
           }
         }
       }
