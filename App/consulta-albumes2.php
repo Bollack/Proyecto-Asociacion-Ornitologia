@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <meta charset="utf-8">
+	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Consulta de álbumes</title>
@@ -10,7 +10,7 @@
     <link href="css/consulta-albumes.css" rel="stylesheet">
   </head>
   <body>
-    <nav class="navbar navbar-default">
+  	<nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -108,7 +108,7 @@
         </div>
         <button id="busqueda" style="margin-top:15px" class="btn btn-lg btn-primary btn-block" type="submit">Buscar</button>
       </form>
-      <div id="fotos" style="width: 600px; margin-top:15px">
+      <div id="fotos">
 
       </div>
     </div>
@@ -187,17 +187,15 @@
           $tamano = $_POST['Tamano'];
           $persona = $_POST['Persona'];
 
-          $sql = "SELECT  Descripcion, nombre_album, Especie_idEspecie, Persona_idPersona, color, idAve FROM ave";
+          $sql = "SELECT Especie_idEspecie, Persona_idPersona, color, idAve FROM ave";
           $sqlresult = mysqli_query($dbhandle, $sql);
           if(mysqli_num_rows($sqlresult)>0){
-            while($row = mysqli_fetch_assoc($sqlresult)){
-              $vPico = $vColor = $vCHUevos = $vZona = $vTamano = $vPersona = false;
+          	while($row = mysqli_fetch_assoc($sqlresult)){
+          	  $vPico = $vColor = $vCHUevos = $vZona = $vTamano = $vPersona = false;
               $especie = $row['Especie_idEspecie'];
               $dueno = $row['Persona_idPersona'];
               $colorORG = $row['color'];
               $id = $row['idAve'];
-              $descripcion = $row['Descripcion'];
-              $nombre = $row['nombre_album'];
               $sql = "SELECT ZonaVida_idZonaVida, Tamano_idTamano, numero_huevos_idnumero_huevos, Forma_Pico_idForma_Pico FROM especie WHERE idEspecie = ".$especie;
               $sqlresult = mysqli_query($dbhandle, $sql);
               $row = mysqli_fetch_assoc($sqlresult);
@@ -214,7 +212,7 @@
               if($cHuevos=="NA" || $cHuevos==$row['numero_huevos_idnumero_huevos']){
                 $vCHUevos = true;
               }else{
-                $vCHUevos = false;
+                $vCHUevos = true;
               }
               if($zona=="NA" || $zona==$row['ZonaVida_idZonaVida']){
                 $vZona = true;
@@ -231,13 +229,16 @@
               }else{
                 $vPersona = false;
               }
-              if($vPico==true && $vColor==true && $vCHUevos==true && $vZona==true && $vTamano==true && $vPersona==true){
-                $sql = "SELECT url FROM foto WHERE Ave_idAve = ".$id;
-                $sqlresult = mysqli_query($dbhandle, $sql);
-                $row = mysqli_fetch_assoc($sqlresult);
-                echo "<script type='text/javascript'>document.getElementById('fotos').innerHTML = document.getElementById('fotos').innerHTML + '<div class=\"col-sx-6 col-md-4\"><div class=\"thumbnail\"><img src=\"".$row['url']."\" alt=\"Not found\"><div class=\"caption\"><h3>".$nombre."</h3><p>".$descripcion."</p><button type=\"button\" id=\"album\" class=\"btn btn-lg btn-info btn-block\" type=\"submit\" value=\"".$nombre."\">Ver Album</button></div></div></div>'</script>";
+              if($vPico && $vColor && $vCHUevos && $vZona && $vTamano && $vPersona){
+              	$sql = "SELECT Descripcion, nombre_album FROM ave WHERE idAve = ".$id;
+              	$sqlresult = mysqli_query($dbhandle, $sql);
+              	$row = mysqli_fetch_assoc($sqlresult);
+              	$sql2 = "SELECT url FROM foto WHERE Ave_idAve = ".$id;
+	            $sqlresult2 = mysqli_query($dbhandle, $sql2);
+	            $row2 = mysqli_fetch_assoc($sqlresult2);
+	            echo "<script type='text/javascript'>document.getElementById('fotos').innerHTML = document.getElementById('fotos').innerHTML + '<div class=\"col-sx-6 col-md-4\"><div class=\"thumbnail\"><img src=\"".$row2['url']."\" alt=\"Not found\"><div class=\"caption\"><h3>".$row['nombre_album']."</h3><p>".$row['Descripcion']."</p><button type=\"button\" id=\"album\" class=\"btn btn-lg btn-info btn-block\" type=\"submit\" value=\"".$row['nombre_album']."\">Ver Album</button></div></div></div>'</script>";
               }
-            }
+          	}
           }
         }
       }
