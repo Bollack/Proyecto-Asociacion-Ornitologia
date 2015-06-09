@@ -40,7 +40,7 @@ CREATE PROCEDURE AddTelToUser(IN pIDUser INT, IN pTelefono VARCHAR(20))
 					VALUES(pTelefono, pIDUser, getUsernameFromID(pIDUser), getUsernameFromID(pIDUser));
     END; #CREADO
     
-    
+SELECT SQL_MODE;
 
 °°
 Delimiter °°

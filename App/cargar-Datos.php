@@ -17,113 +17,69 @@
 
 
 
-    <?php
+    
+      <?php
 
-      
-      echo "<script type='text/javascript'>alert()</script>";
 
-      error_reporting(E_ALL);
-        ini_set('display_errors', TRUE);
-        ini_set('display_startup_errors', TRUE);
-
-        define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-
-        /** Include PHPExcel */
-        require_once dirname(__FILE__) . '/../Classes/PHPExcel/IOFactory.php';
-
-        /*Funciones que se activarán dependiendo de la opción que haya elegido
-          el usuario. Cada una se activa para cada tablar a importar.
-        */
-        function orden_import(PHPExcel $mainObject)
+          
+        function orden_import()
         {
-          $nombreArchivo ="OrdenAves_HiddenBird";
-          $descripcionArchivo = "En este archivo xlsx se encuentran los datos necesarios para cargar en otra base de datos
-                                 los datos de la tabla Orden."
-          $mainObject->getProperties()->setCreator("Hidden Bird")
-                       ->setLastModifiedBy("Hidden Bird")
-                       ->setTitle($nombreArchivo)
-                       ->setSubject($nombreArchivo)
-                       ->setDescription($descripcionArchivo)
-                       ->setKeywords("Progra_Bases_Good_Night")
-                       ->setCategory("Data export");
-          $mainObject->getActiveSheet()->setTitle($nombreArchivo);
-          $mainObject->setActiveSheetIndex(0);
+          $mainObject = new PHPExcel();
 
-          $hojaActual$mainObject->worksheet
-                  foreach ($worksheet->getRowIterator() as $row) {
+          foreach($mainObject->getWorksheetIterator()->getRowIterator() as $row) {
+
             echo '    Row number - ' , $row->getRowIndex() , EOL;
 
             $cellIterator = $row->getCellIterator();
             $cellIterator->setIterateOnlyExistingCells(false); // Loop all cells, even if it is not set
             foreach ($cellIterator as $cell) {
               if (!is_null($cell)) {
-                echo '        Cell - ' , $cell->getCoordinate() , ' - ' , $cell->getCalculatedValue() , EOL;
+                echo 'Cell - ' , $cell->getCoordinate() , ' - ' , $cell->getCalculatedValue() , EOL;
+                }
               }
             }
           }
-        }
+            $username = "Administrador";
+            $password = "Admin13";
+            $hostname = "186.176.166.148:3306";
+            $myDB = "hidden_bird";
+            $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
+            if(!$dbhandle){
+                echo "<script type='text/javascript'>alert( 'Conexión Fallida. Intente de nuevo más tarde: mysqli_connect()->error')</script>";
+            }else{
+                if($_SERVER["REQUEST_METHOD"] == "POST"){
+                    if(isset($_POST['Afficionado'])){
+                      $a = true;
+                    }
+                    if(isset($_POST['Ornitologo'])){
+                      $o = true;
+                    }
+                    $sql = "SELECT Username";
+                    if(isset($_POST['Nombre'])){
+                      $n = true;
+                      $sql .= ", Nombre";
+                    }
+                    if(isset($_POST['Apellido'])){
+                      $ap = true;
+                      $sql .= ", Apellido";
+                    }
+                    if(isset($_POST['Sexo'])){
+                      $s = true;
+                      $sql .= ", Sexo";
+                    }
+                    if(isset($_POST['fNac'])){
+                      $f = true;
+                      $sql .= ", Fecha_Nacimiento";
+                    }
+                    if(isset($_POST['Direccion'])){
+                      $d = true;
+                      $sql .= ", Direccion";
+                    }
+
+              }
 
 
-
-
-
-
-        */
-        // Create new PHPExcel object
-        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-        $objPHPExcel = $objReader->load("05featuredemo.xlsx");
-
-
-
-
-        // Add some data
-        echo date('H:i:s') , " Add some data" , EOL;
-        $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'persona_id')
-                    ->setCellValue('B1', 'nombre')
-                    ->setCellValue('C1', 'Apellido')
-                    ->setCellValue('D1', 'Good Night')
-                    ->setCellValue('E1', 'Tipo_usuario_id');
-
-
-
-        $objPHPExcel->getActiveSheet()->setCellValue('A8',"Hello\nWorld");
-        $objPHPExcel->getActiveSheet()->getRowDimension(8)->setRowHeight(-1);
-        $objPHPExcel->getActiveSheet()->getStyle('A8')->getAlignment()->setWrapText(true);
-
-
-
-        // Rename worksheet
-        echo date('H:i:s') , " Rename worksheet" , EOL;
-        $objPHPExcel->getActiveSheet()->setTitle('Simple');
-
-
-        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $objPHPExcel->setActiveSheetIndex(0);
-
-
-        // Redirect output to a client’s web browser (Excel2007)
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename=$nombreArchivo');
-        header('Cache-Control: max-age=0');
-        // If you're serving to IE 9, then the following may be needed
-        header('Cache-Control: max-age=1');
-
-        // If you're serving to IE over SSL, then the following may be needed
-        header ('Expires: Fri, 9 Aug 1996 03:10:00 GMT'); // Date in the past
-        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-        header ('Pragma: public'); // HTTP/1.0
-
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        $objWriter->save('php://output');
-        exit;
-
-
-
-
-
-    ?>
+                ?>
 
 
 
@@ -163,33 +119,57 @@
         </div>
       </div>
     </nav>
+  
     
-    <div class="container">
-      <h2 class="text-center">Good Night</h2>
-      <div class="form-group">
+      <div class="contaier" style="width:600px;margin:auto;">
+        <form id="form" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
+          <h1 class="text-center">Importación de datos</h1>
+
+          <div class="form-group">
+              <h4 class="text-center">En esta sección de la aplicación se permite realizar la carga a partir de archivos .xlsx de datos provenientes de otras bases de datos. </h4>
+          </div>
+          <div class="form-group">
           <label for="Nombre">Seleccione el archivo .xls del cual desea extraer los datos a importar:</label>
           <form name="album"  class="form-nAlbum form-horizontal" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <input id="lefile" type="file" accept=".xls,.xlsx" style="display:none">
             <div class="input-append">
             <input id="archivoExcel" class="input-large" type="text">
-
-            <button id="bRegistro" class="btn btn-lg btn-primary btn-block" type="submit">Subir álbum</button>
-            <a class="btn" onclick="$('input[id=lefile]').click();">Seleccionar archivo</a>
-        
-     
-            <script type="text/javascript">
+            <div class="form-group">
+            <!--<button id="bRegistro" onclick="$('input[id=lefile]').click();" class="btn btn-lg btn-primary btn-block"  type="submit">Buscar archivo</button> -->
+              <a class="btn" onclick="$('input[id=lefile]').click();">Seleccionar archivo</a>  
+              <script type="text/javascript">
               $('input[id=lefile]').change(function() {
                                   $('#archivoExcel').val($(this).val());
                                   });
-            </script>
-      </div> 
-      <div class="form-group">
-            <label for="TablatoExport">Escoja la tabla que desea importar:</label>
-            <select class="form-control" id="TablatoExport" name="TablatoExport">
-            </select>
-          </div>   
-      </div>
-    </div>
-    
+              </script>
+            </div> 
+
+          <div class="form-group">
+              <form id="form" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
+                  <label>Seleccione una tabla que desea importar de un archivo xlsx y así poder ser insertada en la base de datos:</label><br>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Orden">Orden</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Suborden">Suborden</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Familia">Familia</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Genero">Género</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Especie">Especie</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Cantidad_huevos" checked>Cantidad de huevos</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Zona_vida">Zonas de vida</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Color">Color</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="PajaroXPersona">Aves o álbumes de cada persona</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Persona">Personas</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Usuarios">Usuarios</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Telefonos">Teléfonos</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Correo">Correo</label>
+                  <label class="radio-inline"><input type="radio" name="Importacion" value="Fotos">Fotos</label>
+          </div>
+          <button id="importacion" class="btn btn-lg btn-primary btn-block" type="submit">Iniciar importación </button>
+        
+        
+        <div id="consola">
+          
+        </div> 
+
+
+
   </body>
 </html>

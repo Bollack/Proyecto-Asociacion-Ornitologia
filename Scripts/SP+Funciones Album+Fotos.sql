@@ -127,9 +127,8 @@ BEGIN
 	SET idUsername =  getIDFromUsername(username);
     
     INSERT INTO FOTO (descripcion, usuario_creacion, usuario_modificacion, url, Ave_idAve)
-					VALUES
-END
-
+					VALUES (pDescripcion, username, username, imagen, pAlbumAve);
+END;
 °°
 
 Delimiter °°
@@ -149,6 +148,10 @@ BEGIN
 END
 
 °°
+
+SELECT 
+
+
 Delimiter °°
 
 CREATE PROCEDURE  (IN, IN, IN, IN)

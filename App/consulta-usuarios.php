@@ -67,6 +67,7 @@
         }else{
           echo $sql;
           $sqlresult = mysqli_query($dbhandle, $sql);
+          echo "testing...";
           while($row = mysqli_fetch_assoc($sqlresult)){
             echo "<script type='text/javascript'>document.getElementById('personas').innerHTML = document.getElementById('personas').innerHTML + '<div class=\"col-sx-6 col-md-4\"><div class=\"thumbnail\"><div class=\"caption\">";
             if($n){
@@ -157,7 +158,7 @@
       </div>
     </nav>
     
-    <div class="contaier" style="width:600px;margin:auto;">
+    <div class="container" style="width:600px;margin:auto;">
       <form id="form" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
         <h1 class="text-center">Usuarios registrados</h1>
         <div class="form-group">
@@ -175,7 +176,7 @@
         </div>
         <button id="busqueda" class="btn btn-lg btn-primary btn-block" type="submit">Busqueda</button>
       </form>
-      
+    </div class="container">
       <div id="personas">
       
       </div> 
