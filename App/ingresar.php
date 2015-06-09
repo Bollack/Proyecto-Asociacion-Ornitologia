@@ -114,7 +114,11 @@
     </nav>
     
     <div class="container">
+      <div style="margin:auto">
+        
+      </div>
       <form id="form" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <img src="Images/logo_hidden_bird_transparente.png" style="width:304px;height:228px;">
         <h2 class="text-center">Porfavor inicie sesión</h2>
         <div class="form-group">
           <label for="inputUsuario">Usuario</label>
@@ -130,7 +134,7 @@
           <input id="submit" name="submit" type="submit" value="Iniciar sesión" class="btn btn-primary">
         </div>
         <!--<div class="form-group"> -->
-          <img class="img-responsive" src="Images/Ave_Fondo.jpeg"/>
+
         <!--</div> -->
         
       </form>
