@@ -4,13 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Estadísticas</title>
+    <title>Perfil</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/estadisticas.css" rel="stylesheet">
+    <link href="css/perfil.css" rel="stylesheet">
   </head>
   <body>
-    <nav class="navbar navbar-default">
+
+  	<nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -68,70 +69,60 @@
       </div>
     </nav>
     
-    <div class="container">
-      <div>
-        <h3 id="avesReg">Aves registradas: </h3>
-      </div>
-      <div id="avesXzona">
-        <h3>Cantidad de aves registradas por zona de vida:</h3>
-      </div>
-      <div id="avenXtamano">
-        <h3>Cantidad de aves registradas por tamaño:</h3>
-      </div>
-      <div id="top5">
-        <h3>Top 5 de personas con mayor cantidad de registros de aves:</h3>
-      </div>
+    <div class="container" id="container" style="width:600px; argin:auto;">
+      <form id="form" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <h1 class="text-center">¿Que tabla catalogo desea ver?</h1>
+        <div class="form-group">
+          <label for="Tabla">Tabla:</label>
+          <select class="form-control" id="Tabla" name="Tabla">
+            <option value="cantidad_huevos">Cantidad de huevos</option>
+            <option value="canton">Cantón</option>
+            <option value="clase">Clase</option>
+            <option value="color">Color</option>
+            <option value="correo">Correo</option>
+            <option value="correo_admin">Correo JOB</option>
+            <option value="data_log">Data Log</option>
+            <option value="especie">Especie</option>
+            <option value="familia">Familia</option>
+            <option value="forma_pico">Forma pico</option>
+            <option value="foto">Foto</option>
+            <option value="genero">Genero</option>
+            <option value="nombre_comun">Nombre común</option>
+            <option value="nombre_ingles_ave">Nombre ingles</option>
+            <option value="orden">Orden</option>
+            <option value="persona">Persona</option>
+            <option value="provincia">Provincia</option>
+            <option value="suborden">Suborden</option>
+            <option value="tamano">Tamaño</option>
+            <option value="telefono">Teléfono</option>
+            <option value="tiempo_incubacion">Tiempo de incubación</option>
+            <option value="tipo_huevos">Tipo de huevos</option>
+            <option value="tipo_incubacion">Tipo de incubación</option>
+            <option value="tipo_nido">Tipo de nido</option>
+            <option value="tipo_usuario">Tipo de Usuario</option>
+            <option value="zonavida">Zona de vida</option>
+          </select>
+        </div>
+      </form>
     </div>
-    <script src="js/jquery.min.js"></script>
+  	<script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <?php
-      $username = "Administrador";
-      $password = "Admin13";
+  	$username = "Usuario";
+      $password = "user123E";
       $hostname = "186.176.166.148:3306";
       $myDB = "hidden_bird";
       $dbhandle = mysqli_connect($hostname, $username, $password, $myDB);
       if(!$dbhandle){
-        $result = "Conexión fallida: " . mysqli_conect_error();
+        echo "Conexión fallida: " . mysqli_conect_error();
       }else{
-        $sql = "SELECT COUNT(1) AS total FROM ave";
+      	$sql = "SELECT * FROM cantidad_huevos";
         $sqlresult = mysqli_query($dbhandle, $sql);
-        if(mysqli_num_rows($sqlresult)>0){
-          $row = mysqli_fetch_assoc($sqlresult);
-          $aves = $row['total'];
-          echo "<script type='text/javascript'>document.getElementById('avesReg').innerHTML = document.getElementById('avesReg').innerHTML + '".$aves."'</script>";
-        }
-
-        $sql = "SELECT getZonaVidaFromID(idZonaVida) AS zona, getNumberAvesByZonaVida(idZonaVida) AS numero FROM zonavida ORDER BY getNumberAvesByZonaVida(idZonaVida) DESC";
-        $sqlresult = mysqli_query($dbhandle, $sql);
-        if(mysqli_num_rows($sqlresult)>0){
-          while($row = mysqli_fetch_assoc($sqlresult)){
-            $datos = "Cantidad de aves de la zona ".$row['zona'].": ".$row['numero'].".";
-            echo "<script type='text/javascript'>document.getElementById('avesXzona').innerHTML = document.getElementById('avesXzona').innerHTML + '<h4>".$datos."</h4>'</script>";
-          } 
-        }
-
-        $sql = "SELECT getTamanoFromID(idTamano) AS tamano, getNumberAvesByTamano(idTamano) AS numero FROM Tamano ORDER BY getNumberAvesByTamano(idTamano) DESC";
-        $sqlresult = mysqli_query($dbhandle, $sql);
-        if(mysqli_num_rows($sqlresult)>0){
-          while($row = mysqli_fetch_assoc($sqlresult)){
-            $datos = "Aves ".$row['tamano'].": ".$row['numero'].".";
-            echo "<script type='text/javascript'>document.getElementById('avenXtamano').innerHTML = document.getElementById('avenXtamano').innerHTML + '<h4>".$datos."</h4>'</script>";
-          } 
-        }
-
-        $sql = "SELECT Nombre AS nombre, Apellido AS apellido, getNumberAvesByPersona(idPersona) AS numero FROM persona ORDER BY getNumberAvesByPersona(idPersona) DESC";
-        $sqlresult = mysqli_query($dbhandle, $sql);
-        if(mysqli_num_rows($sqlresult)>0){
-          $total = 5;
-          for($count=0;$count<$total;$count++){
-            if($row = mysqli_fetch_assoc($sqlresult)){  
-              $datos = $row['nombre']." ".$row['apellido'].": ".$row['numero']." aves.";
-              echo "<script type='text/javascript'>document.getElementById('top5').innerHTML = document.getElementById('top5').innerHTML + '<h4>".$datos."</h4>'</script>";
-            }
-          } 
+        while($row = mysqli_fetch_assoc($sqlresult)){
+        	//$data = $row[]
+        	//echo "<script type='text/javascript'>document.getElementById('container').innerHTML = document.getElementById('container').innerHTML + '<h3>".$edad."</h3>'</script>";
         }
       }
-    ?>
-
-  </body>
+  	?>
+    </body>
 </html>

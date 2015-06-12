@@ -10,7 +10,7 @@
     <link href="css/consulta-usuarios.css" rel="stylesheet">
   </head>
   <body>
-<<<<<<< HEAD
+
 
     <?php
       $a = $o = $n = $ap = $s = $f = $d = false;
@@ -101,8 +101,7 @@
       }
     ?>
 
-=======
->>>>>>> origin/master
+
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
@@ -179,13 +178,13 @@
         </div>
         <button id="busqueda" class="btn btn-lg btn-primary btn-block" type="submit">Buscar</button>
       </form>
-<<<<<<< HEAD
+
     </div class="container">
       <div id="personas">
-=======
+
       
       <div id="personas" style="margin-top:25px">
->>>>>>> origin/master
+
       
       </div> 
     </div>

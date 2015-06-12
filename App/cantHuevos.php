@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Perfil</title>
-
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/perfil.css" rel="stylesheet">
   </head>
@@ -69,25 +68,60 @@
       </div>
     </nav>
     
-    <div class="container" id="container">
-    
+    <div class="container" id="container" style="width:600px; margin:auto;">
+      <div class="text-center" id="tabla">
+        <h1>Cantidad de huevos</h1>
+      </div>
     </div>
+    <input type="hidden" name="nombre" id="nombre" value="cantidad_huevos">
+    <input type="hidden" name="idTabla" id="idTabla" value="idcantidad_huevos">
+    <input type="hidden" name="columna" id="columna" value="numero_huevos">
+    <input type="hidden" name="columnaExtra" id="columnaExtra" value="">
+    <form name="ins" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+      <div class="insertar" style="width:600px; margin:auto;">
+        <div class="form-group">
+          <label for="Insert">Insertar:</label>
+          <input type="text" id="Insert" name="Insert1" class="form-control" placeholder="DATA">
+        </div>
+        <div class="form-group">
+          <label for="requerimiento">Requeriento:</label>
+          <select class="form-control" id="requerimiento" name="requerimiento">
+            <option value="">Esta tabla no tiene requerimientos.</option>
+          </select>
+        </div>
+        <h4 id="agregar" class="btn-info text-center" style="height:25px; font-weight:bold; color: white; border-radius: 10px; padding-top:2px">Insertar a la tabla</h4>
+      </div>
+    </form>      
+
+    <form name="mod" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+      <div class="modificar" style="width:600px; margin:auto;">
+        <label for="cantidad">Modificar:</label>
+        <select class="form-control" id="cantidad" name="cantidad">
+        </select>
+        <div class="form-group" style="margin-top:10px">
+          <input type="text" id="mod" name="mod" class="form-control" placeholder="Modificación">
+        </div>
+        <h4 id="modificar" class="btn-info text-center" style="height:25px; font-weight:bold; color: white; border-radius: 10px; padding-top:2px">Modificar columna seleccionada</h4>
+      </div>
+    </form>
+
   	<script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/catalogo.js"></script>
     <?php
-  	$username = "Usuario";
-      $password = "user123E";
+    	$username = "Administrador";
+      $password = "Admin13";
       $hostname = "186.176.166.148:3306";
       $myDB = "hidden_bird";
       $dbhandle = mysqli_connect($hostname, $username, $password, $myDB);
       if(!$dbhandle){
         echo "Conexión fallida: " . mysqli_conect_error();
       }else{
-      	$sql = "SELECT * FROM cantidad_huevos";
+      	$sql = "SELECT idcantidad_huevos, numero_huevos FROM cantidad_huevos";
         $sqlresult = mysqli_query($dbhandle, $sql);
         while($row = mysqli_fetch_assoc($sqlresult)){
-        	$data = $row[]
-        	echo "<script type='text/javascript'>document.getElementById('container').innerHTML = document.getElementById('container').innerHTML + '<h3>".$edad."</h3>'</script>";
+        	echo "<script type='text/javascript'>document.getElementById('tabla').innerHTML = document.getElementById('tabla').innerHTML + '<h3>ID: ".$row["idcantidad_huevos"]." - DATA: ".$row["numero_huevos"]."</h3>'</script>";
+          echo "<script type='text/javascript'>document.getElementById('cantidad').innerHTML = document.getElementById('cantidad').innerHTML + '<option value=".$row["idcantidad_huevos"].">".$row["numero_huevos"]."</option>'</script>";
         }
       }
   	?>
