@@ -4,15 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Perfil</title>
+    <title>Administración</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/perfil.css" rel="stylesheet">
   </head>
+
+
+
   <body>
 
   	<nav class="navbar navbar-default">
       <div class="container">
-        <div class="navbar-header">
+        <div class="navbar-header"> 
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
@@ -58,8 +61,11 @@
             </li>
           </ul>
 
+
+
+
           <ul class="nav navbar-nav navbar-right" id="der-nav">
-            <li><a href="perfil.php">Mi perfil</a></li>
+            <li><a href="../perfil.php">Mi perfil</a></li>
             <li><a href="ingresar.php">Ingresar</a></li>
             <li><a href="registro.php">Registrarse</a></li>
             <li><a href="log-out.php">Log Out</a></li>
@@ -76,17 +82,17 @@
     <input type="hidden" name="nombre" id="nombre" value="cantidad_huevos">
     <input type="hidden" name="idTabla" id="idTabla" value="idcantidad_huevos">
     <input type="hidden" name="columna" id="columna" value="numero_huevos">
-    <input type="hidden" name="columnaExtra" id="columnaExtra" value="">
-    <form name="ins" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-      <div class="insertar" style="width:600px; margin:auto;">
+    <input type="hidden" name="columnaExtra" id="columnaExtra" value=""> <!--En el caso que haya un requerimiento (FK), el nombre de la columna será la tabla a la cual hace referencia ese FK-->
+    <form name="ins" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> <!--Comentario-->
+      <div class="hidden" style="width:600px; margin:auto;" id="div">
         <div class="form-group">
           <label for="Insert">Insertar:</label>
           <input type="text" id="Insert" name="Insert1" class="form-control" placeholder="DATA">
         </div>
         <div class="form-group">
-          <label for="requerimiento">Requeriento:</label>
+          <label for="requerimiento">Requerimientos:</label>
           <select class="form-control" id="requerimiento" name="requerimiento">
-            <option value="">Esta tabla no tiene requerimientos.</option>
+            <option value="">Esta tabla no tiene requerimientos.</option> <!--Aquí se pone los selects de los foreign keys -->
           </select>
         </div>
         <h4 id="agregar" class="btn-info text-center" style="height:25px; font-weight:bold; color: white; border-radius: 10px; padding-top:2px">Insertar a la tabla</h4>
@@ -94,7 +100,7 @@
     </form>      
 
     <form name="mod" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-      <div class="modificar" style="width:600px; margin:auto;">
+      <div class="hidden" style="width:600px; margin:auto;">
         <label for="cantidad">Modificar:</label>
         <select class="form-control" id="cantidad" name="cantidad">
         </select>
@@ -122,6 +128,7 @@
         while($row = mysqli_fetch_assoc($sqlresult)){
         	echo "<script type='text/javascript'>document.getElementById('tabla').innerHTML = document.getElementById('tabla').innerHTML + '<h3>ID: ".$row["idcantidad_huevos"]." - DATA: ".$row["numero_huevos"]."</h3>'</script>";
           echo "<script type='text/javascript'>document.getElementById('cantidad').innerHTML = document.getElementById('cantidad').innerHTML + '<option value=".$row["idcantidad_huevos"].">".$row["numero_huevos"]."</option>'</script>";
+          echo "<script type='text/javascript'>document.querySelector('#div').classList.toogle('div')</script>";
         }
       }
   	?>
