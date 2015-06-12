@@ -135,6 +135,10 @@
       if(isset($_POST["tabla"])){
         $tabla = $_POST["tabla"];
         $constantes = [["cantidad_huevos","idcantidad_huevos", "numero_huevos",""],["color","Color_id","Color",""],["especie","idEspecie","Nombre_cientifico","Genero_idGenero"],["familia","idFamilia","Familia","Suborden_idSuborden"],["forma_pico","idForma_Pico","Forma_Pico",""],["genero","idGenero","Genero","Familia_idFamilia"],["nombre_comun","idNombre_comun","Nombre","Especie_idEspecie"],["nombre_ingles_ave","idNombre_ingles_ave","nombre","Especie_idEspecie"],["orden","idOrden","Orden","Clase_idClase"],["suborden","idSuborden","Suborden","Orden_idOrden"],["tamano","idTamano","Tamano",""],["tiempo_incubacion","idTiempo_incubacion","Tiempo_incubacion",""],["tipo_huevos","idTipo_Huevos","tipo_cascara",""],["tipo_incubacion","idTipo_incubacion","Tipo_incubacion",""],["tipo_nido","idTipo_Nido","Tipo",""],["zonavida","idZonaVida","Zona",""]];
+        echo "<script type='text/javascript'>var nombre = '".$constantes[$tabla][0]."';</script>";
+        echo "<script type='text/javascript'>var pk = '".$constantes[$tabla][1]."';</script>";
+        echo "<script type='text/javascript'>var col = '".$constantes[$tabla][2]."';</script>";
+        echo "<script type='text/javascript'>var colExtra = '".$constantes[$tabla][3]."';</script>";
         $username = "Administrador";
         $password = "Admin13";
         $hostname = "186.176.166.148:3306";
