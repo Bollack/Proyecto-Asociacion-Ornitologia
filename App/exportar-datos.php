@@ -182,6 +182,7 @@
               </ul>
             </li>
             <li><a href="estadisticas.php">Estadísticas</a></li>
+            <li><a href="tCatalogo.php">Tablas catálogo</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right" id="der-nav">

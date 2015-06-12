@@ -125,29 +125,7 @@
               </ul>
             </li>
             <li><a href="estadisticas.php">Estadísticas</a></li>
-            <li class="dropdown">
-              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tablas<span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="tablas/cantHuevos.php">Cantidad huevos</a></li>
-                <li><a href="tablas/color.php">Color</a></li>
-                <li><a href="tablas/correoAdmin.php">Correo Admin</a></li>
-                <li><a href="tablas/dataLog.php">Data Log</a></li>
-                <li><a href="tablas/especie.php">Especie</a></li>
-                <li><a href="tablas/familia.php">Familia</a></li>
-                <li><a href="tablas/formaPico.php">Forma pico</a></li>
-                <li><a href="tablas/genero.php">Genero</a></li>
-                <li><a href="tablas/nombreComun.php">Nombre común</a></li>
-                <li><a href="tablas/nombreIngles.php">Nombre inglés</a></li>
-                <li><a href="tablas/orden.php">Orden</a></li>
-                <li><a href="tablas/suborden.php">Suborden</a></li>
-                <li><a href="tablas/tamano.php">Tamaño</a></li>
-                <li><a href="tablas/tiempoIncubacion.php">Tiempo incubación</a></li>
-                <li><a href="tablas/tipoHuevos.php">Tipo Huevos</a></li>
-                <li><a href="tablas/tipoIncubacion.php">Tipo incubación</a></li>
-                <li><a href="tablas/tipoNido.php">Tipo nido</a></li>
-                <li><a href="tablas/zonaVida.php">Zona de vida</a></li>
-              </ul>
-            </li>
+            <li><a href="tCatalogo.php">Tablas catálogo</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right" id="der-nav">
