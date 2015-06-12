@@ -23,7 +23,7 @@
 		}
 		if (mysqli_query($dbhandle, $sql)) {
 			mysqli_close($dbhandle);
-		    echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
+		    echo "<script type=\"text/javascript\">swal("Good job!", "You clicked the button!", "success")</script>";
 		} else {
 		    echo "Error: " . $sql . "<br>" . mysqli_error($dbhandle);
 			mysqli_close($dbhandle);		    
@@ -33,6 +33,8 @@
 ?>
 <html>
 <head>
+	  <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
 </head>
 <body>
 </body>
