@@ -70,13 +70,12 @@
 
     </form>
 
-    <div class="text-center" id="info" style="width:600px;margin:auto;">
-    </div>
+
 
 
     <!-- Aquí va el form/contenedor de todo lo que sale al insertar-->
     <form name="fInsertar" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-      <div  class="text-center"style="width:600px; margin:auto" id="insertar"> <!--Aquí va el cambio de clase-->
+      <div  class="hidden"style="width:600px; margin:auto" id="insertar"> <!--Aquí va el cambio de clase-->
         <div class="text-center" id="titulo">
             <h3>Inserción de especie.</h3>
         </div> 
