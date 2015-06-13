@@ -98,7 +98,7 @@
       </div>
     </form>      
 
-    <form name="fModificar" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <form class="horizontal-form" name="fModificar" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
       <div class="hidden" style="width:600px; margin:auto;" id="fm">
         <label for="modificado">Modificar:</label>
         <select class="form-control" id="modificado" name="modificado">

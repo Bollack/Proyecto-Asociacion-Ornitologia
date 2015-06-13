@@ -10,98 +10,6 @@
     <link href="css/consulta-usuarios.css" rel="stylesheet">
   </head>
   <body>
-
-
-    <?php
-      $a = $o = $n = $ap = $s = $f = $d = false;
-      $username = "Administrador";
-      $password = "Admin13";
-      $hostname = "186.176.166.148:3306";
-      $myDB = "hidden_bird";
-      if($_SERVER["REQUEST_METHOD"] == "POST"){
-        if(isset($_POST['Afficionado'])){
-          $a = true;
-        }
-        if(isset($_POST['Ornitologo'])){
-          $o = true;
-        }
-        $sql = "SELECT Username";
-        if(isset($_POST['Nombre'])){
-          $n = true;
-          $sql .= ", Nombre";
-        }
-        if(isset($_POST['Apellido'])){
-          $ap = true;
-          $sql .= ", Apellido";
-        }
-        if(isset($_POST['Sexo'])){
-          $s = true;
-          $sql .= ", Sexo";
-        }
-        if(isset($_POST['fNac'])){
-          $f = true;
-          $sql .= ", Fecha_Nacimiento";
-        }
-        if(isset($_POST['Direccion'])){
-          $d = true;
-          $sql .= ", Direccion";
-        }
-
-        $sql .= " FROM persona WHERE Tipo_usuario_idTipo_usuario ";
-        if($a==true && $o==true){
-          $sql.= "<> 3";
-        }else{
-          if($a==true){
-            $sql .= "= 1";
-          }else{
-            if($o==true){
-              $sql .= "= 2";
-            }else{
-              $sql .= "= 3";
-            }
-          }
-        }
-        $sql .= " ORDER BY Username;";
-        $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
-        if(!$dbhandle){
-          echo "Conexión fallida: " . mysqli_conect_error();
-        }else{
-          echo $sql;
-          $sqlresult = mysqli_query($dbhandle, $sql);
-          echo "testing...";
-          while($row = mysqli_fetch_assoc($sqlresult)){
-            echo "<script type='text/javascript'>document.getElementById('personas').innerHTML = document.getElementById('personas').innerHTML + '<div class=\"col-sx-6 col-md-4\"><div class=\"thumbnail\"><div class=\"caption\">";
-            if($n){
-              echo "<h4>Nombre: '".$row['Nombre']."'</h4>";
-            }
-            if($ap){
-              echo "<h4>Apellido: '".$row['Apellido']."'</h4>";
-            }
-            if($s){
-              echo "<h4>Sexo: '".$row['Sexo']."'</h4>";
-            }
-            if($f){
-              echo "<h4>Fecha de Nacimiento: '".$row['Fecha_Nacimiento']."'</h4>";
-            }
-            if($d){
-              echo "<h4>Dirección: '".$row['Direccion']."'</h4>";
-            }
-            if($row['Tipo_usuario_idTipo_usuario']=1){
-              echo "<h4>Tipo de usuario: Aficionado</h4>";
-            }
-            if($row['Tipo_usuario_idTipo_usuario']=2){
-              echo "<h4>Tipo de usuario: Ornitólogo</h4>";
-            }
-            if($row['Tipo_usuario_idTipo_usuario']=3){
-              echo "<h4>Tipo de usuario: Administrador</h4>";
-            }
-            echo "</div></div></div>'</script>";
-          }
-        }
-      }
-    ?>
-
-
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
@@ -158,12 +66,8 @@
       </form>
 
     </div class="container">
-      <div id="personas">
-
-      
-      <div id="personas" style="margin-top:25px">
-
-      
+      <div id="personas" style="margin: auto;margin-top:10px; width:600px;" class="text-center">
+              
       </div> 
     </div>
     <script src="js/jquery.min.js"></script>
@@ -181,6 +85,7 @@
         if(!$dbhandle){
           echo "Conexión fallida: " . mysqli_conect_error();
         }else{
+          echo "<script type='text/javascript'>document.getElementById('personas').innerHTML = document.getElementById('personas').innerHTML + '<h1>Usuarios encontrados:</h1>'</script>";
           $sql = "SELECT idPersona, Username, Tipo_usuario_idTipo_usuario";
           if(isset($_POST['Aficionado'])){
             $afficionado = 10;
@@ -225,7 +130,9 @@
         $sql .= " ORDER BY Username";
           $script = "";
           $sqlresult = mysqli_query($dbhandle, $sql);
+          $counter = 0;
           while($row = mysqli_fetch_assoc($sqlresult)){
+            $counter++;
             $script = "<script type='text/javascript'>document.getElementById('personas').innerHTML = document.getElementById('personas').innerHTML + '<div style=\"width:600px;\" class=\"col-sx-6 col-md-4 persona\" value=\"".$row['idPersona']."\"><div class=\"thumbnail\"><div class=\"caption\"><button type=\"button\" class=\"btn btn-lg btn-info btn-block persona\" type=\"submit\" value=\"".$row['idPersona']."\"> Usuario:".$row['Username']."<br>";
             if($nombre==10){
               $script .=  "Nombre: ".$row['Nombre']."<br>";
@@ -254,8 +161,8 @@
             $script .=  "</button></div></div></div>'</script>";
             echo $script;
           }
-          if($script=""){
-            echo "<script type='text/javascript'>document.getElementById('persona').innerHTML = document.getElementById('persona').innerHTML + '<h4>No se encontraron resultados para su busqueda.</h4>'</script>";
+          if($counter==0){
+            echo "<script type='text/javascript'>document.getElementById('personas').innerHTML = document.getElementById('personas').innerHTML + '<h4>No se encontraron resultados para su busqueda.</h4>'</script>";
           }
         }
       }
