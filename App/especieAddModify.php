@@ -335,7 +335,6 @@
               }
               echo "<script type='text/javascript'>document.getElementById('stabla').className='hidden';</script>";
               echo "<script type='text/javascript'>document.getElementById('insertar').className='text-center';</script>";
-              text-center
           }else if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['modify'])) 
           //Lo que pasa cuando se presione Modificar  especie
           {
