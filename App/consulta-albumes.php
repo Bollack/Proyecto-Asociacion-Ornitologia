@@ -435,7 +435,7 @@
               if($familia==0 or $familia==true){   //////////////////////////////////////////////////////////
                 $vFamilia = true;
               }
-              if($genero==0 or $genero==$row['Genero_idGenero']){
+              if($genero==0 or $genero==$generoORG){
                 $vGenero = true;
               }
               if($nombreC==0 or $nombreC==true){   //////////////////////////////////////////////////////////
