@@ -13,20 +13,36 @@
 		echo "Conexión fallida: " . mysqli_conect_error();
 	}else{
 		if(isset($_GET["ve"])){
-			$valorExtra = "," . $_GET["ve"];
+			$valorExtra =  $_GET["ve"];
 			$colExtra = "," . $_GET["ce"];
+
+			//$valorExtra = $_GET["ve"];
+			//$colExtra =  $_GET["ce"];
+			//$sql = "INSERT INTO ".$tabla." (".$columna.",".$colExtra.") VALUES (".$valor.",".$valorExtra.")";
 			$sql = "INSERT INTO ".$tabla." (".$columna.$colExtra.") VALUES ('".$valor."','".$valorExtra."')";
+			echo $sql;
 		}else{
 			$valorExtra = "";
 			$colExtra = "";
-			$sql = "INSERT INTO ".$tabla." (".$columna.") VALUES ('".$valor."')";
+			$sql = "INSERT INTO ".$tabla." (".$columna.") VALUES (".$valor.")";
 		}
 		if (mysqli_query($dbhandle, $sql)) {
 			mysqli_close($dbhandle);
-		    echo "<script type=\"text/javascript\">swal("Good job!", "You clicked the button!", "success")</script>";
+		    echo "<script type=\"text/javascript\">";
+			echo "setTimeout(function(){swal(\"Dato insertado\", \"Se ha insertado el dato correctamente\", \"success\");";
+		    echo "},1000);</script>";
+			sleep(4);
+			//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
 		} else {
-		    echo "Error: " . $sql . "<br>" . mysqli_error($dbhandle);
-			mysqli_close($dbhandle);		    
+			$error = "Conexión fallida: " . mysqli_connect_error();
+			echo $error;
+		    echo "<script type=\"text/javascript\">";
+			echo "setTimeout(function(){swal(\"ERROR, PANIC!\", \"El dato no se ha podido insertar por carácteres inválidos, ya existe o por error de conexión.\"'".mysqli_connect_error()."' \"error\");";
+		    echo "},1000);;</script>";
+			sleep(4);
+			mysqli_close($dbhandle);
+			//
+			//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";		    
 		}
 
 	}

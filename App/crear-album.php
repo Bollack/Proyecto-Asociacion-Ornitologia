@@ -188,7 +188,7 @@
       $myDB = "hidden_bird";
       $dbhandle = mysqli_connect($hostname, $username, $password, $myDB); 
       if(!$dbhandle){
-        $result = "Conexión fallida: " . mysqli_conect_error();
+        $result = "Conexión fallida: " . mysqli_connect_error();
       }else{
         $sql = "SELECT Nombre_cientifico FROM especie";
         $sqlresult = mysqli_query($dbhandle, $sql);
