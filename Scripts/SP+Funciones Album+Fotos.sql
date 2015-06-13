@@ -19,7 +19,10 @@ RETURNS VARCHAR(100)
 °°
 Delimiter °°
 °°
-CREATE PROCEDURE insertEspecie(IN ScientificName VARCHAR(100), )
+CREATE PROCEDURE insertEspecie(IN ScientificName VARCHAR(100))
+BEGIN 
+
+END;
 
 °°
 
