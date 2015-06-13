@@ -96,12 +96,6 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar clase:</label><br>
-          <select class="form-control" id="Clase" name="Clase">
-            <option value=0>No importa</option>
-          </select>
-        </div>
-        <div class="form-group">
           <label>Filtrar especie:</label><br>
           <select class="form-control" id="Especie" name="Especie">
             <option value=0>No importa</option>
@@ -263,15 +257,6 @@
           }
         }
 
-        $sql = "SELECT Clase, idClase FROM clase ORDER BY idClase";
-        $sqlresult = mysqli_query($dbhandle, $sql);
-        if(mysqli_num_rows($sqlresult)>0){
-          while($row = mysqli_fetch_assoc($sqlresult)){
-            $clase = $row['Clase'];
-            echo "<script type=\"text/javascript\">document.getElementById('Clase').innerHTML = document.getElementById('Clase').innerHTML + \"<option value='".$row['idClase']."'>".$clase."</option>\"</script>\n";
-          }
-        }
-
         $sql = "SELECT Nombre_cientifico, idEspecie FROM especie ORDER BY idEspecie";
         $sqlresult = mysqli_query($dbhandle, $sql);
         if(mysqli_num_rows($sqlresult)>0){
@@ -389,7 +374,6 @@
           $persona = $_POST['Persona'];
           $canton = $_POST['Canton'];
           $nombre = $_POST['Nombre'];
-          $clase = $_POST['Clase'];
           $especie = $_POST['Especie'];
           $familia = $_POST['Familia'];
           $genero = $_POST['Genero'];
@@ -407,7 +391,7 @@
           $sqlresult = mysqli_query($dbhandle, $sql);
           if(mysqli_num_rows($sqlresult)>0){
             while($row = mysqli_fetch_assoc($sqlresult)){
-              $vPico = $vColor = $vCHUevos = $vZona = $vTamano = $vPersona = $vCanton = $vNombre = $vClase = $vEspecie = $vFamilia = $vGenero = $vNombreC = $vNombreI = $vOrden = $vProvincia = $vSuborden = $vTiempoI = $vTipoH = $vTipoI = $vTipoN = false;
+              $vPico = $vColor = $vCHUevos = $vZona = $vTamano = $vPersona = $vCanton = $vNombre = $vEspecie = $vFamilia = $vGenero = $vNombreC = $vNombreI = $vOrden = $vProvincia = $vSuborden = $vTiempoI = $vTipoH = $vTipoI = $vTipoN = false;
               $dueno = $row['Persona_idPersona'];
               $colorORG = $row['color'];
               $id = $row['idAve'];
@@ -415,11 +399,12 @@
               $nombreORG = $row['nombre_album'];
               $cantonORG = $row['Canton_idCanton'];
               $especieORG = $row['Especie_idEspecie'];
-              $sql2 = "";
-
               $sql2 = "SELECT ZonaVida_idZonaVida, Tamano_idTamano, Tiempo_incubacion_idTiempo_incubacion, Tipo_Nido_idTipo_Nido, numero_huevos_idnumero_huevos, Tipo_iincubacion_idTipo_incubacion, Tipo_Huevos_idTipo_Huevos, Forma_Pico_idForma_Pico, Genero_idGenero, Nombre_cientifico, idEspecie FROM especie WHERE idEspecie = ".$especieORG;
               $sqlresult2 = mysqli_query($dbhandle, $sql2);
               $row2 = mysqli_fetch_assoc($sqlresult2);
+              $generoORG = $row['Genero_idGenero'];
+              $sql3 = "";
+
               if($pico==0 or $pico==$row2['Forma_Pico_idForma_Pico']){
                 $vPico = true;
               }
@@ -444,31 +429,28 @@
               if($nombre==0 or $nombre==$nombreORG){
                 $vNombre = true;
               }
-              if($clase==0 or $clase==$){       //////////////////////////////////////////////////////////
-                $vClase = true;
-              }
               if($especie==0 or $especie==$row['idEspecie']){
                 $vEspecie = true;
               }
-              if($familia==0 or $familia==$){   //////////////////////////////////////////////////////////
+              if($familia==0 or $familia==true){   //////////////////////////////////////////////////////////
                 $vFamilia = true;
               }
               if($genero==0 or $genero==$row['Genero_idGenero']){
                 $vGenero = true;
               }
-              if($nombreC==0 or $nombreC==$row['']){   //////////////////////////////////////////////////////////
+              if($nombreC==0 or $nombreC==true){   //////////////////////////////////////////////////////////
                 $vNombreC = true;
               }
-              if($nombreI==0 or $nombreI==$){   //////////////////////////////////////////////////////////
+              if($nombreI==0 or $nombreI==true){   //////////////////////////////////////////////////////////
                 $vNombreI = true;
               }
-              if($orden==0 or $orden==$){       //////////////////////////////////////////////////////////
+              if($orden==0 or $orden==true){       //////////////////////////////////////////////////////////
                 $vOrden = true;
               }
-              if($provincia==0 or $provincia==$){////////////////////////////////////////////////////////
+              if($provincia==0 or $provincia==true){////////////////////////////////////////////////////////
                 $vProvincia = true;
               }
-              if($suborden==0 or $suborden==$){ /////////////////////////////////////////////////////////
+              if($suborden==0 or $suborden==true){ /////////////////////////////////////////////////////////
                 $vSuborden = true;
               }
               if($tiempoI==0 or $tiempoI==$row['Tiempo_incubacion_idTiempo_incubacion']){
@@ -484,7 +466,7 @@
                 $vTipoN = true;
               }
 
-              if($vPico==true && $vColor==true && $vCHUevos==true && $vZona==true && $vTamano==true && $vPersona==true && $vCanton==true && $vNombre==true && $vClase==true && $vEspecie==true && $vFamilia==true && $vGenero==true && $vNombreC==true && $vNombreI==true && $vOrden==true && $vProvincia==true && $vSuborden==true && $vTiempoI==true && $vTipoH==true && $vTipoI==true && $vTipoN==true){
+              if($vPico==true && $vColor==true && $vCHUevos==true && $vZona==true && $vTamano==true && $vPersona==true && $vCanton==true && $vNombre==true && $vEspecie==true && $vFamilia==true && $vGenero==true && $vNombreC==true && $vNombreI==true && $vOrden==true && $vProvincia==true && $vSuborden==true && $vTiempoI==true && $vTipoH==true && $vTipoI==true && $vTipoN==true){
                 $counter++;
                 $sql3 = "SELECT url FROM foto WHERE Ave_idAve = ".$id;
                 $sqlresult3 = mysqli_query($dbhandle, $sql3);
