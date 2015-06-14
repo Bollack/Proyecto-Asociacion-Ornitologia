@@ -206,30 +206,7 @@
 
   	<script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <!--<script src="js/adminEspecie.js"></script>-->
-
-
-
-
-
-
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-          $('#agregar1').click(function(){
-              alert("Hello!");
-              window.location.href = "../App/especieAddAlter.php?nom_cien="+$("#nombreCientifico_insert").val()+"&id_Gen="+$("#genero_insert").val()+"&id_For_Pico="+$("#formaPico_insert").val()+"&id_Tipo_Hue="+$("#tipoHuevo_insert").val()+"&id_Tipo_Inc="+$("#tipoIncubacion_insert").val()+"&id_Cant_Hue="+$("#cantidadHuevos_insert").val()+"&id_Tipo_Ni="+$("#tipoNido_insert").val()+"&id_Tiem_Inc="+$("#tiempoIncubacion_insert").val()+"&id_Size="+$("#tamano_insert").val()+"&id_Zon_Vi="+$("#ZonaVida_insert").val()+"&isModify=+"+"0"+"&r="+window.location;  
-              //window.location.href = "../App/especieAddAlter.php?t="+"&nom_cien"+$("#nombreCientifico_insert").val()+"&id_Gen="+$("#genero_insert").options["#genero_insert".selectedIndex].value+"&id_For_Pico="+$("#formaPico_insert").options["#formaPico_insert".selectedIndex].value+"&id_Tipo_Hue="+$("#formaPico_insert").options["#formaPico_insert".selectedIndex].value+$("#").options["#".selectedIndex].value+"&id_Tipo_Inc="+$("#tipoIncubacion_insert").options["#tipoIncubacion_insert".selectedIndex].value+"&id_Cant_Hue="+$("#cantidadHuevos_insert").options["#cantidadHuevos_insert".selectedIndex].value+"&id_Tipo_Ni="+$("#tipoNido_insert").options["#tipoNido_insert".selectedIndex].value+"&id_Tiem_Inc="+$("#tiempoIncubacion_insert").options["#tiempoIncubacion_insert".selectedIndex].value+"&id_Size="+$("#tamano_insert").options["#tamano_insert".selectedIndex].value+"&c="+"&id_Zon_Vi="+$("#ZonaVida_insert").options["#ZonaVida_insert".selectedIndex].value+"&isModify=+"+"0"+window.location; 
-          });
-          $('#modifyEspecie').click(function(){
-            alert("Hello!");
-            window.location.href = "../App/especieAddAlter.php?id_Main="+idEspecie+"&nom_cien"+$("#nombreCientifico_modify").val()+"&id_Gen="+$("#genero_modify").val()+"&id_For_Pico="+$("#formaPico_modify").val()+"&id_Tipo_Hue="+$("#formaPico_modify").val()+"&id_Tipo_Inc="+$("#tipoIncubacion_modify").val()+"&id_Cant_Hue="+$("#cantidadHuevos_modify").val()+"&id_Tipo_Ni="+$("#tipoNido_modify").val()+"&id_Tiem_Inc="+$("#tiempoIncubacion_modify").val()+"&id_Size="+$("#tamano_modify").val()+"&id_Zon_Vi="+$("#ZonaVida_modify").val()+"&isModify=+"+"1"+"&r="window.location;
-          });
-        });
-
-    </script>
-
-
+    <script src="js/adminEspecie.js"></script>
 
     <!--Aquí comienza el PHP-->
     <?php
@@ -358,7 +335,7 @@
               //Será 1 because fuck php.
               $idEspecieSeleccionada = $_POST['especies'];
 
-              echo "<script type='text/javascript'>var idEspecie = '".$idEspecieSeleccionada."';</script>";
+              echo "<script type='text/javascript'>var idEspecie = ".$idEspecieSeleccionada.";</script>";
 
               //Se comienza a generar y a mostrar los datos de la especie seleccionada
               //para que el usuario compare con los datos que desea modificar.
@@ -367,7 +344,7 @@
               $sqlresult11 = mysqli_query($dbhandle, $sql11);
               $row11=mysqli_fetch_array($sqlresult11);
               $nombreCienActual = $row11['getNombreCientificoFromEspecieID(idEspecie)'];
-              echo "<script type='text/javascript'>document.getElementById('nombreCientifico_modify').value=".$nombreCienActual."</script>";
+              echo "<script type='text/javascript'>document.getElementById('nombreCientifico_modify').value='".$nombreCienActual."'</script>";
               echo "<script type='text/javascript'>document.getElementById('info').innerHTML  = document.getElementById('info').innerHTML + '<h3>Nombre científico actual: ".$nombreCienActual."</h3>'</script>";
 
 

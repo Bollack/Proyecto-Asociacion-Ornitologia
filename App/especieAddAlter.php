@@ -15,8 +15,8 @@
 		if($_GET["isModify"]=="1"){
 			echo "Modificando especie...";
 			$idEspecie =  $_GET["id_Main"];
-			$pNombreCientifico = "," . $_GET["nom_cien"];
-			$pGenero = "," . $_GET["id_Gen"];
+			$pNombreCientifico = ",'" . $_GET["nom_cien"];
+			$pGenero = "'," . $_GET["id_Gen"];
 			$pFormaPico = "," . $_GET["id_For_Pico"];
 			$pTipoHuevos = "," . $_GET["id_Tipo_Hue"];
 			$pTipoIncubacion= "," . $_GET["id_Tipo_Inc"];
@@ -33,7 +33,7 @@
 				echo "setTimeout(function(){swal(\"Especie modificada\", \"Se ha modificado la especie correctamente\", \"success\");";
 			    echo "},1000);</script>";
 				sleep(2);
-				//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
+				echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
 			} else {
 			    echo "<script type=\"text/javascript\">";
 				echo "setTimeout(function(){swal(\"ERROR, PANIC!\", \"La especie no se ha podido modificar por carácteres inválidos, ya existe o por error de conexión.\", \"error\");";
