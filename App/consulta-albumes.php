@@ -402,35 +402,35 @@
               $sql2 = "SELECT ZonaVida_idZonaVida, Tamano_idTamano, Tiempo_incubacion_idTiempo_incubacion, Tipo_Nido_idTipo_Nido, numero_huevos_idnumero_huevos, Tipo_iincubacion_idTipo_incubacion, Tipo_Huevos_idTipo_Huevos, Forma_Pico_idForma_Pico, Genero_idGenero, Nombre_cientifico, idEspecie FROM especie WHERE idEspecie = ".$especieORG;
               $sqlresult2 = mysqli_query($dbhandle, $sql2);
               $row2 = mysqli_fetch_assoc($sqlresult2);
-              $generoORG = $row['Genero_idGenero'];
+              $generoORG = $row2['Genero_idGenero'];
 
               //Búsqueda de familia
 
               $sql2 = "SELECT Familia_idFamilia FROM genero WHERE idGenero=".$generoORG;
               $sqlresult2 = mysqli_query($dbhandle, $sql2);
-              $row2 = mysqli_fetch_assoc($sqlresult2);
-              $familiaORG=$row2['Familia_idFamilia'];
+              $row3 = mysqli_fetch_assoc($sqlresult2);
+              $familiaORG=$row3['Familia_idFamilia'];
               //Búsqueda de suborden
               $sql2 = "SELECT Suborden_idSuborden FROM familia WHERE idFamilia=".$familiaORG;
               $sqlresult2 = mysqli_query($dbhandle, $sql2);
-              $row2 = mysqli_fetch_assoc($sqlresult2);
-              $subordenORG=$row2['Suborden_idSuborden'];
+              $row3 = mysqli_fetch_assoc($sqlresult2);
+              $subordenORG=$row3['Suborden_idSuborden'];
               //Búsqueda de orden
-              $sql2 = "SELECT Orden_idOrden FROM orden  WHERE idSuborden=".$subordenORG;
+              $sql2 = "SELECT Orden_idOrden FROM suborden  WHERE idSuborden=".$subordenORG;
               $sqlresult2 = mysqli_query($dbhandle, $sql2);
-              $row2 = mysqli_fetch_assoc($sqlresult2);
-              $ordenORG=$row2['Orden_idOrden'];
+              $row3 = mysqli_fetch_assoc($sqlresult2);
+              $ordenORG=$row3['Orden_idOrden'];
               //Búsqueda de provincia
               $sql2 = "SELECT Provincia_idProvincia FROM canton WHERE idCanton=".$cantonORG;
               $sqlresult2 = mysqli_query($dbhandle, $sql2);
-              $row2 = mysqli_fetch_assoc($sqlresult2);
-              $provinciaORG=$row2['Provincia_idProvincia'];
+              $row3 = mysqli_fetch_assoc($sqlresult2);
+              $provinciaORG=$row3['Provincia_idProvincia'];
               //Búsqueda de nombre común
               $sql2 = "SELECT idNombre_comun FROM nombre_comun  WHERE Especie_idEspecie=".$especieORG;
               $sqlresult2 = mysqli_query($dbhandle, $sql2);
               if(mysqli_num_rows($sqlresult2)>0){
-                while($row2 = mysqli_fetch_assoc($sqlresult2)){
-                  if($row2['idNombre_comun']==$nombreC or $nombreC==""){
+                while($row3 = mysqli_fetch_assoc($sqlresult2)){
+                  if($row3['idNombre_comun']==$nombreC or $nombreC==""){
                     $vNombreC=true;
                   }
                 }
@@ -439,9 +439,9 @@
               //Búsqueda de nombre en inglés #happening 
               $sql2 = "SELECT idNombre_ingles_ave FROM nombre_ingles_ave WHERE Especie_idEspecie=".$especieORG;
               $sqlresult2 = mysqli_query($dbhandle, $sql2);
-              if(mysqli_num_rows($sqlresult1)>0){
-                while($row2 = mysqli_fetch_assoc($sqlresult2)){
-                  if($row2['idNombre_ingles_ave']==$nombreI or $nombreI==""){
+              if(mysqli_num_rows($sqlresult2)>0){
+                while($row3 = mysqli_fetch_assoc($sqlresult2)){
+                  if($row3['idNombre_ingles_ave']==$nombreI or $nombreI==""){
                     $vNombreI=true;
                   }
                 }
@@ -471,7 +471,7 @@
               if($nombre==0 or $nombre==$nombreORG){
                 $vNombre = true;
               }
-              if($especie==0 or $especie==$row['idEspecie']){
+              if($especie==0 or $especie==$row2['idEspecie']){
                 $vEspecie = true;
               }
               if($familia==0 or $familia==$familiaORG){   //////////////////////////////////////////////////////////
@@ -495,16 +495,16 @@
               if($suborden==0 or $suborden==$subordenORG){ /////////////////////////////////////////////////////////
                 $vSuborden = true;
               }
-              if($tiempoI==0 or $tiempoI==$row['Tiempo_incubacion_idTiempo_incubacion']){
+              if($tiempoI==0 or $tiempoI==$row2['Tiempo_incubacion_idTiempo_incubacion']){
                 $vGenero = true;
               }
-              if($tipoH==0 or $tipoH==$row['Tipo_Huevos_idTipo_Huevos']){
+              if($tipoH==0 or $tipoH==$row2['Tipo_Huevos_idTipo_Huevos']){
                 $vTipoH = true;
               }
-              if($tipoI==0 or $tipoI==$row['Tipo_iincubacion_idTipo_incubacion']){
+              if($tipoI==0 or $tipoI==$row2['Tipo_iincubacion_idTipo_incubacion']){
                 $vTipoI = true;
               }
-              if($tipoN==0 or $tipoN==$row['Tipo_Nido_idTipo_Nido']){
+              if($tipoN==0 or $tipoN==$row2['Tipo_Nido_idTipo_Nido']){
                 $vTipoN = true;
               }
 
