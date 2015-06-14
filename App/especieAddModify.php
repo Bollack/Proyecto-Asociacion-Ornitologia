@@ -303,7 +303,6 @@
           //Lo que pasa cuando se presione Modificar  especie
           {
               echo "Modificar";
-              $especieActual = $_POST['especies'];
               $sql10 = "SELECT Nombre_cientifico, idEspecie FROM especie";
               $sqlresult10 = mysqli_query($dbhandle, $sql10);
               if(mysqli_num_rows($sqlresult10)>0){
@@ -322,96 +321,94 @@
               echo "Ave seleccionada";
               //Ver como obtener el id de la especie seleccionada el select especies, dentro del div seleccionarEspecie del form selectEspecie. Dicho id es el value del la opción del select.
               //Será 1 because fuck php.
-              $idEspecieSeleccionada="1";
+              $idEspecieSeleccionada = $_POST['especies'];
 
               echo "<script type='text/javascript'>var idEspecie = '".$idEspecieSeleccionada."';</script>";
 
               //Se comienza a generar y a mostrar los datos de la especie seleccionada
               //para que el usuario compare con los datos que desea modificar.
 
-              $sql11 = "SELECT getNombreCientificoFromEspecieID(".$idEspecieSeleccionada.")";
+              $sql11 = "SELECT getNombreCientificoFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult11 = mysqli_query($dbhandle, $sql11);
-              $row11=mysql_fetch_array($sqlresult11);
-              $nombreCienActual = $row11[0];
+              $row11=mysqli_fetch_array($sqlresult11);
+              $nombreCienActual = $row11['getNombreCientificoFromEspecieID(idEspecie)'];
               echo "<script type='text/javascript'>document.getElementById('info').innerHTML + '<h3>Nombre científico actual: ".$nombreCienActual."</h3>'</script>";
 
 
-              $sql12 = "SELECT getTamanoFromEspecieID(".$idEspecieSeleccionada.")";
+              $sql12 = "SELECT getTamanoFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult12 = mysqli_query($dbhandle, $sql12);
-              $row12=mysql_fetch_array($sqlresult12);
-              $tamanoActual = $row12[0];
+              $row12=mysqli_fetch_array($sqlresult12);
+              $tamanoActual = $row12['getTamanoFromEspecieID(idEspecie)'];
                   echo "<script type='text/javascript'>document.getElementById('info').innerHTML + '<h3>Tamaño actual: ".$tamanoActual."</h3>'</script>";
 
 
-              $sql13 = "SELECT getFormaPicoFromEspecieID(".$idEspecieSeleccionada.")";
+              $sql13 = "SELECT getFormaPicoFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult13 = mysqli_query($dbhandle, $sql13);
-              $row13=mysql_fetch_array($sqlresult13);
-              $generoActual = $row13[0];
+              $row13=mysqli_fetch_array($sqlresult13);
+              $generoActual = $row13['getFormaPicoFromEspecieID(idEspecie)'];
                   echo "<script type='text/javascript'>document.getElementById('info').innerHTML + '<h3>Género al cual pertenece la especie actualmente: ".$generoActual."</h3>'</script>";
 
-              $sql14 = "SELECT getTipoHuevosFromEspecieID(".$idEspecieSeleccionada.")";
+              $sql14 = "SELECT getTipoHuevosFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult14 = mysqli_query($dbhandle, $sql14);
-              $row14=mysql_fetch_array($sqlresult14);
-              $tipHueActual = $row14[0];
+              $row14=mysqli_fetch_array($sqlresult14);
+              $tipHueActual = $row14['getTipoHuevosFromEspecieID(idEspecie)'];
                   echo "<script type='text/javascript'>document.getElementById('info').innerHTML + '<h3>Tipo actual de los huevos de los individuos de la especie: ".$tipHueActual."</h3>'</script>";
 
-              $sql15 = "SELECT getTipoIncubacionFromEspecieID(".$idEspecieSeleccionada.")";
+              $sql15 = "SELECT getTipoIncubacionFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult15 = mysqli_query($dbhandle, $sql15);
-              $row15=mysql_fetch_array($sqlresult15);
-              $tipIncActual = $row15[0];
+              $row15=mysqli_fetch_array($sqlresult15);
+              $tipIncActual = $row15['getTipoIncubacionFromEspecieID(idEspecie)'];
               echo $tipIncActual;
                   echo "<script type='text/javascript'>document.getElementById('info').innerHTML + '<h3>Tipo de incubación actual de la especie: ".$tipIncActual."</h3>'</script>";
 
 
-              $sql16 = "SELECT getCantidadHuevosFromEspecieID(".$idEspecieSeleccionada.")";
+              $sql16 = "SELECT getCantidadHuevosFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult16 = mysqli_query($dbhandle, $sql16);
-              $row16=mysql_fetch_array($sqlresult16);
-              $cantHueActual = $row16[0];
+              $row16=mysqli_fetch_array($sqlresult16);
+              $cantHueActual = $row16['getCantidadHuevosFromEspecieID(idEspecie)'];
                 echo "<script type='text/javascript'>document.getElementById('info').innerHTML + '<h3>Cantidad actual de huevos de los individuos de la especie: ".$cantHueActual."</h3>'</script>";
 
 
-              $sql17 = "SELECT getTipoNidoFromEspecieID(".$idEspecieSeleccionada.")";
+              $sql17 = "SELECT getTipoNidoFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult17 = mysqli_query($dbhandle, $sql17);
-              $row17=mysql_fetch_array($sqlresult17);
-              $tipNidActual = $row17[0];
+              $row17=mysqli_fetch_array($sqlresult17);
+              $tipNidActual = $row17['getTipoNidoFromEspecieID(idEspecie)'];
                   echo "<script type='text/javascript'>document.getElementById('info').innerHTML + '<h3>Tipo de Nido actual de la especie: ".$tipNidActual."</h3>'</script>";
 
 
-              $sql18 = "SELECT getTiempoIncubacionFromEspecieID(".$idEspecieSeleccionada.")";
+              $sql18 = "SELECT getTiempoIncubacionFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult18 = mysqli_query($dbhandle, $sql18);
-              $row18=mysql_fetch_array($sqlresult18);
-              $tiempIncActual = $row18[0];
+              $row18=mysqli_fetch_array($sqlresult18);
+              $tiempIncActual = $row18['getTiempoIncubacionFromEspecieID(idEspecie)'];
                   echo "<script type='text/javascript'>document.getElementById('info').innerHTML + '<h3>Tiempo actual de incubación de la especie: ".$tiempIncActual."</h3>'</script>";
 
 
-              $sql19 = "SELECT getZonaVidaFromEspecieID(".$idEspecieSeleccionada.")";
+              $sql19 = "SELECT getZonaVidaFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult19 = mysqli_query($dbhandle, $sql19);
-              $row19=mysql_fetch_array($sqlresult19);
-              $zonVidActual = $row19[0];
+              $row19=mysqli_fetch_array($sqlresult19);
+              $zonVidActual = $row19['getZonaVidaFromEspecieID(idEspecie)'];
                   echo "<script type='text/javascript'>document.getElementById('info').innerHTML + '<h3>Zona de vida actual de la especie: ".$zonVidActual."</h3>'</script>";
 
               //Comienza el llenado de los selects de dicha sección de modificación
-        /*
+        
               $sql20 = "SELECT Genero, idGenero FROM genero";
-              $sqlresult1 = mysqli_query($dbhandle, $sql20);
+              $sqlresult20 = mysqli_query($dbhandle, $sql20);
               if(mysqli_num_rows($sqlresult20)>0){
                 while($row20 = mysqli_fetch_assoc($sqlresult20)){
                   $id = $row20['idGenero'];
                   $dato =$row20['Genero'];
-                  echo "Good Night";
-                  echo "<script type='text/javascript'>document.getElementById('modify').innerHTML = document.getElementById('
-                    genero_modify').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
+                  echo "<script type='text/javascript'>document.getElementById('genero_modify').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
 
                 }
               }
 
               $sql21 = "SELECT idForma_Pico, Forma_Pico FROM forma_pico";
-              $sqlresult21 = mysqli_query($dbhandle, $sql2);
+              $sqlresult21 = mysqli_query($dbhandle, $sql21);
               if(mysqli_num_rows($sqlresult21)>0){
-                while($row2 = mysqli_fetch_assoc($sqlresult2)){
+                while($row2 = mysqli_fetch_assoc($sqlresult21)){
                   $id = $row2['idForma_Pico'];
                   $dato =$row2['Forma_Pico'];
-                  echo "<script type='text/javascript'>document.getElementById('insertar').innerHTML = document.getElementById('formaPico_insert').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
+                  echo "<script type='text/javascript'>ocument.getElementById('formaPico_modify').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
                 }
               }
 
@@ -422,7 +419,7 @@
                 while($row3 = mysqli_fetch_assoc($sqlresult3)){
                   $id = $row3['idTipo_Huevos'];
                   $dato =$row3['tipo_cascara'];
-                  echo "<script type='text/javascript'>document.getElementById('insertar').innerHTML = document.getElementById('tipoHuevo_insert').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
+                  echo "<script type='text/javascript'>document.getElementById('tipoHuevo_modify').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
                 }
               }
 
@@ -433,7 +430,7 @@
                 while($row4 = mysqli_fetch_assoc($sqlresult4)){
                   $dato = $row4['Tipo_incubacion'];
                   $id =$row4['idTipo_incubacion'];
-                  echo "<script type='text/javascript'>document.getElementById('insertar').innerHTML = document.getElementById('tipoIncubacion_insert').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
+                  echo "<script type='text/javascript'>document.getElementById('tipoIncubacion_modify').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
                 }
               }
 
@@ -443,7 +440,7 @@
                 while($row5 = mysqli_fetch_assoc($sqlresult5)){
                   $dato = $row5['numero_huevos'];
                   $id =$row5['idcantidad_huevos'];
-                 echo "<script type='text/javascript'>document.getElementById('insertar').innerHTML = document.getElementById('cantidadHuevos_insert').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
+                 echo "<script type='text/javascript'>document.getElementById('cantidadHuevos_modify').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
                 }
               }
 
@@ -454,7 +451,7 @@
                 while($row6 = mysqli_fetch_assoc($sqlresult6)){
                   $dato = $row6['Tipo'];
                   $id =$row6['idTipo_Nido'];
-                  echo "<script type='text/javascript'>document.getElementById('insertar').innerHTML = document.getElementById('tipoNido_insert').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
+                  echo "<script type='text/javascript'>document.getElementById('tipoNido_modify').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
                 }
               }
 
@@ -464,7 +461,7 @@
                 while($row7 = mysqli_fetch_assoc($sqlresult7)){
                   $id = $row7['idTiempo_incubacion'];
                   $dato =$row7['Tiempo_incubacion'];
-                  echo "<script type='text/javascript'>document.getElementById('insertar').innerHTML = document.getElementById('tiempoIncubacion_insert').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
+                  echo "<script type='text/javascript'>document.getElementById('tiempoIncubacion_modify').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
                 }
               }
 
@@ -475,7 +472,7 @@
                 while($row8 = mysqli_fetch_assoc($sqlresult8)){
                   $id = $row8['idTamano'];
                   $dato =$row8['Tamano'];
-                  echo "<script type='text/javascript'>document.getElementById('insertar').innerHTML = document.getElementById('tamano_insert').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
+                  echo "<script type='text/javascript'>document.getElementById('tamano_modify').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
                 }
               }
               $sql9 = "SELECT Zona, idZonaVida FROM zonavida";
@@ -484,11 +481,12 @@
                 while($row9 = mysqli_fetch_assoc($sqlresult9)){
                   $id = $row9['idZonaVida'];
                   $dato =$row9['Zona'];
-                  echo "<script type='text/javascript'>document.getElementById('modify').innerHTML = document.getElementById('ZonaVida_insert').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
+                  echo "<script type='text/javascript'> document.getElementById('ZonaVida_modify').innerHTML + '<option value=".$id.">".$dato."</option>'</script>";
                 }
               }
 
-              */
+              echo "<script type='text/javascript'>document.getElementById('seleccionarEspecie').className='hidden';</script>";
+              echo "<script type='text/javascript'>document.getElementById('modify').className='';</script>";
 
               
               
