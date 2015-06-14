@@ -441,7 +441,7 @@
               $sqlresult2 = mysqli_query($dbhandle, $sql2);
               if(mysqli_num_rows($sqlresult1)>0){
                 while($row2 = mysqli_fetch_assoc($sqlresult2)){
-                  if($row2['idNombre_ingles_ave']==$nombreI){
+                  if($row2['idNombre_ingles_ave']==$nombreI or $nombreI==""){
                     $vNombreI=true;
                   }
                 }
