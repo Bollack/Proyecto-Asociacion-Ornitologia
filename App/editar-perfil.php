@@ -19,16 +19,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="crear-album.php">Hidden Bird</a>
+          <a class="navbar-brand" href="consulta-albumes.php">Hidden Bird</a>
         </div>
         
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="nav-derecha" class="nav navbar-nav">
-            <li id="tab3" class="hidden"><a href="crear-album.php">Subir album</a></li>
+            <li id="tab3" class="hidden"><a href="crear-album.php">Subir álbum</a></li>
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Consultas<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="consulta-albumes.php">Consulta de albumes</a></li>
+                <li><a href="consulta-albumes.php">Consulta de álbumes</a></li>
                 <li><a href="consulta-usuarios.php">Consulta de usuarios</a></li>
               </ul>
             </li>
@@ -39,7 +39,7 @@
 
           <ul class="nav navbar-nav navbar-right" id="der-nav">
             <li id="tab4" class="hidden"><a href="perfil.php">Mi perfil</a></li>
-            <li><a href="ingresar.php">Ingresar</a></li>
+            <li id="tab5"><a href="ingresar.php">Ingresar</a></li>
             <li><a href="registro.php">Registrarse</a></li>
             <li><a href="log-out.php">Log Out</a></li>
           </ul>
@@ -114,6 +114,7 @@
       if($_SESSION['idPersona']!=""){
         echo "<script type=\"text/javascript\">document.getElementById(\"tab3\").className=\"\";</script>";
         echo "<script type=\"text/javascript\">document.getElementById(\"tab4\").className=\"\";</script>";
+        echo "<script type=\"text/javascript\">document.getElementById(\"tab5\").className=\"hidden\";</script>";
       }
     ?>
   </body>

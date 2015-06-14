@@ -21,7 +21,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="crear-album.php">Hidden Bird</a>
+          <a class="navbar-brand" href="consulta-albumes.php">Hidden Bird</a>
         </div>
         
         <div id="navbar" class="navbar-collapse collapse">
@@ -41,7 +41,7 @@
 
           <ul class="nav navbar-nav navbar-right" id="der-nav">
             <li id="tab4" class="hidden"><a href="perfil.php">Mi perfil</a></li>
-            <li><a href="ingresar.php">Ingresar</a></li>
+            <li id="tab5"><a href="ingresar.php">Ingresar</a></li>
             <li><a href="registro.php">Registrarse</a></li>
             <li><a href="log-out.php">Log Out</a></li>
           </ul>
@@ -182,6 +182,15 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/consulta-albumes.js"></script>
     <?php
+      if($_SESSION['idPersona']==1){
+        echo "<script type=\"text/javascript\">document.getElementById(\"tab2\").className=\"\";</script>";
+        echo "<script type=\"text/javascript\">document.getElementById(\"tab1\").className=\"\";</script>";
+      }
+      if($_SESSION['idPersona']!=""){
+        echo "<script type=\"text/javascript\">document.getElementById(\"tab3\").className=\"\";</script>";
+        echo "<script type=\"text/javascript\">document.getElementById(\"tab4\").className=\"\";</script>";
+        echo "<script type=\"text/javascript\">document.getElementById(\"tab5\").className=\"hidden\";</script>";
+      }
       $username = "Administrador";
       $password = "Admin13";
       $hostname = "186.176.166.148:3306";
@@ -526,14 +535,6 @@
             echo "<script type='text/javascript'>document.getElementById('fotos').innerHTML = document.getElementById('fotos').innerHTML + '<h3>No hubo resultados.</h3>'</script>";
           }
         }
-      }
-      if($_SESSION['idPersona']==1){
-        echo "<script type=\"text/javascript\">document.getElementById(\"tab2\").className=\"\";</script>";
-        echo "<script type=\"text/javascript\">document.getElementById(\"tab1\").className=\"\";</script>";
-      }
-      if($_SESSION['idPersona']!=""){
-        echo "<script type=\"text/javascript\">document.getElementById(\"tab3\").className=\"\";</script>";
-        echo "<script type=\"text/javascript\">document.getElementById(\"tab4\").className=\"\";</script>";
       }
     ?>
   </body>
