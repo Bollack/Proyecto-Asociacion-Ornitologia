@@ -161,6 +161,7 @@ BEGIN
     RETURN nombre;
 END;
 °°
+SELECT getNombreCientificoFromEspecieID(1);
 
 Delimiter °°
 °°
@@ -203,7 +204,7 @@ CREATE FUNCTION getFormaPicoFromEspecieID(pidEspecie INT) #CREADA
 RETURNS VARCHAR(75)
 BEGIN
 	DECLARE nombre VARCHAR(75);
-    SELECT Tamano
+    SELECT Forma_Pico
     INTO nombre
     FROM forma_pico a
     INNER JOIN especie b
@@ -213,6 +214,7 @@ BEGIN
 END;
 °°
 
+DROP FUNCTION getFormaPicoFromEspecieID;
 
 Delimiter °°
 °°
@@ -320,7 +322,7 @@ DROP FUNCTION getNombreCientificoFromEspecieID;
 Select getNombreCientificoFromEspecieID(idEspecie)
 FROM especie;
 
-
+SELECT getTiempoIncubacionFromEspecieID(idEspecie) FROM especie WHERE idEspecie=4;
 Delimiter °°
 °°
 CREATE PROCEDURE ChangeBodyEmail (IN pCuerpo VARCHAR(300))

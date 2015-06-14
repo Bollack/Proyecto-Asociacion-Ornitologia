@@ -60,7 +60,6 @@
         <select class="form-control" name="tabla" id="tabla">
           <option value="0">Cantidad de Huevos</option>
           <option value="1">Color</option>
-          <option value="2">Especie</option>
           <option value="3">Familia</option>
           <option value="4">Forma de Pico</option>
           <option value="5">Género</option>
@@ -74,7 +73,7 @@
           <option value="13">Tipo de incubación</option>
           <option value="14">Tipo de nido</option>
           <option value="15">Zona de vida</option>
-          <option value="16">DATA LOG</option>
+          <!--<option value="16">DATA LOG</option>-->
         </select>
         <input id="submit" name="submit" type="submit" value="Seleccionar tabla" class="btn btn-primary btn-block" style="margin-top:10px">
       </div>
@@ -90,7 +89,7 @@
           <input type="text" id="insertar" name="insertar" class="form-control" placeholder="DATA">
         </div>
         <div class="form-group">
-          <label for="requerimiento">Requeriento:</label>
+          <label for="requerimiento">Requerimiento:</label>
           <select class="form-control" id="requerimiento" name="requerimiento">
           </select>
         </div>
@@ -114,18 +113,32 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/catalogo.js"></script>
     <?php
+
+      function getFilaArregloFromTabla($arreglo, $posArreglo, $nombreTabla)
+      {
+        $len = count($arreglo);
+        for ($i=0;$i<$len;$i++)
+        {
+          if($arreglo[$i][$posArreglo]==$nombreTabla)
+          {
+            return $i;
+          }
+        }
+      }
+
+
       if(isset($_POST["tabla"])){
         $tabla = $_POST["tabla"];
         $constantes = [["cantidad_huevos","idcantidad_huevos", "numero_huevos",""],
         ["color","Color_id","Color",""],
-        ["especie","idEspecie","Nombre_cientifico","Genero_idGenero"],
-        ["familia","idFamilia","Familia","Suborden_idSuborden"],
+        ["especie","idEspecie","Nombre_cientifico","Genero_idGenero","genero"],
+        ["familia","idFamilia","Familia","Suborden_idSuborden", "suborden"],
         ["forma_pico","idForma_Pico","Forma_Pico",""],
-        ["genero","idGenero","Genero","Familia_idFamilia"],
-        ["nombre_comun","idNombre_comun","Nombre","Especie_idEspecie"],
-        ["nombre_ingles_ave","idNombre_ingles_ave","nombre","Especie_idEspecie"],
-        ["orden","idOrden","Orden","Clase_idClase"],
-        ["suborden","idSuborden","Suborden","Orden_idOrden"],
+        ["genero","idGenero","Genero","Familia_idFamilia","familia"],
+        ["nombre_comun","idNombre_comun","Nombre","Especie_idEspecie","familia"],
+        ["nombre_ingles_ave","idNombre_ingles_ave","nombre","Especie_idEspecie", "especie"],
+        ["orden","idOrden","Orden","Clase_idClase","clase"],
+        ["suborden","idSuborden","Suborden","Orden_idOrden", "orden"],
         ["tamano","idTamano","Tamano",""],
         ["tiempo_incubacion","idTiempo_incubacion","Tiempo_incubacion",""],
         ["tipo_huevos","idTipo_Huevos","tipo_cascara",""],
@@ -156,7 +169,20 @@
             echo "<script type='text/javascript'>document.getElementById('fi').className='class';</script>";
           }
           if($constantes[$tabla][3]!=""){
-            
+            $posArregloInArreglo= getFilaArregloFromTabla($constantes,0,$constantes[$tabla][4]);
+            echo $posArregloInArreglo;
+
+            $sql="SELECT ".$constantes[$posArregloInArreglo][1].", ".$constantes[$posArregloInArreglo][2]." FROM ".$constantes[$tabla][4];
+            echo $sql;
+            $sqlresult = mysqli_query($dbhandle,$sql);
+            while($row = mysqli_fetch_assoc($sqlresult))
+            {
+              $pk = $row[$constantes[$posArregloInArreglo][1]];
+              $dato = $row[$constantes[$posArregloInArreglo][2]];
+               echo "<script type='text/javascript'>document.getElementById('requerimiento').innerHTML = document.getElementById('requerimiento').innerHTML + '<option value=".$pk.">".$dato."</option>'</script>";
+            echo "<script type='text/javascript'>document.getElementById('fm').className='class';</script>";
+            }
+
           }else{
             echo "<script type='text/javascript'>document.getElementById('requerimiento').innerHTML = document.getElementById('requerimiento').innerHTML + '<option value=\"\">Esta tabla no tiene requerimientos.</option>'</script>";
           }
