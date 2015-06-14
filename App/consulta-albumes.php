@@ -403,7 +403,49 @@
               $sqlresult2 = mysqli_query($dbhandle, $sql2);
               $row2 = mysqli_fetch_assoc($sqlresult2);
               $generoORG = $row['Genero_idGenero'];
-              $sql3 = "";
+
+              //Búsqueda de familia
+
+              $sql2 = "SELECT Familia_idFamilia FROM genero WHERE idGenero=".$generoORG;
+              $sqlresult2 = mysqli_query($dbhandle, $sql2);
+              $row2 = mysqli_fetch_assoc($sqlresult2);
+              $familiaORG=$row2['Familia_idFamilia'];
+              //Búsqueda de suborden
+              $sql2 = "SELECT Suborden_idSuborden FROM familia WHERE idFamilia=".$familiaORG;
+              $sqlresult2 = mysqli_query($dbhandle, $sql2);
+              $row2 = mysqli_fetch_assoc($sqlresult2);
+              $subordenORG=$row2['Suborden_idSuborden'];
+              //Búsqueda de orden
+              $sql2 = "SELECT Orden_idOrden FROM orden  WHERE idSuborden=".$subordenORG;
+              $sqlresult2 = mysqli_query($dbhandle, $sql2);
+              $row2 = mysqli_fetch_assoc($sqlresult2);
+              $ordenORG=$row2['Orden_idOrden'];
+              //Búsqueda de provincia
+              $sql2 = "SELECT Provincia_idProvincia FROM canton WHERE idCanton=".$cantonORG;
+              $sqlresult2 = mysqli_query($dbhandle, $sql2);
+              $row2 = mysqli_fetch_assoc($sqlresult2);
+              $provinciaORG=$row2['Provincia_idProvincia'];
+              //Búsqueda de nombre común
+              $sql2 = "SELECT idNombre_comun FROM nombre_comun  WHERE Especie_idEspecie=".$especieORG;
+              $sqlresult2 = mysqli_query($dbhandle, $sql2);
+              if(mysqli_num_rows($sqlresult2)>0){
+                while($row2 = mysqli_fetch_assoc($sqlresult2)){
+                  if($row2['idNombre_comun']==$nombreC or $nombreC==""){
+                    $vNombreC=true;
+                  }
+                }
+              }
+
+              //Búsqueda de nombre en inglés #happening 
+              $sql2 = "SELECT idNombre_ingles_ave FROM nombre_ingles_ave WHERE Especie_idEspecie=".$especieORG;
+              $sqlresult2 = mysqli_query($dbhandle, $sql2);
+              if(mysqli_num_rows($sqlresult1)>0){
+                while($row2 = mysqli_fetch_assoc($sqlresult2)){
+                  if($row2['idNombre_ingles_ave']==$nombreI){
+                    $vNombreI=true;
+                  }
+                }
+              }
 
               if($pico==0 or $pico==$row2['Forma_Pico_idForma_Pico']){
                 $vPico = true;
@@ -432,25 +474,25 @@
               if($especie==0 or $especie==$row['idEspecie']){
                 $vEspecie = true;
               }
-              if($familia==0 or $familia==true){   //////////////////////////////////////////////////////////
+              if($familia==0 or $familia==$familiaORG){   //////////////////////////////////////////////////////////
                 $vFamilia = true;
               }
               if($genero==0 or $genero==$generoORG){
                 $vGenero = true;
               }
-              if($nombreC==0 or $nombreC==true){   //////////////////////////////////////////////////////////
-                $vNombreC = true;
-              }
-              if($nombreI==0 or $nombreI==true){   //////////////////////////////////////////////////////////
-                $vNombreI = true;
-              }
-              if($orden==0 or $orden==true){       //////////////////////////////////////////////////////////
+              //if($nombreC==0 or $nombreC==true){   //////////////////////////////////////////////////////////
+              //  $vNombreC = true;
+              //}
+              //if($nombreI==0 or $nombreI==true){   //////////////////////////////////////////////////////////
+                //$vNombreI = true;
+              //}
+              if($orden==0 or $orden==$ordenORG){       //////////////////////////////////////////////////////////
                 $vOrden = true;
               }
-              if($provincia==0 or $provincia==true){////////////////////////////////////////////////////////
+              if($provincia==0 or $provincia==$provinciaORG){////////////////////////////////////////////////////////
                 $vProvincia = true;
               }
-              if($suborden==0 or $suborden==true){ /////////////////////////////////////////////////////////
+              if($suborden==0 or $suborden==$subordenORG){ /////////////////////////////////////////////////////////
                 $vSuborden = true;
               }
               if($tiempoI==0 or $tiempoI==$row['Tiempo_incubacion_idTiempo_incubacion']){
