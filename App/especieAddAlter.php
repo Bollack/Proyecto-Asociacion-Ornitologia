@@ -1,7 +1,7 @@
 <?php
-	$tabla = $_GET["t"];
+	//$tabla = $_GET["t"];
 	//$valor = $_GET["v"];
-	$columna = $_GET["c"];
+	//$columna = $_GET["c"];
 	$return = $_GET["r"];
 	
 	$username = "Administrador";
@@ -48,6 +48,7 @@
 
 		}else{ //Aquí sucede el backend al querer insertar una especie
 			echo "Insertando especie...";
+			echo $_GET["isModify"];
 			$pNombreCientifico = $_GET["nom_cien"];
 			$pGenero = "'," . $_GET["id_Gen"];
 			$pFormaPico = "," . $_GET["id_For_Pico"];
