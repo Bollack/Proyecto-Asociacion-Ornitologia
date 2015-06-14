@@ -32,14 +32,14 @@
 			    echo "<script type=\"text/javascript\">";
 				echo "setTimeout(function(){swal(\"Especie modificada\", \"Se ha modificado la especie correctamente\", \"success\");";
 			    echo "},1000);</script>";
-				sleep(4);
+				sleep(2);
 				//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
 			} else {
 			    echo "<script type=\"text/javascript\">";
 				echo "setTimeout(function(){swal(\"ERROR, PANIC!\", \"La especie no se ha podido modificar por carácteres inválidos, ya existe o por error de conexión.\", \"error\");";
 			    echo "},1000);</script>";
 				mysqli_close($dbhandle);
-				sleep(4);
+				sleep(2);
 				//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";		    
 			}
 

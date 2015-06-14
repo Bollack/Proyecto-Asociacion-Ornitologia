@@ -70,7 +70,7 @@
       <div class="hidden" style="width:600px; margin:auto;" id="insertar"> <!--Aquí va el cambio de clase-->
         <form name="fInsertar" class="form-horizontal" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
           <div class="text-center" id="titulo">
-            <h3>Inserción de especie.</h3>
+            <h4>Inserción de especie.</h4>
           </div> 
           <div class="form-group">
             <label for="nombreCientifico_insert">Seleccione el nombre científico del ave a insertar:</label>
@@ -121,7 +121,7 @@
               <select class="form-control" id="tiempoIncubacion_insert" name="tiempoIncubacion_insert">
               </select>
           </div>
-          <h4 id="agregar" class="btn-info text-center" style="height:25px; font-weight:bold; color: white; border-radius: 10px; padding-top:2px">Insertar a la tabla</h4>
+          <h4 id="agregar1" class="btn-info text-center" style="height:25px; font-weight:bold; color: white; border-radius: 10px; padding-top:2px">Insertar a la tabla</h4>
         </form> 
       </div>     
 
@@ -142,7 +142,7 @@
         <form name="fModificar" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
           
             <div class="text-center" id="titulo">
-                <h3>Modificación de especie.</h3>
+                <h4>Modificación de especie.</h4>
             </div>
             <div class="text-center" id="info" style="width:600px;margin:auto;">
             </div>
@@ -203,7 +203,30 @@
 
   	<script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/adminEspecie.js"></script>
+    <!--<script src="js/adminEspecie.js"></script>-->
+
+
+
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+          $('#agregar1').click(function(){
+              alert("Hello!");
+              window.location.href = "../App/especieAddAlter.php?nom_cien="+$("#nombreCientifico_insert").val()+"&id_Gen="+$("#genero_insert").val()+"&id_For_Pico="+$("#formaPico_insert").val()+"&id_Tipo_Hue="+$("#tipoHuevo_insert").val()+"&id_Tipo_Inc="+$("#tipoIncubacion_insert").val()+"&id_Cant_Hue="+$("#cantidadHuevos_insert").val()+"&id_Tipo_Ni="+$("#tipoNido_insert").val()+"&id_Tiem_Inc="+$("#tiempoIncubacion_insert").val()+"&id_Size="+$("#tamano_insert").val()+"&id_Zon_Vi="+$("#ZonaVida_insert").val()+"&isModify=+"+"0"+"&r="+window.location;  
+              //window.location.href = "../App/especieAddAlter.php?t="+"&nom_cien"+$("#nombreCientifico_insert").val()+"&id_Gen="+$("#genero_insert").options["#genero_insert".selectedIndex].value+"&id_For_Pico="+$("#formaPico_insert").options["#formaPico_insert".selectedIndex].value+"&id_Tipo_Hue="+$("#formaPico_insert").options["#formaPico_insert".selectedIndex].value+$("#").options["#".selectedIndex].value+"&id_Tipo_Inc="+$("#tipoIncubacion_insert").options["#tipoIncubacion_insert".selectedIndex].value+"&id_Cant_Hue="+$("#cantidadHuevos_insert").options["#cantidadHuevos_insert".selectedIndex].value+"&id_Tipo_Ni="+$("#tipoNido_insert").options["#tipoNido_insert".selectedIndex].value+"&id_Tiem_Inc="+$("#tiempoIncubacion_insert").options["#tiempoIncubacion_insert".selectedIndex].value+"&id_Size="+$("#tamano_insert").options["#tamano_insert".selectedIndex].value+"&c="+"&id_Zon_Vi="+$("#ZonaVida_insert").options["#ZonaVida_insert".selectedIndex].value+"&isModify=+"+"0"+window.location; 
+          });
+          $('#modifyEspecie').click(function(){
+            alert("Hello!");
+            window.location.href = "../App/especieAddAlter.php?id_Main="+idEspecie+"&nom_cien"+$("#nombreCientifico_modify").val()+"&id_Gen="+$("#genero_modify").val()+"&id_For_Pico="+$("#formaPico_modify").val()+"&id_Tipo_Hue="+$("#formaPico_modify").val()+"&id_Tipo_Inc="+$("#tipoIncubacion_modify").val()+"&id_Cant_Hue="+$("#cantidadHuevos_modify").val()+"&id_Tipo_Ni="+$("#tipoNido_modify").val()+"&id_Tiem_Inc="+$("#tiempoIncubacion_modify").val()+"&id_Size="+$("#tamano_modify").val()+"&id_Zon_Vi="+$("#ZonaVida_modify").val()+"&isModify=+"+"1"+"&r="window.location;
+          });
+        });
+
+    </script>
+
+
 
     <!--Aquí comienza el PHP-->
     <?php
@@ -343,12 +366,17 @@
               $tamanoActual = $row12['getTamanoFromEspecieID(idEspecie)'];
                   echo "<script type='text/javascript'>document.getElementById('info').innerHTML = document.getElementById('info').innerHTML + '<h3>Tamaño actual: ".$tamanoActual."</h3>'</script>";
 
+              $sql13 = "SELECT getGeneroFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
+              $sqlresult13 = mysqli_query($dbhandle, $sql13);
+              $row13=mysqli_fetch_array($sqlresult13);
+              $generoActual = $row13['getGeneroFromEspecieID(idEspecie)'];
+                  echo "<script type='text/javascript'>document.getElementById('info').innerHTML = document.getElementById('info').innerHTML +'<h3>Género al cual pertenece la especie actualmente: ".$generoActual."</h3>'</script>";
 
               $sql13 = "SELECT getFormaPicoFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult13 = mysqli_query($dbhandle, $sql13);
               $row13=mysqli_fetch_array($sqlresult13);
-              $generoActual = $row13['getFormaPicoFromEspecieID(idEspecie)'];
-                  echo "<script type='text/javascript'>document.getElementById('info').innerHTML = document.getElementById('info').innerHTML +'<h3>Género al cual pertenece la especie actualmente: ".$generoActual."</h3>'</script>";
+              $formaPicoActual = $row13['getFormaPicoFromEspecieID(idEspecie)'];
+                  echo "<script type='text/javascript'>document.getElementById('info').innerHTML = document.getElementById('info').innerHTML +'<h3>Forma de pico actual de la especie: ".$formaPicoActual."</h3>'</script>";
 
               $sql14 = "SELECT getTipoHuevosFromEspecieID(idEspecie) FROM especie WHERE idEspecie=".$idEspecieSeleccionada;
               $sqlresult14 = mysqli_query($dbhandle, $sql14);
@@ -382,7 +410,7 @@
               $sqlresult18 = mysqli_query($dbhandle, $sql18);
               $row18=mysqli_fetch_array($sqlresult18);
               $tiempIncActual = $row18['getTiempoIncubacionFromEspecieID(idEspecie)'];
-                  echo "<script type='text/javascript'>document.getElementById('info').innerHTML  = document.getElementById('info').innerHTML + '<h3>Tiempo actual de incubación de la especie: </h3>'</script>";
+                  echo "<script type='text/javascript'>document.getElementById('info').innerHTML  = document.getElementById('info').innerHTML + '<h3>Tiempo actual de incubación de la especie:".$tiempIncActual." </h3>'</script>";
                   //echo "<script type='text/javascript'>document.getElementById('info').innerHTML = '<h3>Tiempo actual de incubación de la especie: ".$tiempIncActual."</h3>'</script>";
 
 

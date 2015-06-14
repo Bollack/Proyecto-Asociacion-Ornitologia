@@ -31,18 +31,17 @@
 		    echo "<script type=\"text/javascript\">";
 			echo "setTimeout(function(){swal(\"Dato insertado\", \"Se ha insertado el dato correctamente\", \"success\");";
 		    echo "},1000);</script>";
-			sleep(4);
-			//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
+			sleep(1);
+			echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
 		} else {
 			$error = "Conexión fallida: " . mysqli_connect_error();
 			echo $error;
 		    echo "<script type=\"text/javascript\">";
 			echo "setTimeout(function(){swal(\"ERROR, PANIC!\", \"El dato no se ha podido insertar por carácteres inválidos, ya existe o por error de conexión.\"'".mysqli_connect_error()."' \"error\");";
 		    echo "},1000);;</script>";
-			sleep(4);
+			sleep(1);
 			mysqli_close($dbhandle);
-			//
-			//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";		    
+			echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";		    
 		}
 
 	}
