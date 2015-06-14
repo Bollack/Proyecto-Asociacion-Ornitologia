@@ -13,7 +13,9 @@
 
   </head>
   <body>
-
+    <?php
+      session_start();
+    ?>
   	<nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
@@ -28,7 +30,7 @@
         
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="nav-derecha" class="nav navbar-nav">
-            <li><a href="crear-album.php">Subir album</a></li>
+            <li id="tab3" class="hidden"><a href="crear-album.php">Subir album</a></li>
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Consultas<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -37,12 +39,12 @@
               </ul>
             </li>
             <li><a href="estadisticas.php">Estadísticas</a></li>
-            <li><a href="tCatalogo.php">Tablas catalogo</a></li>
-            <li><a href="especieAddModify.php">Control de especies</a></li>
+            <li id="tab1" class="hidden"><a href="tCatalogo.php">Tablas catalogo</a></li>
+            <li id="tab2" class="hidden"><a href="especieAddModify.php">Control de especies</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right" id="der-nav">
-            <li><a href="perfil.php">Mi perfil</a></li>
+            <li id="tab4" class="hidden"><a href="perfil.php">Mi perfil</a></li>
             <li><a href="ingresar.php">Ingresar</a></li>
             <li><a href="registro.php">Registrarse</a></li>
             <li><a href="log-out.php">Log Out</a></li>
@@ -114,7 +116,14 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/catalogo.js"></script>
     <?php
-
+      if($_SESSION['idPersona']==1){
+        echo "<script type=\"text/javascript\">document.getElementById(\"tab2\").className=\"\";</script>";
+        echo "<script type=\"text/javascript\">document.getElementById(\"tab1\").className=\"\";</script>";
+      }
+      if($_SESSION['idPersona']!=""){
+        echo "<script type=\"text/javascript\">document.getElementById(\"tab3\").className=\"\";</script>";
+        echo "<script type=\"text/javascript\">document.getElementById(\"tab4\").className=\"\";</script>";
+      }
       function getFilaArregloFromTabla($arreglo, $posArreglo, $nombreTabla)
       {
         $len = count($arreglo);
