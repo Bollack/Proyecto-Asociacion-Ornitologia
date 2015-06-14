@@ -1,6 +1,6 @@
 <?php
 	$tabla = $_GET["t"];
-	$valor = $_GET["v"];
+	//$valor = $_GET["v"];
 	$columna = $_GET["c"];
 	$return = $_GET["r"];
 	
@@ -25,7 +25,7 @@
 			$pTiempoIncubacion = "," . $_GET["id_Tiem_Inc"];
 			$pTamano = "," . $_GET["id_Size"];
 			$pZonaVida = "," . $_GET["id_Zon_Vi"];
-			$sql = "CALL  modifyEspecie(".$idEspecie.$pNombreCientifico.$pGenero.$pFormaPico.$pTipoHuevos.$pTipoIncubacion.$pCantHuevos.$pTipoNido.$pTiempoIncubacion.$pTamano.$pZonaVida" );";
+			$sql = "CALL  modifyEspecie(".$idEspecie.$pNombreCientifico.$pGenero.$pFormaPico.$pTipoHuevos.$pTipoIncubacion.$pCantHuevos.$pTipoNido.$pTiempoIncubacion.$pTamano.$pZonaVida." );";
 			echo $sql;
 			if (mysqli_query($dbhandle, $sql)) {
 				mysqli_close($dbhandle);
@@ -49,7 +49,7 @@
 		}else{ //Aquí sucede el backend al querer insertar una especie
 			echo "Insertando especie...";
 			$pNombreCientifico = $_GET["nom_cien"];
-			$pGenero = "," . $_GET["id_Gen"];
+			$pGenero = "'," . $_GET["id_Gen"];
 			$pFormaPico = "," . $_GET["id_For_Pico"];
 			$pTipoHuevos = "," . $_GET["id_Tipo_Hue"];
 			$pTipoIncubacion= "," . $_GET["id_Tipo_Inc"];
@@ -58,7 +58,7 @@
 			$pTiempoIncubacion = "," . $_GET["id_Tiem_Inc"];
 			$pTamano = "," . $_GET["id_Size"];
 			$pZonaVida = "," . $_GET["id_Zon_Vi"];
-			$sql1 = "CALL  insert_Especie("$pNombreCientifico.$pGenero.$pFormaPico.$pTipoHuevos.$pTipoIncubacion.$pCantHuevos.$pTipoNido.$pTiempoIncubacion.$pTamano.$pZonaVida" );";
+			$sql1 = "CALL  insert_Especie('".$pNombreCientifico.$pGenero.$pFormaPico.$pTipoHuevos.$pTipoIncubacion.$pCantHuevos.$pTipoNido.$pTiempoIncubacion.$pTamano.$pZonaVida." );";
 			echo $sql1;
 			if (mysqli_query($dbhandle, $sql1)) {
 				mysqli_close($dbhandle);
@@ -66,7 +66,7 @@
 				echo "setTimeout(function(){swal(\"Especie insertada\", \"Se ha insertado la especie en la base de datos correctamente\", \"success\");";
 			    echo "},1000);</script>";
 				sleep(4);
-				//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
+				echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
 			} else {
 			    echo "<script type=\"text/javascript\">";
 				echo "setTimeout(function(){swal(\"ERROR, PANIC!\", \"El dato no se ha podido insertar por carácteres inválidos, ya existe o por error de conexión.\", \"error\");";
