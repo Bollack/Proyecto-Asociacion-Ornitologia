@@ -26,11 +26,11 @@
         
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="nav-derecha" class="nav navbar-nav">
-            <li id="tab3" class="hidden"><a href="crear-album.php">Subir album</a></li>
+            <li id="tab3" class="hidden"><a href="crear-album.php">Subir álbum</a></li>
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Consultas<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="consulta-albumes.php">Consulta de albumes</a></li>
+                <li><a href="consulta-albumes.php">Consulta de álbumes</a></li>
                 <li><a href="consulta-usuarios.php">Consulta de usuarios</a></li>
               </ul>
             </li>
@@ -51,122 +51,123 @@
     <div class="contenedor" style="width:600px;margin:auto;">
       <form class="form-inline" id="form" role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
         <h1 class="text-center">Búsqueda de álbumes registrados</h1>
+        <h4 class="text-center">En esta sección puede visualizar los distintos álbumes en el sistema y seleccionar los deseados con base a una serie de filtros predeterminado. Si no desea aplicar ningún filtro, deje todas las opciones en "No importa" y presione "Buscar".</h4>
         <div class="form-group">
-          <label>Filtrar tipo de pico:</label><br>
+          <label>Filtrar por tipo de pico:</label><br>
           <select class="form-control" id="Pico" name="Pico">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar color:</label><br>
+          <label>Filtrar por color:</label><br>
           <select class="form-control" id="Color" name="Color">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar cantidad de huevos:</label><br>
+          <label>Filtrar por cantidad de huevos:</label><br>
           <select class="form-control" id="cHuevos" name="cHuevos">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar zona de vida:</label><br>
+          <label>Filtrar por zona de vida:</label><br>
           <select class="form-control" id="Zona" name="Zona">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar tamaño:</label><br>
+          <label>Filtrar por tamaño:</label><br>
           <select class="form-control" id="Tamano" name="Tamano">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar usuario:</label><br>
+          <label>Filtrar por usuario:</label><br>
           <select class="form-control" id="Persona" name="Persona">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar cantón:</label><br>
+          <label>Filtrar por cantón:</label><br>
           <select class="form-control" id="Canton" name="Canton">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar nombre del álbum:</label><br>
+          <label>Filtrar por nombre del álbum:</label><br>
           <select class="form-control" id="Nombre" name="Nombre">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar especie:</label><br>
+          <label>Filtrar por especie:</label><br>
           <select class="form-control" id="Especie" name="Especie">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar familia:</label><br>
+          <label>Filtrar por familia:</label><br>
           <select class="form-control" id="Familia" name="Familia">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar genero:</label><br>
+          <label>Filtrar por género:</label><br>
           <select class="form-control" id="Genero" name="Genero">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar nombre común:</label><br>
+          <label>Filtrar por nombre común:</label><br>
           <select class="form-control" id="NombreC" name="NombreC">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar nombre ingles:</label><br>
+          <label>Filtrar por nombre en inglés:</label><br>
           <select class="form-control" id="NombreI" name="NombreI">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar orden:</label><br>
+          <label>Filtrar por orden:</label><br>
           <select class="form-control" id="Orden" name="Orden">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar provincia:</label><br>
+          <label>Filtrar por provincia:</label><br>
           <select class="form-control" id="Provincia" name="Provincia">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar suborden:</label><br>
+          <label>Filtrar por suborden:</label><br>
           <select class="form-control" id="Suborden" name="Suborden">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar tiempo incubación:</label><br>
+          <label>Filtrar por tiempo incubación:</label><br>
           <select class="form-control" id="TiempoI" name="TiempoI">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar tipo de huevos:</label><br>
+          <label>Filtrar por tipo de huevos:</label><br>
           <select class="form-control" id="TipoH" name="TipoH">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar tipo incubación:</label><br>
+          <label>Filtrar por tipo incubación:</label><br>
           <select class="form-control" id="TipoI" name="TipoI">
             <option value=0>No importa</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Filtrar tipo nido:</label><br>
+          <label>Filtrar por tipo de nido:</label><br>
           <select class="form-control" id="TipoN" name="TipoN">
             <option value=0>No importa</option>
           </select>

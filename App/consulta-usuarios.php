@@ -60,7 +60,7 @@
           <label class="checkbox-inline"><input type="checkbox" name="Nombre" id="Nombre" value="Nombre">Nombre</label>
           <label class="checkbox-inline"><input type="checkbox" name="Apellido" id="Apellido" value="Apellido">Apellido</label>
           <label class="checkbox-inline"><input type="checkbox" name="Sexo" id="Sexo" value="Sexo">Sexo</label>
-          <label class="checkbox-inline"><input type="checkbox" name="fNac" id="fNac" value="Fecha_Nacimiento">Fecha de nacimento</label>
+          <label class="checkbox-inline"><input type="checkbox" name="fNac" id="fNac" value="Fecha_Nacimiento">Fecha de nacimiento</label>
           <label class="checkbox-inline"><input type="checkbox" name="Direccion" id="Direccion" value="Direccion">Dirección</label>
         </div>
         <button id="busqueda" class="btn btn-lg btn-primary btn-block" type="submit">Buscar</button>

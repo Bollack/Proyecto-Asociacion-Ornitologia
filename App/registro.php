@@ -60,12 +60,20 @@
       }else{
         $telefono1 = $_POST["Telefono1"];
       }
-      if($_POST['tUsuario']= "Aficionado"){
-        $tipo = 1;
-      }else{
-        $tipo = 2;
-      }      
+      //if($_POST['tUsuario']= "Aficionado"){ //ANALIZAR!!!!!!!!
+      //  $tipo = 1;
+      //}else if($_POST['tUsuario']="Ornitologo"){ //Antes estaba sólo como else
+      //  $tipo = 2;
+      //}      
       $sexo = $_POST['sexo'];
+      $tipo=$_POST['tUsuario'];  //Lo hice así para probar. 
+      echo $tipo;
+      if ($tipo=='Aficionado')
+      {
+        $tipo=1;
+      }else{
+        $tipo=2;
+      }
       $tCounter = $_POST['cantTelefonos'];
       $cCounter = $_POST['cantCorreos'];
       if(!$errUsuario && !$errPassword && !$errNombre && !$errTelefono && !$errCorreo && !$errApellido && !$errDireccion && !$errFNac){
@@ -80,6 +88,7 @@
             $id = $row["idPersona"];
           }
           $sql = "INSERT INTO persona (Username, Password, Nombre, Apellido, Sexo, Fecha_Nacimiento, Direccion, Tipo_usuario_idTipo_usuario) VALUES ('".$usuario."', '".$contraseña."', '".$nombre."', '".$apellido."', '".$sexo."', '".$fNac."', '".$direccion."', ".$tipo.")";
+          echo $sql;
           if (mysqli_query($dbhandle, $sql)) {
             $sql = "SELECT idPersona FROM persona WHERE Username = '".$usuario."'";
             $result = mysqli_query($dbhandle, $sql);
@@ -214,8 +223,9 @@
         </div>
         <div class="form-group">
           <label>Tipo de usuario</label><br>
+          <!--<label class="radio-inline"><input type="radio" name="tUsuario" value="Aficionado" checked>Aficionado</label> ASÍ ESTABA ANTES HABRÍA QUE VERIFICAR QUE SE SELECCIONE UNO.-->
           <label class="radio-inline"><input type="radio" name="tUsuario" value="Aficionado" checked>Aficionado</label>
-          <label class="radio-inline"><input type="radio" name="tUsuario" value="Ornitólogo">Ornitólogo</label>
+          <label class="radio-inline"><input type="radio" name="tUsuario" value="Ornitologo">Ornitólogo</label>
         </div>
         <button id="bRegistro" class="btn btn-lg btn-primary btn-block" type="submit">Registrarse</button>
       </form>
