@@ -228,7 +228,6 @@
           echo "Conexión fallida: " . mysqli_conect_error();
       }else{
           if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['add'])){ //Lo que pasa cuando se presiona Insertar Especie
-              echo "Insertar";
               $sql1 = "SELECT Genero, idGenero FROM genero";
               $sqlresult1 = mysqli_query($dbhandle, $sql1);
               if(mysqli_num_rows($sqlresult1)>0){
@@ -315,7 +314,6 @@
           }else if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['modify'])) 
           //Lo que pasa cuando se presione Modificar  especie
           {
-              echo "Modificar";
               $sql10 = "SELECT Nombre_cientifico, idEspecie FROM especie";
               $sqlresult10 = mysqli_query($dbhandle, $sql10);
               if(mysqli_num_rows($sqlresult10)>0){
@@ -331,7 +329,6 @@
           }else if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['BirdSelected']))
           { 
             //Lo que pasa una vez se seleccione la especie a modificar. 
-              echo "Ave seleccionada";
               //Ver como obtener el id de la especie seleccionada el select especies, dentro del div seleccionarEspecie del form selectEspecie. Dicho id es el value del la opción del select.
               //Será 1 because fuck php.
               $idEspecieSeleccionada = $_POST['especies'];

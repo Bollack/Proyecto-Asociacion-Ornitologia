@@ -82,7 +82,7 @@
       if(!$dbhandle){
         $result = "Conexión fallida: " . mysqli_conect_error();
       }else{
-        $sql = "SELECT COUNT(1) AS total FROM ave";
+        $sql = "SELECT COUNT(*) AS total FROM ave";
         $sqlresult = mysqli_query($dbhandle, $sql);
         if(mysqli_num_rows($sqlresult)>0){
           $row = mysqli_fetch_assoc($sqlresult);
