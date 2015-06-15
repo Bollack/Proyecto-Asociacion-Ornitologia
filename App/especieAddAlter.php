@@ -67,7 +67,7 @@
 				echo "setTimeout(function(){swal(\"Especie insertada\", \"Se ha insertado la especie en la base de datos correctamente\", \"success\");";
 			    echo "},1000);</script>";
 				sleep(4);
-				echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
+				//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
 			} else {
 			    echo "<script type=\"text/javascript\">";
 				echo "setTimeout(function(){swal(\"ERROR, PANIC!\", \"El dato no se ha podido insertar por carácteres inválidos, ya existe o por error de conexión.\", \"error\");";

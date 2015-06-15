@@ -24,7 +24,7 @@
 		}else{
 			$valorExtra = "";
 			$colExtra = "";
-			$sql = "INSERT INTO ".$tabla." (".$columna.") VALUES (".$valor.")";
+			$sql = "INSERT INTO ".$tabla." (".$columna.") VALUES ('".$valor."')";
 			echo $sql;
 		}
 		if (mysqli_query($dbhandle, $sql)) {
@@ -33,7 +33,7 @@
 			echo "setTimeout(function(){swal(\"Dato insertado\", \"Se ha insertado el dato correctamente\", \"success\");";
 		    echo "},1000);</script>";
 			sleep(1);
-			//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
+			echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";
 		} else {
 			$error = "Conexión fallida: " . mysqli_connect_error();
 			echo "Query cannot be made";
@@ -43,7 +43,7 @@
 		    echo "},1000);;</script>";
 			sleep(1);
 			mysqli_close($dbhandle);
-			//echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";		    
+			echo "<script type=\"text/javascript\">document.location.href='".$return."';</script>";		    
 		}
 
 	}
